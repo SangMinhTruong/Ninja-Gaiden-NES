@@ -1,43 +1,43 @@
 #include "WalkingState.h"
 
-WalkingState::WalkingState(Ninja * ninja)
+WalkingState::WalkingState(StateGameObject * gameObject)
 {
-	this->ninja = ninja;
+	this->gameObject = gameObject;
 }
 void WalkingState::Idle()
 {
-	ninja->SetSpeedX(0);
+	gameObject->SetSpeedX(0);
 
-	ninja->SetState(ninja->GetIdleState());
+	gameObject->SetState(gameObject->GetIdleState());
 }
 void WalkingState::Attack()
 {
-	ninja->SetSpeedX(0);
-	ninja->SetState(ninja->GetAttackingState());
+	gameObject->SetSpeedX(0);
+	gameObject->SetState(gameObject->GetAttackingState());
 }
 void WalkingState::Walk()
 {
-	ninja->SetSpeedX(NINJA_WALKING_SPEED * (ninja->IsLeft() ? -1 : 1));
+	gameObject->SetSpeedX(NINJA_WALKING_SPEED * (gameObject->IsLeft() ? -1 : 1));
 }
 void WalkingState::Throw()
 {
-	ninja->SetSpeedX(0);
-	ninja->SetState(ninja->GetThrowingState());
+	gameObject->SetSpeedX(0);
+	gameObject->SetState(gameObject->GetThrowingState());
 }
 void WalkingState::Jump()
 {
-	if (ninja->IsGrounded())
+	if (gameObject->IsGrounded())
 	{
-		ninja->SetIsGrounded(false);
-		ninja->SetSpeedY(NINJA_JUMP_SPEED_Y);
-		ninja->SetState(ninja->GetJumpingState());
+		gameObject->SetIsGrounded(false);
+		gameObject->SetSpeedY(NINJA_JUMP_SPEED_Y);
+		gameObject->SetState(gameObject->GetJumpingState());
 	}
 }
 void WalkingState::Crouch()
 {
-	ninja->SetSpeedX(0);
-	ninja->SetIsCrouching(true);
-	ninja->SetState(ninja->GetCrouchingState());
+	gameObject->SetSpeedX(0);
+	gameObject->SetIsCrouching(true);
+	gameObject->SetState(gameObject->GetCrouchingState());
 }
 void WalkingState::Update(DWORD dt)
 {
@@ -46,16 +46,18 @@ void WalkingState::Update(DWORD dt)
 void WalkingState::Render()
 {
 	State::Render();
+	if (gameObject->GetWalkAnimID() != -1)
+	{
+		SpriteData spriteData;
+		spriteData.width = NINJA_SPRITE_WIDTH;
+		spriteData.height = NINJA_SPRITE_HEIGHT;
+		spriteData.x = gameObject->GetPositionX();
+		spriteData.y = gameObject->GetPositionY();
+		spriteData.scale = 1;
+		spriteData.angle = 0;
+		spriteData.isLeft = gameObject->IsLeft();
+		spriteData.isFlipped = gameObject->IsFlipped();
 
-	SpriteData spriteData;
-	spriteData.width = NINJA_SPRITE_WIDTH;
-	spriteData.height = NINJA_SPRITE_HEIGHT;
-	spriteData.x = ninja->GetPositionX();
-	spriteData.y = ninja->GetPositionY();
-	spriteData.scale = 1;
-	spriteData.angle = 0;
-	spriteData.isLeft = ninja->IsLeft();
-	spriteData.isFlipped = ninja->IsFlipped();
-
-	ninja->GetAnimationsList()[NINJA_ANI_WALKING]->Render(spriteData);
+		gameObject->GetAnimationsList()[gameObject->GetWalkAnimID()]->Render(spriteData);
+	}
 }

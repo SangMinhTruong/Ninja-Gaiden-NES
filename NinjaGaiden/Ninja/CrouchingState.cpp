@@ -1,18 +1,18 @@
 #include "CrouchingState.h"
 
 
-CrouchingState::CrouchingState(Ninja * ninja)
+CrouchingState::CrouchingState(StateGameObject * gameObject)
 {
-	this->ninja = ninja;
+	this->gameObject = gameObject;
 }
 void CrouchingState::Idle()
 {
-	ninja->SetIsCrouching(false);
-	ninja->SetState(ninja->GetIdleState());
+	gameObject->SetIsCrouching(false);
+	gameObject->SetState(gameObject->GetIdleState());
 }
 void CrouchingState::Attack()
 {
-	ninja->SetState(ninja->GetAttackingState());
+	gameObject->SetState(gameObject->GetAttackingState());
 }
 void CrouchingState::Walk()
 {
@@ -20,7 +20,7 @@ void CrouchingState::Walk()
 }
 void CrouchingState::Throw()
 {
-	ninja->SetState(ninja->GetThrowingState());
+	gameObject->SetState(gameObject->GetThrowingState());
 }
 void CrouchingState::Jump()
 {
@@ -38,15 +38,18 @@ void CrouchingState::Render()
 {
 	State::Render();
 
-	SpriteData spriteData;
-	spriteData.width = NINJA_SPRITE_WIDTH;
-	spriteData.height = NINJA_SPRITE_HEIGHT;
-	spriteData.x = ninja->GetPositionX();
-	spriteData.y = ninja->GetPositionY();
-	spriteData.scale = 1;
-	spriteData.angle = 0;
-	spriteData.isLeft = ninja->IsLeft();
-	spriteData.isFlipped = ninja->IsFlipped();
+	if (gameObject->GetCrouchAnimID() != -1)
+	{
+		SpriteData spriteData;
+		spriteData.width = NINJA_SPRITE_WIDTH;
+		spriteData.height = NINJA_SPRITE_HEIGHT;
+		spriteData.x = gameObject->GetPositionX();
+		spriteData.y = gameObject->GetPositionY();
+		spriteData.scale = 1;
+		spriteData.angle = 0;
+		spriteData.isLeft = gameObject->IsLeft();
+		spriteData.isFlipped = gameObject->IsFlipped();
 
-	ninja->GetAnimationsList()[NINJA_ANI_CROUCHING]->Render(spriteData);
+		gameObject->GetAnimationsList()[gameObject->GetCrouchAnimID()]->Render(spriteData);
+	}
 }

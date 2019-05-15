@@ -6,7 +6,7 @@
 #define MAIN_WINDOW_TITLE L"Ninja Gaiden"
 //Màu background, kích cỡ màn hình
 #define BACKGROUND_COLOR D3DCOLOR_XRGB(200, 200, 255)
-#define SCREEN_WIDTH 600
+#define SCREEN_WIDTH 313
 #define SCREEN_HEIGHT 176
 
 //Framerate tối đa
@@ -79,7 +79,39 @@
 #define SUBWEAPON_KNIFE_SPRITE_WIDTH 32
 #define SUBWEAPON_KNIFE_SPRITE_HEIGHT 18
 
+
+//
+//Thug
+//
+
+//Giá trị tốc độ đi, tốc độ nhảy, trọng lực
+#define THUG_WALKING_SPEED		0.075f
+#define THUG_JUMP_SPEED_Y		0.0f
+#define THUG_GRAVITY			0.025f
+//Các số để chạy animation của Ninja
+#define THUG_ANI_IDLE					0
+#define THUG_ANI_WALKING 				1
+#define THUG_ANI_STANDING_ATTACKING 	-1
+#define THUG_ANI_CROUCHING_ATTACKING 	-1
+#define THUG_ANI_JUMPING 				-1
+#define THUG_ANI_CROUCHING 				-1
+
+#define THUG_TEXTURE_LOCATION L"Resources\\Enemies\\Thug.png"
+#define THUG_TEXTURE_TRANS_COLOR D3DCOLOR_XRGB(255, 0, 255)
+#define THUG_TEXTURE_COLUMNS 3
+#define THUG_TEXTURE_ROWS 1
+#define THUG_SPRITE_WIDTH 25
+#define THUG_SPRITE_HEIGHT 40
+
+
 //Grid Spatial Partitioning Parameters
 #define GRID_SIZE 64
 #define GRID_MAX_X 48
 #define GRID_MAX_Y 5
+
+
+//
+// Game Object IDs
+//
+#define GAME_OBJ_ID_NINJA 0
+#define GAME_OBJ_ID_THUG 1

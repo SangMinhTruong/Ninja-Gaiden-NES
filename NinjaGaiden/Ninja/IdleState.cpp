@@ -1,59 +1,66 @@
 #include "IdleState.h"
 
 
-IdleState::IdleState(Ninja * ninja)
+IdleState::IdleState(StateGameObject * gameObject)
 {
-	this->ninja = ninja;
+	this->gameObject = gameObject;
 }
 void IdleState::Idle()
 {
-	//ninja->SetState(ninja->GetIdleState());
+	//gameObject->SetState(gameObject->GetIdleState());
 }
 void IdleState::Attack()
 {
-	ninja->SetState(ninja->GetAttackingState());
+	gameObject->SetState(gameObject->GetAttackingState());
 }
 void IdleState::Walk()
 {
-	ninja->SetSpeedX(NINJA_WALKING_SPEED * (ninja->IsLeft() ? -1 : 1));
+	gameObject->SetSpeedX(gameObject->GetDefaultWalkSpeed() * (gameObject->IsLeft() ? -1 : 1));
 
-	ninja->SetState(ninja->GetWalkingState());
+	gameObject->SetState(gameObject->GetWalkingState());
 }
 void IdleState::Throw()
 {
-	ninja->SetState(ninja->GetThrowingState());
+	gameObject->SetState(gameObject->GetThrowingState());
 }
 void IdleState::Jump()
 {
-	if (ninja->IsGrounded())
+	if (gameObject->IsGrounded())
 	{
-		ninja->SetIsGrounded(false);
-		ninja->SetSpeedY(NINJA_JUMP_SPEED_Y);
-		ninja->SetState(ninja->GetJumpingState());
+		gameObject->SetIsGrounded(false);
+		gameObject->SetSpeedY(gameObject->GetDefautJumpSpeed());
+		gameObject->SetState(gameObject->GetJumpingState());
 	}
 }
 void IdleState::Crouch()
 {
-	ninja->SetIsCrouching(true);
-	ninja->SetState(ninja->GetCrouchingState());
+	gameObject->SetIsCrouching(true);
+	gameObject->SetState(gameObject->GetCrouchingState());
 }
 void IdleState::Update(DWORD dt)
 {
 	State::Update(dt);
+	if (gameObject->GetID() == GAME_OBJ_ID_THUG)
+	{
+		gameObject->Walk();
+	}
 }
 void IdleState::Render()
 {
 	State::Render();
 
-	SpriteData spriteData;
-	spriteData.width = NINJA_SPRITE_WIDTH;
-	spriteData.height = NINJA_SPRITE_HEIGHT;
-	spriteData.x = ninja->GetPositionX();
-	spriteData.y = ninja->GetPositionY();
-	spriteData.scale = 1;
-	spriteData.angle = 0;
-	spriteData.isLeft = ninja->IsLeft();
-	spriteData.isFlipped = ninja->IsFlipped();
+	if (gameObject->GetIdleAnimID() != -1)
+	{
+		SpriteData spriteData;
+		spriteData.width = gameObject->GetWidth();
+		spriteData.height = gameObject->GetHeight();
+		spriteData.x = gameObject->GetPositionX();
+		spriteData.y = gameObject->GetPositionY();
+		spriteData.scale = 1;
+		spriteData.angle = 0;
+		spriteData.isLeft = gameObject->IsLeft();
+		spriteData.isFlipped = gameObject->IsFlipped();
 
-	ninja->GetAnimationsList()[NINJA_ANI_IDLE]->Render(spriteData);
+		gameObject->GetAnimationsList()[gameObject->GetIdleAnimID()]->Render(spriteData);
+	}
 }

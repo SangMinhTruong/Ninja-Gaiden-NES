@@ -1,9 +1,9 @@
 #include "JumpingState.h"
 
 
-JumpingState::JumpingState(Ninja * ninja)
+JumpingState::JumpingState(StateGameObject * gameObject)
 {
-	this->ninja = ninja;
+	this->gameObject = gameObject;
 }
 void JumpingState::Idle()
 {
@@ -11,7 +11,7 @@ void JumpingState::Idle()
 }
 void JumpingState::Attack()
 {
-	ninja->SetState(ninja->GetAttackingState());
+	gameObject->SetState(gameObject->GetAttackingState());
 }
 void JumpingState::Walk()
 {
@@ -19,7 +19,7 @@ void JumpingState::Walk()
 }
 void JumpingState::Throw()
 {
-	ninja->SetState(ninja->GetThrowingState());
+	gameObject->SetState(gameObject->GetThrowingState());
 }
 void JumpingState::Jump()
 {
@@ -33,27 +33,30 @@ void JumpingState::Update(DWORD dt)
 {
 	State::Update(dt);
 	
-	if (ninja->IsGrounded())
+	if (gameObject->IsGrounded())
 	{
-		ninja->SetSpeedX(0);
-		ninja->SetSpeedY(0);
+		gameObject->SetSpeedX(0);
+		gameObject->SetSpeedY(0);
 
-		ninja->SetState(ninja->GetIdleState());
+		gameObject->SetState(gameObject->GetIdleState());
 	}
 }
 void JumpingState::Render()
 {
 	State::Render();
 
-	SpriteData spriteData;
-	spriteData.width = NINJA_SPRITE_WIDTH;
-	spriteData.height = NINJA_SPRITE_HEIGHT;
-	spriteData.x = ninja->GetPositionX();
-	spriteData.y = ninja->GetPositionY();
-	spriteData.scale = 1;
-	spriteData.angle = 0;
-	spriteData.isLeft = ninja->IsLeft();
-	spriteData.isFlipped = ninja->IsFlipped();
+	if (gameObject->GetJumpAnimID() != -1)
+	{
+		SpriteData spriteData;
+		spriteData.width = gameObject->GetWidth();
+		spriteData.height = gameObject->GetHeight();
+		spriteData.x = gameObject->GetPositionX();
+		spriteData.y = gameObject->GetPositionY();
+		spriteData.scale = 1;
+		spriteData.angle = 0;
+		spriteData.isLeft = gameObject->IsLeft();
+		spriteData.isFlipped = gameObject->IsFlipped();
 
-	ninja->GetAnimationsList()[NINJA_ANI_JUMPING]->Render(spriteData);
+		gameObject->GetAnimationsList()[gameObject->GetJumpAnimID()]->Render(spriteData);
+	}
 }

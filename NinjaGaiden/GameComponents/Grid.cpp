@@ -1,6 +1,7 @@
 ﻿#include"Grid.h"
 #include"Cell.h"
 
+#include "Thug.h"
 Grid * Grid::__instance = NULL;
 bool CellGameObjectAABB(Cell * cell, GameObject * obj)
 {
@@ -64,14 +65,22 @@ void Grid::LoadCells()
 	// Load Object
 	// ---> Place holder
 	// ...
+	Thug * testThug = Thug::GetInstance();
+	int thugX = testThug->GetPositionX();
+	int thugY = testThug->GetPositionY();
+	int cellX = POSXTOCELL(thugX);
+	int cellY = POSYTOCELL(thugY);
+
+	cells[cellY][cellX]->AddGameObject(testThug);
+
 }
 
 void Grid::GetCameraPosOnGrid(int &l, int &r, int &t, int &b) {
 	RECT rect = viewport->GetRect();
 	l = (int)(rect.left/GRID_SIZE);
 	t = (int)(rect.top % GRID_SIZE == 0 ? rect.top/GRID_SIZE - 1 : rect.top/GRID_SIZE);
-	r =(int)(rect.right / GRID_SIZE);
-	b =(int)(rect.bottom / GRID_SIZE);
+	r = (int)(rect.right / GRID_SIZE);
+	b = (int)(rect.bottom / GRID_SIZE);
 }
 
 void Grid::GetNinjaPosOnGrid(int &l, int &r, int &t, int &b)
@@ -86,6 +95,28 @@ void Grid::Update(DWORD dt)
 {
 	int lCell, rCell, tCell, bCell;
 	this->GetCameraPosOnGrid(lCell, rCell, tCell, bCell);
+
+	//Update grid
+	curTiles.clear();
+	curGameObjects.clear();
+	for (int i = bCell; i <= tCell; i++)
+	{
+		for (int j = lCell; j <= rCell; j++)
+		{
+			cells[i][j]->ExtractGameObjects(curGameObjects);
+			cells[i][j]->FlushGameObjects();
+		}
+	}
+	for (int i = 0; i < curGameObjects.size(); i++)
+	{
+		int objX = curGameObjects[i]->GetPositionX();
+		int objY = curGameObjects[i]->GetPositionY();
+
+		int cellX = POSXTOCELL(objX);
+		int cellY = POSYTOCELL(objY);
+
+		cells[cellY][cellX]->AddGameObject(curGameObjects[i]);
+	}
 
 	//Update ninja
 	curTiles.clear();
@@ -134,50 +165,62 @@ void Grid::Update(DWORD dt)
 	}
 	ninja->Update(dt);
 
-	////Update các object trong các cell
-	//for (int i = bCell; i <= tCell; i++)
-	//{		
-	//	for (int j = lCell; j <= rCell; j++)
-	//	{
-	//		curTiles.clear();
-	//		curGameObjects.clear();
 
+	//Update các object trong các cell
+	for (int i = bCell; i <= tCell; i++)
+	{		
+		for (int j = lCell; j <= rCell; j++)
+		{
+			curTiles.clear();
+			curGameObjects.clear();
 
-	//		//Kiểm tra với các đối tượng khác thuộc các cell lân cận
-	//		if (j > lCell)
-	//		{
-	//			cells[i][j - 1]->ExtractTiles(curTiles);
-	//			cells[i][j - 1]->ExtractGameObjects(curGameObjects);
-	//			if (i > bCell)
-	//			{
-	//				cells[i - 1][j - 1]->ExtractTiles(curTiles);
-	//				cells[i - 1][j - 1]->ExtractGameObjects(curGameObjects);
-	//			}
-	//			if (i < tCell)
-	//			{
-	//				cells[i + 1][j - 1]->ExtractTiles(curTiles);
-	//				cells[i + 1][j - 1]->ExtractGameObjects(curGameObjects);
-	//			}
-	//		}
-	//		if (j < rCell)
-	//		{
-	//			cells[i][j + 1]->ExtractTiles(curTiles);
-	//			cells[i][j + 1]->ExtractGameObjects(curGameObjects);
-	//			if (i > bCell)
-	//			{
-	//				cells[i - 1][j + 1]->ExtractTiles(curTiles);
-	//				cells[i - 1][j + 1]->ExtractGameObjects(curGameObjects);
-	//			}
-	//			if (i < tCell)
-	//			{
-	//				cells[i + 1][j + 1]->ExtractTiles(curTiles);
-	//				cells[i + 1][j + 1]->ExtractGameObjects(curGameObjects);
-	//			}
-	//		}
+			cells[i][j]->ExtractTiles(curTiles);
+			cells[i][j]->ExtractGameObjects(curGameObjects);
+			//Kiểm tra với các đối tượng khác thuộc các cell lân cận
+			if (j > lCell)
+			{
+				cells[i][j - 1]->ExtractTiles(curTiles);
+				cells[i][j - 1]->ExtractGameObjects(curGameObjects);
+				if (i > bCell)
+				{
+					cells[i - 1][j - 1]->ExtractTiles(curTiles);
+					cells[i - 1][j - 1]->ExtractGameObjects(curGameObjects);
+				}
+				if (i < tCell)
+				{
+					cells[i + 1][j - 1]->ExtractTiles(curTiles);
+					cells[i + 1][j - 1]->ExtractGameObjects(curGameObjects);
+				}
+			}
+			if (j < rCell)
+			{
+				cells[i][j + 1]->ExtractTiles(curTiles);
+				cells[i][j + 1]->ExtractGameObjects(curGameObjects);
+				if (i > bCell)
+				{
+					cells[i - 1][j + 1]->ExtractTiles(curTiles);
+					cells[i - 1][j + 1]->ExtractGameObjects(curGameObjects);
+				}
+				if (i < tCell)
+				{
+					cells[i + 1][j + 1]->ExtractTiles(curTiles);
+					cells[i + 1][j + 1]->ExtractGameObjects(curGameObjects);
+				}
+			}
+			if (i > bCell)
+			{
+				cells[i - 1][j]->ExtractTiles(curTiles);
+				cells[i - 1][j]->ExtractGameObjects(curGameObjects);
+			}
+			if (i < tCell)
+			{
+				cells[i + 1][j]->ExtractTiles(curTiles);
+				cells[i + 1][j]->ExtractGameObjects(curGameObjects);
+			}
+			cells[i][j]->Update(dt);
+		}
+	}
 
-	//		cells[i][j]->Update(dt);
-	//	}
-	//}
 }
 void Grid::Render()
 {
@@ -186,12 +229,18 @@ void Grid::Render()
 	curTiles.clear();
 	curGameObjects.clear();
 
-
 	for (int i = bCell; i <= tCell; i++)
 	{
 		for (int j = lCell; j <= rCell; j++)
 		{
-			cells[i][j]->Render();
+			cells[i][j]->RenderTiles();
+		}
+	}
+	for (int i = bCell; i <= tCell; i++)
+	{
+		for (int j = lCell; j <= rCell; j++)
+		{
+			cells[i][j]->RenderObjects();
 		}
 	}
 

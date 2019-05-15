@@ -1,11 +1,10 @@
 #include "AttackingState.h"
 
-AttackingState::AttackingState(Ninja * ninja)
+AttackingState::AttackingState(StateGameObject * gameObject)
 {
-	this->ninja = ninja;
-	ninja->GetAnimationsList()[NINJA_ANI_STANDING_ATTACKING]->Reset();
-	ninja->GetAnimationsList()[NINJA_ANI_CROUCHING_ATTACKING]->Reset();
-	ninja->GetWhip()->ResetAnim();
+	this->gameObject = gameObject;
+	//gameObject->GetAnimationsList()[NINJA_ANI_STANDING_ATTACKING]->Reset();
+	//gameObject->GetAnimationsList()[NINJA_ANI_CROUCHING_ATTACKING]->Reset();
 }
 void AttackingState::Idle()
 {
@@ -40,40 +39,42 @@ void AttackingState::Render()
 {
 	State::Render();
 
-	SpriteData spriteData;
-	spriteData.width = NINJA_SPRITE_WIDTH;
-	spriteData.height = NINJA_SPRITE_HEIGHT;
-	spriteData.x = ninja->GetPositionX();
-	spriteData.y = ninja->GetPositionY();
-	spriteData.scale = 1;
-	spriteData.angle = 0;
-	spriteData.isLeft = ninja->IsLeft();
-	spriteData.isFlipped = ninja->IsFlipped();
 
-	ninja->GetWhip()->SetPosition(ninja->GetPositionX(), ninja->GetPositionY(), ninja->IsCrouching());
-	if (ninja->IsCrouching())
+	if (gameObject->GetStandAttackAnimID() != -1 ||
+		gameObject->GetCrouchAttackAnimID() != -1)
 	{
-		ninja->GetAnimationsList()[NINJA_ANI_CROUCHING_ATTACKING]->Render(spriteData);
-		//ninja->GetWhip()->Render(spriteData);
+		SpriteData spriteData;
+		spriteData.width = gameObject->GetWidth();
+		spriteData.height = gameObject->GetHeight();
+		spriteData.x = gameObject->GetPositionX();
+		spriteData.y = gameObject->GetPositionY();
+		spriteData.scale = 1;
+		spriteData.angle = 0;
+		spriteData.isLeft = gameObject->IsLeft();
+		spriteData.isFlipped = gameObject->IsFlipped();
 
-		if (ninja->GetAnimationsList()[NINJA_ANI_CROUCHING_ATTACKING]->IsDone())
+		if (gameObject->IsCrouching())
 		{
-			ninja->GetAnimationsList()[NINJA_ANI_CROUCHING_ATTACKING]->Reset();
-			ninja->GetWhip()->ResetAnim();
-			ninja->SetIsCrouching(true);
-			ninja->SetState(ninja->GetCrouchingState());
+			gameObject->GetAnimationsList()[gameObject->GetCrouchAttackAnimID()]->Render(spriteData);
+			//gameObject->GetWhip()->Render(spriteData);
+
+			if (gameObject->GetAnimationsList()[gameObject->GetCrouchAttackAnimID()]->IsDone())
+			{
+				gameObject->GetAnimationsList()[gameObject->GetCrouchAttackAnimID()]->Reset();
+				gameObject->SetIsCrouching(true);
+				gameObject->SetState(gameObject->GetCrouchingState());
+			}
 		}
-	}
-	else
-	{
-		ninja->GetAnimationsList()[NINJA_ANI_STANDING_ATTACKING]->Render(spriteData);
-		//ninja->GetWhip()->Render(spriteData);
-
-		if (ninja->GetAnimationsList()[NINJA_ANI_STANDING_ATTACKING]->IsDone())
+		else
 		{
-			ninja->GetAnimationsList()[NINJA_ANI_STANDING_ATTACKING]->Reset();
-			ninja->GetWhip()->ResetAnim();
-			ninja->SetState(ninja->GetIdleState());
+			gameObject->GetAnimationsList()[gameObject->GetStandAttackAnimID()]->Render(spriteData);
+			//gameObject->GetWhip()->Render(spriteData);
+
+			if (gameObject->GetAnimationsList()[gameObject->GetStandAttackAnimID()]->IsDone())
+			{
+				gameObject->GetAnimationsList()[gameObject->GetStandAttackAnimID()]->Reset();
+				gameObject->SetState(gameObject->GetIdleState());
+			}
 		}
 	}
 }

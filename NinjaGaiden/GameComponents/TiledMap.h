@@ -15,7 +15,7 @@
 using namespace std;
 
 
-const vector<int> _31SolidIds { 24, 25, 26, 39, 58, 63, 65, 69, 70, 71 };
+const vector<int> _31SolidIds { 24, 25, 26, 39, 58, 63, 65,67, 68, 69 };
 
 struct Tile {
 	int tileId;

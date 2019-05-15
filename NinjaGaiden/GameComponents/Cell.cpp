@@ -14,9 +14,14 @@ void Cell::ExtractGameObjects(vector<GameObject *> &output)
 
 void Cell::Update(DWORD dt)
 {
-	return;
+	for (int i = 0; i < gameObjects.size(); i++)
+	{
+		int flagX = gameObjects[i]->GetPositionX();
+		int flagY = gameObjects[i]->GetPositionY();
+		gameObjects[i]->Update(dt);
+	}
 }
-void Cell::Render()
+void Cell::RenderTiles()
 {
 	for (int i = 0; i < tiles.size(); i++)
 	{
@@ -24,6 +29,13 @@ void Cell::Render()
 	}
 }
 
+void Cell::RenderObjects()
+{
+	for (int i = 0; i < gameObjects.size(); i++)
+	{
+		gameObjects[i]->Render();
+	}
+}
 Cell::~Cell()
 {
 }

@@ -45,6 +45,8 @@ class GameObject
 {
 
 protected:
+	int id;
+
 	//Các giá trị vị trí, tốc độ, trạng thái
 	float x;
 	float y;
@@ -74,6 +76,8 @@ public:
 
 	void UpdateObjectCollider();
 	void UpdateTileCollider();
+
+	int GetID() { return id; }
 
 	float GetPositionX() { return this->x; }
 	float GetPositionY() { return this->y; }

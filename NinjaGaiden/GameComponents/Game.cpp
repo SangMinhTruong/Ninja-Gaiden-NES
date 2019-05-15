@@ -178,9 +178,6 @@ int Game::Run()
 		}
 		frameStart = now;
 
-		if (dt - tickPerFrame > 3)
-			dt = tickPerFrame;
-
 		Update(dt);
 
 		Render();

@@ -1,24 +1,12 @@
 ﻿#include "Ninja.h"
 
-vector<Animation *> Ninja::animations = vector<Animation *>();
 vector<Subweapon *> Ninja::subweapons = vector<Subweapon *>();
 Ninja * Ninja::__instance = NULL;
-
 Ninja::Ninja()
 {
-	LoadResources();
+	LoadResources(); 
 
-	whip = new Whip();
-
-	idleState = new IdleState(this);
-	walkingState = new WalkingState(this);
-	crouchingState = new CrouchingState(this);
-	jumpingState = new JumpingState(this);
-	attackingState = new AttackingState(this);
-	throwingState = new ThrowingState(this);
-
-	state = idleState;
-
+	this->id = GAME_OBJ_ID_NINJA;
 	this->x = 100;
 	this->y = 100;
 	this->width = NINJA_SPRITE_WIDTH;
@@ -156,70 +144,6 @@ void Ninja::LoadResources()
 	}
 	animations.push_back(anim);
 }
-void Ninja::SetState(State * state)
-{
-	this->state = state;
-}
-State * Ninja::GetIdleState()
-{
-	return idleState;
-}
-State * Ninja::GetWalkingState()
-{
-	return walkingState;
-}
-State * Ninja::GetAttackingState()
-{
-	return attackingState;
-}
-State * Ninja::GetThrowingState()
-{
-	return throwingState;
-}
-State * Ninja::GetCrouchingState()
-{
-	return crouchingState;
-}
-State * Ninja::GetJumpingState()
-{
-	return jumpingState;
-}
-
-//Các hàm hành động nhân vật
-void Ninja::Idle()
-{
-	state->Idle();
-}
-void Ninja::Attack()
-{
-	state->Attack();
-}
-void Ninja::Walk()
-{
-	state->Walk();
-}
-void Ninja::Throw()
-{
-	state->Throw();
-}
-void Ninja::Jump()
-{
-	state->Jump();
-}
-void Ninja::Crouch()
-{
-	state->Crouch();
-}
-void Ninja::TurnLeft()
-{
-	whip->TurnLeft();
-	isLeft = true;
-}
-void Ninja::TurnRight()
-{
-	whip->TurnRight();
-	isLeft = false;
-}
 void Ninja::CreateThrownWeapon()
 {
 	Subweapon * subweapon;
@@ -236,6 +160,33 @@ void Ninja::CreateThrownWeapon()
 		break;
 	}
 }
+
+int Ninja::GetIdleAnimID()
+{
+	return NINJA_ANI_IDLE;
+}
+int Ninja::GetWalkAnimID()
+{
+	return NINJA_ANI_WALKING;
+}
+int Ninja::GetJumpAnimID()
+{
+	return NINJA_ANI_JUMPING;
+}
+int Ninja::GetCrouchAnimID()
+{
+	return NINJA_ANI_CROUCHING;
+}
+int Ninja::GetStandAttackAnimID()
+{
+	return NINJA_ANI_STANDING_ATTACKING;
+}
+int Ninja::GetCrouchAttackAnimID()
+{
+	return NINJA_ANI_CROUCHING_ATTACKING;
+}
+
+
 //Hàm cập nhật
 void Ninja::Update(DWORD dt)
 {
