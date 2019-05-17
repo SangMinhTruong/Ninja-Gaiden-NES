@@ -48,6 +48,7 @@ private:
 	int mapWidth, mapHeight;
 	int tileSetWidth, tileSetHeight;
 	LPCWSTR infoLocation;
+	string gridInfoLocation;
 
 	unordered_map<int, Sprite *> tileSet;
 public:
@@ -57,6 +58,8 @@ public:
 	int GetHeight();
 	int GetTileWidth();
 	int GetTileHeight();
+
+	string GetGridInfoLocation() { return gridInfoLocation; }
 
 	Matrix & GetMatrix() { return matrix; }
 

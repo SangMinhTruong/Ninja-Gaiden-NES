@@ -4,9 +4,9 @@
 class Thug : public StateGameObject
 {
 private:
-	Thug();
-	static Thug * __instance;
+	//static Thug * __instance;
 public:
+	Thug(int x, int y);
 	void LoadResources() override;
 	//Hàm set
 	//Hàm get
@@ -20,7 +20,7 @@ public:
 	float GetDefaultWalkSpeed() override { return THUG_WALKING_SPEED; }
 	float GetDefautJumpSpeed() override { return THUG_JUMP_SPEED_Y; }
 
-	static Thug * GetInstance();
+	//static Thug * GetInstance();
 	//Hàm trạng thái
 
 	//Các hàm hành động nhân vật

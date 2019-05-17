@@ -1,13 +1,13 @@
 ﻿#include "Thug.h"
 
-Thug * Thug::__instance = NULL;
-Thug::Thug()
+//Thug * Thug::__instance = NULL;
+Thug::Thug(int x, int y)
 {
 	LoadResources();
 
 	this->id = GAME_OBJ_ID_THUG;
-	this->x = 100;
-	this->y = 100;
+	this->x = x;
+	this->y = y;
 	this->width = THUG_SPRITE_WIDTH;
 	this->height = THUG_SPRITE_HEIGHT;
 	collider.x = x;
@@ -17,12 +17,12 @@ Thug::Thug()
 	collider.width = THUG_SPRITE_WIDTH;
 	collider.height = THUG_SPRITE_HEIGHT;
 }
-Thug * Thug::GetInstance()
-{
-	if (__instance == NULL)
-		__instance = new Thug();
-	return __instance;
-}
+//Thug * Thug::GetInstance()
+//{
+//	if (__instance == NULL)
+//		__instance = new Thug();
+//	return __instance;
+//}
 void Thug::LoadResources()
 {
 	// Idle

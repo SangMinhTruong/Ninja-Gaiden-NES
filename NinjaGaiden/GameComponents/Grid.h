@@ -18,6 +18,8 @@ private:
 	static Grid * __instance;
 	int width, height;
 
+	string gridInfoLocation;
+
 	CellMatrix cells;
 
 	vector<Tile *> curTiles;
@@ -27,11 +29,14 @@ private:
 	Ninja * ninja;
 
 	Grid();
-	
+
+	void LoadCells();
+	void LoadObjects();
+	void LoadMap();
+
 public:
 
 	static Grid * GetInstance();
-	void LoadCells();
 
 	void GetCameraPosOnGrid(int &l, int &r, int &t, int &b);
 	void GetNinjaPosOnGrid(int &l, int &r, int &t, int &b);
@@ -59,12 +64,16 @@ public:
 	//void colliOnCell(Unit *unit, Unit * other);
 	//void detectCollision();
 
-	~Grid() {
+	~Grid() 
+	{
 		for (int i = 0; i < width; i++)
 			for (int j = 0; j < height; j++)
 			{
 				if (cells[i][j] != NULL)
+				{
+					cells[i][j]->Clear();
 					delete cells[i][j];
+				}
 			}
 	}
 };

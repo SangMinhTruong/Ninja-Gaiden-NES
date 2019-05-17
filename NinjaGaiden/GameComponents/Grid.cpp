@@ -49,6 +49,63 @@ Grid::Grid()
 
 void Grid::LoadCells() 
 {
+	LoadMap();
+	LoadObjects();
+	// Load Object
+	// ---> Place holder
+	// ...
+	
+
+}
+
+void Grid::LoadObjects()
+{
+	string filePath = TiledMap::GetInstance()->GetGridInfoLocation();
+	ifstream gridInfo;
+	DebugOut(L"filepath: %s\n", filePath);
+	gridInfo.open(filePath);
+
+	if (gridInfo.is_open())
+	{
+		//Đọc map
+		string line;
+
+		int lineNum = 0;
+		while (getline(gridInfo, line))
+		{
+			size_t pos = 0;
+			string token;
+			vector<string> curLineTokens;
+			string delimiter = GRID_INFO_DELIMITER;
+
+			while ((pos = line.find(delimiter)) != string::npos)
+			{
+				token = line.substr(0, pos);
+
+				curLineTokens.push_back(token);
+				line.erase(0, pos + delimiter.length());
+			}
+
+			switch (stoi(curLineTokens[0]))
+			{
+			case 1:
+				Thug * testThug = new Thug(stoi(curLineTokens[1]), stoi(curLineTokens[2]));
+				int thugX = testThug->GetPositionX();
+				int thugY = testThug->GetPositionY();
+				int cellX = POSXTOCELL(thugX);
+				int cellY = POSYTOCELL(thugY);
+
+				cells[cellY][cellX]->AddGameObject(testThug);
+
+				break;
+			}
+			lineNum++;
+		}
+		gridInfo.close();
+	}
+}
+void Grid::LoadMap()
+{
 	Matrix &tiledMapMatrix = Game::GetInstance()->GetTiledMap()->GetMatrix();
 	for (int i = 0; i < tiledMapMatrix.size(); i++)
 	{
@@ -62,19 +119,7 @@ void Grid::LoadCells()
 			cells[cellY][cellX]->AddTile(dummyPtr);
 		}
 	}
-	// Load Object
-	// ---> Place holder
-	// ...
-	Thug * testThug = Thug::GetInstance();
-	int thugX = testThug->GetPositionX();
-	int thugY = testThug->GetPositionY();
-	int cellX = POSXTOCELL(thugX);
-	int cellY = POSYTOCELL(thugY);
-
-	cells[cellY][cellX]->AddGameObject(testThug);
-
 }
-
 void Grid::GetCameraPosOnGrid(int &l, int &r, int &t, int &b) {
 	RECT rect = viewport->GetRect();
 	l = (int)(rect.left/GRID_SIZE);

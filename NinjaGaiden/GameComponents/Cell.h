@@ -28,6 +28,8 @@ public:
 	void Update(DWORD dt);
 	void RenderTiles();
 	void RenderObjects();
+
+	void Clear();
 	~Cell();
 };
 

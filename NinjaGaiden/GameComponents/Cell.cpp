@@ -36,6 +36,14 @@ void Cell::RenderObjects()
 		gameObjects[i]->Render();
 	}
 }
+void Cell::Clear()
+{
+	for (int i = 0; i < gameObjects.size(); i++)
+	{
+		delete gameObjects[i];
+	}
+}
 Cell::~Cell()
 {
+
 }

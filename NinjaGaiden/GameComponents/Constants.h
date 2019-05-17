@@ -108,6 +108,7 @@
 #define GRID_SIZE 64
 #define GRID_MAX_X 48
 #define GRID_MAX_Y 5
+#define GRID_INFO_DELIMITER ","
 
 
 //

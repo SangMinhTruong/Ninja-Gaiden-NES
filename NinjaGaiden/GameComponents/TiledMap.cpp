@@ -107,6 +107,8 @@ string TiledMap::LoadMatrix(LPCWSTR filePath)
 	{
 		//Đọc thông tin vị trí tileset
 		getline(tilesInfo, tilesLocation);
+		//Đọc thông tin vị trí grid tương ứng với map
+		getline(tilesInfo, gridInfoLocation);
 		//Đọc thông tin width, height của map
 		string tmp;
 		getline(tilesInfo, tmp);
