@@ -77,14 +77,19 @@ void Game::LoadResources()
 {
 	if (ninja == NULL) 
 		ninja = Ninja::GetInstance();
-	if (tiledMap == NULL)
-		tiledMap = TiledMap::GetInstance(TILES_MATRIX);
+
+	TiledMap::GetInstance(TILED_MAP_ID_3_1);
+
 	if (viewport == NULL)
 		viewport = Viewport::GetInstance();
 	if (grid == NULL)
 		grid = Grid::GetInstance();
 }
 //Xử lí
+void Game::ResetGrid()
+{ 
+	this->grid = Grid::GetInstance(); 
+}
 void Game::Update(DWORD dt)
 {
 	keyboard->Update();
@@ -213,8 +218,8 @@ float Game::SweptAABB(Collider c1, Collider c2, float &normalx, float &normaly)
 	c1.vx = c1.vx - c2.vx;
 	c1.vy = c1.vy - c2.vy;
 
-	int dx = c1.vx * c1.dt;
-	int dy = c1.vy * c1.dt;
+	float dx = c1.vx * c1.dt;
+	float dy = c1.vy * c1.dt;
 
 	
 	Collider broadphaseBox = GetSweptBroadphaseRect(c1);

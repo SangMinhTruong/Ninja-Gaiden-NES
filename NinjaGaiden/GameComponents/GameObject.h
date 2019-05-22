@@ -25,9 +25,12 @@ struct CollisionEvent
 	int collisionID; 
 	//0 = other objects
 	//1 = tiles
+	//2 = weapons on hit
+	//3 = ninja collides with enemies
 	//.... <placeholder>
 	LPGAMEOBJECT coO;
 	float t, nx, ny;
+	CollisionEvent() { }
 	CollisionEvent(float t, float nx, float ny, LPGAMEOBJECT coO = NULL) { this->t = t; this->nx = nx; this->ny = ny; this->coO = coO; }
 
 	static bool compare(const LPCOLLISIONEVENT &a, LPCOLLISIONEVENT &b)
@@ -50,6 +53,7 @@ protected:
 	//Các giá trị vị trí, tốc độ, trạng thái
 	float x;
 	float y;
+	int initX, initY;
 
 	int width;
 	int height;
@@ -58,18 +62,21 @@ protected:
 	float vy;
 
 	float dt;
-
+	
+	bool isActive;
 	bool isLeft;
 	bool isFlipped;
 	Collider collider;
 public:
 	//Hàm đặt vị trí
+	virtual void Reset();
 	void SetPositionX(float x) { this->x = x; }
 	void SetPositionY(float y) { this->y = y; }
 	//Hàm đặt tốc độ
 	void SetSpeedX(float vx) { this->vx = vx; }
 	void SetSpeedY(float vy) { this->vy = vy; }
 
+	void SetActive() { this->isActive = true; }
 	void SetDt(float dt) { this->dt = dt; }
 
 	void SetCollider(Collider col) { this->collider = col; }
@@ -77,10 +84,15 @@ public:
 	void UpdateObjectCollider();
 	void UpdateTileCollider();
 
+	bool IsActive() { return isActive; }
+
 	int GetID() { return id; }
 
 	float GetPositionX() { return this->x; }
 	float GetPositionY() { return this->y; }
+	int GetInitPosX() { return this->initX; }
+	int GetInitPosY() { return this->initY; }
+
 
 	int GetWidth() { return this->width; }
 	int GetHeight() { return this->height; }

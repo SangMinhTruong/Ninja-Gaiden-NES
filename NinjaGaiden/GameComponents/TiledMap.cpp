@@ -1,8 +1,28 @@
 ﻿#include "TiledMap.h"
 
 TiledMap * TiledMap::__instance = NULL;
-TiledMap * TiledMap::GetInstance(LPCWSTR filePath)
+int TiledMap::mapID = 0;
+TiledMap * TiledMap::GetInstance(int id)
 {
+	LPCWSTR filePath = NULL;
+	
+	if (id != NULL)
+	{
+		mapID = id;
+		switch (id)
+		{
+		case TILED_MAP_ID_3_1:
+			filePath = TILES_MATRIX_3_1;
+			break;
+		case TILED_MAP_ID_3_2:
+			filePath = TILES_MATRIX_3_2;
+			break;
+		case TILED_MAP_ID_3_3:
+			filePath = TILES_MATRIX_3_3;
+			break;
+		}
+	}
+
 	if (__instance == NULL || filePath != NULL)
 	{
 		if (__instance != NULL)
@@ -12,6 +32,38 @@ TiledMap * TiledMap::GetInstance(LPCWSTR filePath)
 		__instance = new TiledMap(filePath);
 	}
 	return __instance;
+}
+
+void TiledMap::ChangeMap(int id)
+{
+	LPCWSTR filePath = NULL;
+
+	mapID = id;
+	switch (id)
+	{
+	case TILED_MAP_ID_3_1:
+		filePath = TILES_MATRIX_3_1;
+		break;
+	case TILED_MAP_ID_3_2:
+		filePath = TILES_MATRIX_3_2;
+		break;
+	case TILED_MAP_ID_3_3:
+		filePath = TILES_MATRIX_3_3;
+		break;
+	}
+
+	for (auto it = tileSet.begin(); it != tileSet.end(); it++)
+	{
+		if (it->second != NULL)
+			delete it->second;
+	}
+
+	if (__instance != NULL)
+	{
+		delete __instance;
+		__instance = NULL;
+	}
+	__instance = new TiledMap(filePath);
 }
 //-------------------
 //Lấy dữ liệu đọc chuyển thành dòng trong ma trận
@@ -29,10 +81,26 @@ Row TiledMap::GetMatrixRow(int lineNum, string line, string delimiter)
 		curTile.x = rowNum * TILES_WIDTH_PER_TILE;
 		curTile.y = this->mapHeight - lineNum * TILES_HEIGHT_PER_TILE;
 		curTile.tileId = stoi(token);
-		if (find(_31SolidIds.begin(), _31SolidIds.end(), curTile.tileId) != _31SolidIds.end())
-			curTile.type = 1;
-		else
-			curTile.type = 0;
+
+		switch (mapID)
+		{
+		case TILED_MAP_ID_3_1:
+			if (find(_31SolidIds.begin(), _31SolidIds.end(), curTile.tileId) != _31SolidIds.end())
+				curTile.type = 1;
+			else
+				curTile.type = 0;
+			break;
+		case TILED_MAP_ID_3_2:
+			if (find(_32SolidIds.begin(), _32SolidIds.end(), curTile.tileId) != _32SolidIds.end())
+				curTile.type = 1;
+			else
+				curTile.type = 0;
+			break;
+		case TILED_MAP_ID_3_3:
+			//
+			break;
+		}
+		
 
 		result.push_back(curTile);
 		line.erase(0, pos + delimiter.length());

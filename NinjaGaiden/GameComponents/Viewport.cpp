@@ -30,7 +30,7 @@ Viewport * Viewport::GetInstance()
 void Viewport::ResetPosition()
 {
 	Ninja * ninja = Ninja::GetInstance();
-	int rightBoundary = (int)(Game::GetInstance()->GetTiledMap()->GetWidth() - width / 2);
+	int rightBoundary = (int)(TiledMap::GetInstance()->GetWidth() - width / 2);
 	int leftBoundary = (int)width / 2;
 	if (ninja->GetPositionX() > leftBoundary && ninja->GetPositionX() < rightBoundary)
 	{
@@ -42,12 +42,16 @@ void Viewport::ResetPosition()
 void Viewport::Update(DWORD dt)
 {
 	Ninja * ninja = Ninja::GetInstance();
-	int rightBoundary = (int)(Game::GetInstance()->GetTiledMap()->GetWidth() - width / 2);
+	int rightBoundary = (int)(TiledMap::GetInstance()->GetWidth() - width / 2);
 	int leftBoundary = (int)width / 2;
 	if (ninja->GetPositionX() > leftBoundary && ninja->GetPositionX() < rightBoundary)
 	{
 		this->x = ninja->GetPositionX() - leftBoundary;
 	}
+	else if (ninja->GetPositionX() > leftBoundary)
+		this->x = (int)(TiledMap::GetInstance()->GetWidth() - width);
+	else if (ninja->GetPositionX() < rightBoundary)
+		this->x = 0;
 
 }
 void Viewport::SetRenderData(D3DXVECTOR2 &center, D3DXVECTOR2 &translate, D3DXVECTOR2 &scaling)

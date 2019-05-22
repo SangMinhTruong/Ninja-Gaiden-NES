@@ -9,6 +9,8 @@ StateGameObject::StateGameObject()
 	jumpingState = new JumpingState(this);
 	attackingState = new AttackingState(this);
 	throwingState = new ThrowingState(this);
+	hurtState = new HurtState(this);
+	dyingState = new DyingState(this);
 
 	state = idleState;
 }
@@ -40,7 +42,21 @@ State * StateGameObject::GetJumpingState()
 {
 	return jumpingState;
 }
+State * StateGameObject::GetHurtState()
+{
+	return hurtState;
+}
+State * StateGameObject::GetDyingState()
+{
+	return dyingState;
+}
 
+void StateGameObject::Reset() 
+{
+	GameObject::Reset(); 
+	this->SetIsHurt(false);
+	this->SetState(this->GetIdleState());
+}
 //Các hàm hành động nhân vật
 void StateGameObject::Idle()
 {

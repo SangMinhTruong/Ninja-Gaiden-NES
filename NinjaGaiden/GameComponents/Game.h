@@ -23,7 +23,6 @@ class Game
 	Graphics * graphics;
 
 	Ninja * ninja;
-	TiledMap * tiledMap;
 	Viewport * viewport;
 	Grid * grid;
 public:
@@ -33,6 +32,8 @@ public:
 	static LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 	void LoadResources();
 	//Xử lí
+	void ResetGrid();
+
 	void Update(DWORD dt);
 	void Render();
 	int Run();
@@ -40,7 +41,6 @@ public:
 	static float SweptAABB(Collider c1, Collider c2, float &normalx, float &normaly);
 	//Lấy đối tượng
 	Ninja * GetNinja();
-	TiledMap * GetTiledMap() { return tiledMap; }
 	static Game * GetInstance();
 	//Hàm hủy đối tượng
 	~Game();

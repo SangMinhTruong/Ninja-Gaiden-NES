@@ -41,8 +41,8 @@ void CrouchingState::Render()
 	if (gameObject->GetCrouchAnimID() != -1)
 	{
 		SpriteData spriteData;
-		spriteData.width = NINJA_SPRITE_WIDTH;
-		spriteData.height = NINJA_SPRITE_HEIGHT;
+		spriteData.width = gameObject->GetWidth();
+		spriteData.height = gameObject->GetHeight();
 		spriteData.x = gameObject->GetPositionX();
 		spriteData.y = gameObject->GetPositionY();
 		spriteData.scale = 1;

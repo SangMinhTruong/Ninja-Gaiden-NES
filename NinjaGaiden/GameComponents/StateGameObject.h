@@ -10,6 +10,8 @@
 #include "CrouchingState.h"
 #include "AttackingState.h"
 #include "ThrowingState.h"
+#include "HurtState.h"
+#include "DyingState.h"
 
 #include "Constants.h"
 class StateGameObject : public GameObject
@@ -23,17 +25,24 @@ protected:
 	State * jumpingState;
 	State * attackingState;
 	State * throwingState;
+	State * hurtState;
+	State * dyingState;
 
 	State * state;
 
 	bool isGrounded = false;
 	bool isCrouching = false;
+	bool isHurt = false;
 	//Vector chứa các animations
 	vector<Animation *> animations;
 	DWORD lastFrameTime;
 public:
 	virtual void LoadResources() = 0;
 	//Hàm set
+	void Reset() override;
+
+	void SetIsLeft(bool isLeft) { this->isLeft = isLeft; }
+	void SetIsHurt(bool isHurt) { this->isHurt = isHurt; }
 	void SetIsGrounded(bool isGrounded) { this->isGrounded = isGrounded; }
 	void SetIsCrouching(bool isCrouching) { this->isCrouching = isCrouching; }
 	void SetLastFrameTime(DWORD lastFrameTime) { this->lastFrameTime = lastFrameTime; }
@@ -48,6 +57,8 @@ public:
 	State * GetThrowingState();
 	State * GetCrouchingState();
 	State * GetJumpingState();
+	State * GetHurtState();
+	State * GetDyingState();
 
 	virtual int GetIdleAnimID() { return NULL; };
 	virtual int GetWalkAnimID() { return NULL; };
@@ -55,6 +66,8 @@ public:
 	virtual int GetCrouchAnimID() { return NULL; };
 	virtual int GetStandAttackAnimID() { return NULL; };
 	virtual int GetCrouchAttackAnimID() { return NULL; };
+	virtual int GetHurtAnimID() { return NULL; };
+	virtual int GetDyingAnimID() { return NULL; };
 
 
 	virtual float GetDefaultWalkSpeed() = 0;
@@ -62,6 +75,7 @@ public:
 
 	//Hàm trạng thái
 	bool IsAttacking() { return state == attackingState || state == throwingState; }
+	bool IsHurt() { return isHurt; }
 	bool IsGrounded() { return isGrounded; }
 	bool IsCrouching() { return isCrouching; }
 	bool IsLeft() { return isLeft; }

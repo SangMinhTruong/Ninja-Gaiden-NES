@@ -1,5 +1,5 @@
-#include "IdleState.h"
-
+﻿#include "IdleState.h"
+#include "Ninja.h"
 
 IdleState::IdleState(StateGameObject * gameObject)
 {
@@ -40,8 +40,21 @@ void IdleState::Crouch()
 void IdleState::Update(DWORD dt)
 {
 	State::Update(dt);
-	if (gameObject->GetID() == GAME_OBJ_ID_THUG)
+	if (gameObject->GetID() == GAME_OBJ_ID_THUG ||
+		gameObject->GetID() == GAME_OBJ_ID_YELLOW_BIRD ||
+		gameObject->GetID() == GAME_OBJ_ID_ZOMBIE ||
+		gameObject->GetID() == GAME_OBJ_ID_COUGAR ||
+		gameObject->GetID() == GAME_OBJ_ID_BAT ||
+		gameObject->GetID() == GAME_OBJ_ID_RUNNER)
 	{
+		int id = gameObject->GetID();
+		//Di chuyển theo hướng ninja
+		Ninja * ninja = Ninja::GetInstance();
+		if ((ninja->GetPositionX() - gameObject->GetPositionX()) > 10)
+			gameObject->SetIsLeft(false);
+		else if ((ninja->GetPositionX() - gameObject->GetPositionX()) < -10)
+			gameObject->SetIsLeft(true);
+
 		gameObject->Walk();
 	}
 }

@@ -19,6 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="GameObjects\Bat.cpp" />
+    <ClCompile Include="GameObjects\Cougar.cpp" />
+    <ClCompile Include="GameObjects\Explosion.cpp" />
     <ClCompile Include="GameComponents\Animation.cpp" />
     <ClCompile Include="GameComponents\Cell.cpp" />
     <ClCompile Include="GameComponents\Debug.cpp" />
@@ -29,9 +32,14 @@
     <ClCompile Include="GameComponents\Keyboard.cpp" />
     <ClCompile Include="GameComponents\Sprite.cpp" />
     <ClCompile Include="GameComponents\Viewport.cpp" />
+    <ClCompile Include="GameObjects\Runner.cpp" />
     <ClCompile Include="GameObjects\Thug.cpp" />
+    <ClCompile Include="GameObjects\YellowBird.cpp" />
+    <ClCompile Include="GameObjects\Zombie.cpp" />
     <ClCompile Include="Ninja\AttackingState.cpp" />
     <ClCompile Include="Ninja\CrouchingState.cpp" />
+    <ClCompile Include="Ninja\DyingState.cpp" />
+    <ClCompile Include="Ninja\HurtState.cpp" />
     <ClCompile Include="Ninja\IdleState.cpp" />
     <ClCompile Include="Ninja\JumpingState.cpp" />
     <ClCompile Include="Ninja\Knife.cpp" />
@@ -46,6 +54,13 @@
     <ClCompile Include="GameComponents\StateGameObject.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="GameObjects\Bat.h" />
+    <ClInclude Include="GameObjects\Cougar.h" />
+    <ClInclude Include="GameObjects\Explosion.h" />
+    <ClInclude Include="GameObjects\Runner.h" />
+    <ClInclude Include="GameObjects\YellowBird.h" />
+    <ClInclude Include="GameObjects\Zombie.h" />
+    <ClInclude Include="Ninja\DyingState.h" />
     <ClInclude Include="GameComponents\Animation.h" />
     <ClInclude Include="GameComponents\Cell.h" />
     <ClInclude Include="GameComponents\Constants.h" />
@@ -60,6 +75,7 @@
     <ClInclude Include="GameObjects\Thug.h" />
     <ClInclude Include="Ninja\AttackingState.h" />
     <ClInclude Include="Ninja\CrouchingState.h" />
+    <ClInclude Include="Ninja\HurtState.h" />
     <ClInclude Include="Ninja\IdleState.h" />
     <ClInclude Include="Ninja\JumpingState.h" />
     <ClInclude Include="Ninja\Knife.h" />

@@ -5,9 +5,12 @@
 GameObject::GameObject()
 {
 	x = y = 0;
+	this->initX = x;
+	this->initY = y;
 	vx = vy = 0;
 	isLeft = false;
 	isFlipped = false;
+	isActive = false;
 
 	collider.x = x;
 	collider.y = y;
@@ -33,7 +36,6 @@ GameObject::GameObject(float x, float y, float width, float height)
 	collider.width = width;
 	collider.height = height;
 }
-
 LPCOLLISIONEVENT GameObject::SweptAABBEx(LPGAMEOBJECT coO)
 {
 	float t, nx, ny;
@@ -48,35 +50,82 @@ LPCOLLISIONEVENT GameObject::SweptAABBEx(LPGAMEOBJECT coO)
 	LPCOLLISIONEVENT e = new CollisionEvent(t, nx, ny, coO);
 	return e;
 }
+
+bool AABB(const Collider &c1, const Collider &c2);
 void GameObject::CalcPotentialGameObjectCollisions(
 	vector<LPGAMEOBJECT> &coObjects, 
 	vector<LPCOLLISIONEVENT> &coEvents)
 {
-	return;
+	for (int i = 0; i < coObjects.size(); i++)
+	{
+		GameObject * curObject = coObjects[i];
+		curObject->UpdateObjectCollider();
+
+		if (curObject->id == GAME_OBJ_ID_SWORD)
+		{	
+			if (this->id != GAME_OBJ_ID_NINJA)
+				if (AABB(this->collider, curObject->GetCollider()))
+				{
+					LPCOLLISIONEVENT e = new CollisionEvent();
+					e->collisionID = 2;
+
+					coEvents.push_back(e);
+				}
+		}
+		else if (this->id == GAME_OBJ_ID_NINJA)
+		{
+			LPCOLLISIONEVENT e = SweptAABBEx(curObject);
+			e->collisionID = 3;
+
+			if (e->t >= 0 && e->t < 1.0f)
+			{
+				if (Ninja * ninja = dynamic_cast<Ninja *>(this))
+				{
+					if (!ninja->IsHurt())
+						coEvents.push_back(e);
+				}
+			}
+			else
+			{
+				delete e;
+			}
+		}
+	}
 }
 void GameObject::CalcPotentialMapCollisions(
 	vector<Tile *> &tiles,
 	vector<LPCOLLISIONEVENT> &coEvents)
 {
-
-	LPGAMEOBJECT solidTileDummy = new GameObject(0, 0, 16, 16);
-	for (int i = 0; i < tiles.size(); i++)
+	if (this->id != GAME_OBJ_ID_YELLOW_BIRD &&
+		this->id != GAME_OBJ_ID_BAT)
 	{
-		Tile * curTile = tiles[i];
-		if (curTile->type == 1)
-		{	
-			solidTileDummy->SetPositionX(curTile->x);
-			solidTileDummy->SetPositionY(curTile->y);
-			solidTileDummy->UpdateTileCollider();
-
-			LPCOLLISIONEVENT e = SweptAABBEx(solidTileDummy);
-			e->collisionID = 1;
-
-			if (e->t >= 0 && e->t < 1.0f && e->ny == 1)
-				coEvents.push_back(e);
-			else
+		LPGAMEOBJECT solidTileDummy = new GameObject(0, 0, 16, 16);
+		for (int i = 0; i < tiles.size(); i++)
+		{
+			Tile * curTile = tiles[i];
+			if (curTile->type == 1)
 			{
-				delete e;
+				solidTileDummy->SetPositionX(curTile->x);
+				solidTileDummy->SetPositionY(curTile->y);
+				solidTileDummy->UpdateTileCollider();
+
+				LPCOLLISIONEVENT e = SweptAABBEx(solidTileDummy);
+				e->collisionID = 1;
+
+				if (e->t >= 0 && e->t < 1.0f)
+				{
+					if (TiledMap::GetInstance()->GetMapID() == TILED_MAP_ID_3_1)
+					{
+						if (e->ny == 1)
+							coEvents.push_back(e);
+					}
+					else if (e->ny != -1)
+						coEvents.push_back(e);
+				}
+				else
+				{
+					delete e;
+				}
 			}
 		}
 	}
@@ -114,11 +163,26 @@ void GameObject::FilterCollision(
 	{
 		LPCOLLISIONEVENT c = coEvents[i];
 
-		if (c->t < min_tx && c->nx != 0) {
+		if (c->collisionID == 2)
+		{
+			coEventsResult.push_back(coEvents[i]);
+			return;
+		}
+		if (c->collisionID == 3)
+		{
+			nx = c->nx;
+			ny = c->ny;
+			coEventsResult.push_back(coEvents[i]);
+			return;
+		}
+
+		if (c->t < min_tx && c->nx != 0) 
+		{
 			min_tx = c->t; nx = c->nx; min_ix = i;
 		}
 
-		if (c->t < min_ty  && c->ny != 0) {
+		if (c->t < min_ty  && c->ny != 0) 
+		{
 			min_ty = c->t; ny = c->ny; min_iy = i;
 		}
 	}
@@ -128,6 +192,12 @@ void GameObject::FilterCollision(
 }
 
 
+void GameObject::Reset()
+{
+	x = initX;
+	y = initY;
+	isActive = false;
+}
 
 GameObject::~GameObject()
 {

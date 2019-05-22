@@ -17,7 +17,7 @@ void WalkingState::Attack()
 }
 void WalkingState::Walk()
 {
-	gameObject->SetSpeedX(NINJA_WALKING_SPEED * (gameObject->IsLeft() ? -1 : 1));
+	gameObject->SetSpeedX(gameObject->GetDefaultWalkSpeed() * (gameObject->IsLeft() ? -1 : 1));
 }
 void WalkingState::Throw()
 {
@@ -29,7 +29,7 @@ void WalkingState::Jump()
 	if (gameObject->IsGrounded())
 	{
 		gameObject->SetIsGrounded(false);
-		gameObject->SetSpeedY(NINJA_JUMP_SPEED_Y);
+		gameObject->SetSpeedY(gameObject->GetDefautJumpSpeed());
 		gameObject->SetState(gameObject->GetJumpingState());
 	}
 }

@@ -4,64 +4,47 @@
 vector<Animation *> Whip::animations = vector<Animation *>();
 Whip::Whip()
 {
+	this->id = GAME_OBJ_ID_SWORD;
+
+	this->width = WHIP_SPRITE_WIDTH;
+	this->height = WHIP_SPRITE_HEIGHT;
+
+	collider.x = x;
+	collider.y = y;
+	collider.vx = vx;
+	collider.vy = vy;
+	collider.width = WHIP_SPRITE_WIDTH;
+	collider.height = WHIP_SPRITE_HEIGHT;
+
 	type = WHIP_NORMAL;
 	LoadResources();
 }
 void Whip::LoadResources()
 {
 	// 0
-	Animation * anim = new Animation(150);
-	for (int i = 0; i < 3; i++)
+	Animation * anim = new Animation(50);
+	for (int i = 0; i < 1; i++)
 	{
 		RECT rect;
 		rect.left = (i % WHIP_TEXTURE_COLUMNS) * WHIP_SPRITE_WIDTH;
 		rect.right = rect.left + WHIP_SPRITE_WIDTH;
-		rect.bottom = (i / WHIP_TEXTURE_COLUMNS) * WHIP_SPRITE_HEIGHT;
-		rect.top = rect.bottom + WHIP_SPRITE_HEIGHT;
+		rect.top = (i / WHIP_TEXTURE_COLUMNS) * WHIP_SPRITE_HEIGHT;
+		rect.bottom = rect.top + WHIP_SPRITE_HEIGHT;
 		Sprite * sprite = new Sprite(WHIP_TEXTURE_LOCATION, rect, WHIP_TEXTURE_TRANS_COLOR);
 
 		anim->AddFrame(sprite);
-	}
-	animations.push_back(anim);
-
-	// 1
-	anim = new Animation(150);
-	for (int i = 3; i < 6; i++)
-	{
-		RECT rect;
-		rect.left = (i % WHIP_TEXTURE_COLUMNS) * WHIP_SPRITE_WIDTH;
-		rect.right = rect.left + WHIP_SPRITE_WIDTH;
-		rect.bottom = (i / WHIP_TEXTURE_COLUMNS) * WHIP_SPRITE_HEIGHT;
-		rect.top = rect.bottom + WHIP_SPRITE_HEIGHT;
-		Sprite * sprite = new Sprite(WHIP_TEXTURE_LOCATION, rect, WHIP_TEXTURE_TRANS_COLOR);
-
-		anim->AddFrame(sprite);
-	}
-	animations.push_back(anim);
-
-	// 2
-	anim = new Animation(150);
-	for (int i = 7; i < 16; i++)
-	{
-		if (i == 7 || i == 11 || i == 15)
-		{
-			RECT rect;
-			rect.left = (i % WHIP_TEXTURE_COLUMNS) * WHIP_SPRITE_WIDTH;
-			rect.right = rect.left + WHIP_SPRITE_WIDTH;
-			rect.bottom = (i / WHIP_TEXTURE_COLUMNS) * WHIP_SPRITE_HEIGHT;
-			rect.top = rect.bottom + WHIP_SPRITE_HEIGHT;
-			Sprite * sprite = new Sprite(WHIP_TEXTURE_LOCATION, rect, WHIP_TEXTURE_TRANS_COLOR);
-
-			anim->AddFrame(sprite);
-		}
 	}
 	animations.push_back(anim);
 }
-void Whip::SetPosition(float x, float y, bool isCrouching)
+void Whip::SetPosition(float x, float y, bool isCrouching, bool isLeft)
 {
-	this->x = x - 90.0f;
+	if (isLeft)
+		this->x = x - WHIP_SPRITE_WIDTH;
+	else
+		this->x = x + 32;
+
 	if (isCrouching)
-		this->y = y + 16.5f;
+		this->y = y - 32;
 	else
 		this->y = y;
 }
@@ -82,18 +65,23 @@ void Whip::TurnRight()
 //Hàm cập nhật
 void Whip::Update(DWORD dt)
 {
-
+	this->SetPosition(Ninja::GetInstance()->GetPositionX(),
+		Ninja::GetInstance()->GetPositionY(),
+		Ninja::GetInstance()->IsCrouching(),
+		Ninja::GetInstance()->IsLeft());
+	this->UpdateObjectCollider();
 }
 //Hàm render
-void Whip::Render(SpriteData spriteData)
+void Whip::Render()
 {
+	SpriteData spriteData;
 	spriteData.width = WHIP_SPRITE_WIDTH;
 	spriteData.height = WHIP_SPRITE_HEIGHT;
-	spriteData.x = this->GetPositionX();
-	spriteData.y = this->GetPositionY();
+	spriteData.x = this->x;
+	spriteData.y = this->y;
 	spriteData.scale = 1;
 	spriteData.angle = 0;
-	spriteData.isLeft = this->isLeft;
+	spriteData.isLeft = Ninja::GetInstance()->IsLeft();
 
 	this->animations[type]->Render(spriteData);
 }

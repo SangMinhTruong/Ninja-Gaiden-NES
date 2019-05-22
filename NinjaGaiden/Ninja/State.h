@@ -15,5 +15,9 @@ public:
 	virtual void Crouch() = 0;
 	virtual void Update(DWORD dt);
 	virtual void Render();
+
+	friend void UpdateYellowBird(DWORD dt, StateGameObject * gameObject);
+	friend void UpdateBat(DWORD dt, StateGameObject * gameObject);
+	friend void UpdateZombie(DWORD dt, StateGameObject * gameObject);
 };
 

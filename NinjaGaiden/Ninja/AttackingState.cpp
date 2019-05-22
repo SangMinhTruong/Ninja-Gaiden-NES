@@ -1,10 +1,14 @@
-#include "AttackingState.h"
-
+﻿#include "AttackingState.h"
+#include "Ninja.h"
 AttackingState::AttackingState(StateGameObject * gameObject)
 {
 	this->gameObject = gameObject;
-	//gameObject->GetAnimationsList()[NINJA_ANI_STANDING_ATTACKING]->Reset();
-	//gameObject->GetAnimationsList()[NINJA_ANI_CROUCHING_ATTACKING]->Reset();
+	if (gameObject->GetID() == GAME_OBJ_ID_NINJA)
+		if (Ninja * ninja = dynamic_cast<Ninja *>(gameObject))
+		{
+			ninja->GetAnimationsList()[NINJA_ANI_STANDING_ATTACKING]->Reset();
+			ninja->GetAnimationsList()[NINJA_ANI_CROUCHING_ATTACKING]->Reset();
+		}
 }
 void AttackingState::Idle()
 {
@@ -33,6 +37,11 @@ void AttackingState::Crouch()
 void AttackingState::Update(DWORD dt)
 {
 	State::Update(dt);
+	if (gameObject->GetID() == GAME_OBJ_ID_NINJA)
+		if (Ninja * ninja = dynamic_cast<Ninja *>(gameObject))
+		{
+			ninja->GetWhip()->Update(dt);
+		}
 
 }
 void AttackingState::Render()
@@ -56,10 +65,21 @@ void AttackingState::Render()
 		if (gameObject->IsCrouching())
 		{
 			gameObject->GetAnimationsList()[gameObject->GetCrouchAttackAnimID()]->Render(spriteData);
-			//gameObject->GetWhip()->Render(spriteData);
+			//Render vũ khí
+			if (gameObject->GetID() == GAME_OBJ_ID_NINJA)
+				if (Ninja * ninja = dynamic_cast<Ninja * >(gameObject))
+				{
+					//ninja->GetWhip()->Render();
+				}
 
 			if (gameObject->GetAnimationsList()[gameObject->GetCrouchAttackAnimID()]->IsDone())
 			{
+				if (gameObject->GetID() == GAME_OBJ_ID_NINJA)
+					if (Ninja * ninja = dynamic_cast<Ninja *>(gameObject))
+					{
+						//ninja->GetWhip()->ResetAnim();
+					}
+
 				gameObject->GetAnimationsList()[gameObject->GetCrouchAttackAnimID()]->Reset();
 				gameObject->SetIsCrouching(true);
 				gameObject->SetState(gameObject->GetCrouchingState());
@@ -68,10 +88,21 @@ void AttackingState::Render()
 		else
 		{
 			gameObject->GetAnimationsList()[gameObject->GetStandAttackAnimID()]->Render(spriteData);
-			//gameObject->GetWhip()->Render(spriteData);
+			//Render vũ khí
+			if (gameObject->GetID() == GAME_OBJ_ID_NINJA)
+				if (Ninja * ninja = dynamic_cast<Ninja *>(gameObject))
+				{
+					//ninja->GetWhip()->Render();
+				}
 
 			if (gameObject->GetAnimationsList()[gameObject->GetStandAttackAnimID()]->IsDone())
 			{
+				if (gameObject->GetID() == GAME_OBJ_ID_NINJA)
+					if (Ninja * ninja = dynamic_cast<Ninja *>(gameObject))
+					{
+						//ninja->GetWhip()->ResetAnim();
+					}
+
 				gameObject->GetAnimationsList()[gameObject->GetStandAttackAnimID()]->Reset();
 				gameObject->SetState(gameObject->GetIdleState());
 			}

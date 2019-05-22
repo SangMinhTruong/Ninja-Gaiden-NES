@@ -15,7 +15,8 @@
 using namespace std;
 
 
-const vector<int> _31SolidIds { 24, 25, 26, 39, 58, 63, 65,67, 68, 69 };
+const vector<int> _31SolidIds { 24, 25, 26, 39, 58, 63, 65,67, 68, 69, 70 };
+const vector<int> _32SolidIds{ 8, 18, 19, 20, 21, 24, 25, 26, 28, 29, 30, 32, 33, 38, 47};
 
 struct Tile {
 	int tileId;
@@ -34,7 +35,9 @@ typedef vector<Row> Matrix;
 class TiledMap
 {
 private:
+	static int mapID;
 	static TiledMap * __instance;
+
 	TiledMap(LPCWSTR filePath);
 
 	void LoadMap(LPCWSTR filePath);
@@ -51,8 +54,13 @@ private:
 	string gridInfoLocation;
 
 	unordered_map<int, Sprite *> tileSet;
+
 public:
-	static TiledMap * GetInstance(LPCWSTR filePath = NULL);
+	static TiledMap * GetInstance(int id = 0);
+
+	void ChangeMap(int id);
+
+	int GetMapID() { return mapID; }
 
 	int GetWidth();
 	int GetHeight();

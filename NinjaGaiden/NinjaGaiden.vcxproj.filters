@@ -19,11 +19,14 @@
     <Filter Include="Source Files\GameComponents">
       <UniqueIdentifier>{fec4c2fb-ac1b-4785-b7fd-58d7d2fa5734}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Ninja\States">
-      <UniqueIdentifier>{d05c021e-6a04-459c-abdd-a3794d0f253c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Enemies">
       <UniqueIdentifier>{fd0d64ff-da0b-4e23-8ba7-6d2523c5beea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\States">
+      <UniqueIdentifier>{d05c021e-6a04-459c-abdd-a3794d0f253c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Misc">
+      <UniqueIdentifier>{b6a3b29e-930a-41fd-b787-b839949c849f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -58,19 +61,19 @@
       <Filter>Source Files\Ninja</Filter>
     </ClCompile>
     <ClCompile Include="Ninja\AttackingState.cpp">
-      <Filter>Source Files\Ninja\States</Filter>
+      <Filter>Source Files\States</Filter>
     </ClCompile>
     <ClCompile Include="Ninja\CrouchingState.cpp">
-      <Filter>Source Files\Ninja\States</Filter>
+      <Filter>Source Files\States</Filter>
     </ClCompile>
     <ClCompile Include="Ninja\IdleState.cpp">
-      <Filter>Source Files\Ninja\States</Filter>
+      <Filter>Source Files\States</Filter>
     </ClCompile>
     <ClCompile Include="Ninja\JumpingState.cpp">
-      <Filter>Source Files\Ninja\States</Filter>
+      <Filter>Source Files\States</Filter>
     </ClCompile>
     <ClCompile Include="Ninja\WalkingState.cpp">
-      <Filter>Source Files\Ninja\States</Filter>
+      <Filter>Source Files\States</Filter>
     </ClCompile>
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
@@ -91,15 +94,39 @@
       <Filter>Source Files\GameComponents</Filter>
     </ClCompile>
     <ClCompile Include="Ninja\State.cpp">
-      <Filter>Source Files\Ninja\States</Filter>
+      <Filter>Source Files\States</Filter>
     </ClCompile>
     <ClCompile Include="GameComponents\StateGameObject.cpp">
       <Filter>Source Files\GameComponents</Filter>
     </ClCompile>
     <ClCompile Include="Ninja\ThrowingState.cpp">
-      <Filter>Source Files\Ninja\States</Filter>
+      <Filter>Source Files\States</Filter>
     </ClCompile>
     <ClCompile Include="GameObjects\Thug.cpp">
+      <Filter>Source Files\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Ninja\DyingState.cpp">
+      <Filter>Source Files\States</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObjects\Explosion.cpp">
+      <Filter>Source Files\Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObjects\YellowBird.cpp">
+      <Filter>Source Files\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Ninja\HurtState.cpp">
+      <Filter>Source Files\States</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObjects\Zombie.cpp">
+      <Filter>Source Files\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObjects\Cougar.cpp">
+      <Filter>Source Files\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObjects\Bat.cpp">
+      <Filter>Source Files\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObjects\Runner.cpp">
       <Filter>Source Files\Enemies</Filter>
     </ClCompile>
   </ItemGroup>
@@ -141,19 +168,19 @@
       <Filter>Source Files\Ninja</Filter>
     </ClInclude>
     <ClInclude Include="Ninja\AttackingState.h">
-      <Filter>Source Files\Ninja\States</Filter>
+      <Filter>Source Files\States</Filter>
     </ClInclude>
     <ClInclude Include="Ninja\CrouchingState.h">
-      <Filter>Source Files\Ninja\States</Filter>
+      <Filter>Source Files\States</Filter>
     </ClInclude>
     <ClInclude Include="Ninja\IdleState.h">
-      <Filter>Source Files\Ninja\States</Filter>
+      <Filter>Source Files\States</Filter>
     </ClInclude>
     <ClInclude Include="Ninja\JumpingState.h">
-      <Filter>Source Files\Ninja\States</Filter>
+      <Filter>Source Files\States</Filter>
     </ClInclude>
     <ClInclude Include="Ninja\WalkingState.h">
-      <Filter>Source Files\Ninja\States</Filter>
+      <Filter>Source Files\States</Filter>
     </ClInclude>
     <ClInclude Include="GameComponents\TiledMap.h">
       <Filter>Source Files\GameComponents</Filter>
@@ -171,15 +198,39 @@
       <Filter>Source Files\GameComponents</Filter>
     </ClInclude>
     <ClInclude Include="Ninja\State.h">
-      <Filter>Source Files\Ninja\States</Filter>
+      <Filter>Source Files\States</Filter>
     </ClInclude>
     <ClInclude Include="GameComponents\StateGameObject.h">
       <Filter>Source Files\GameComponents</Filter>
     </ClInclude>
     <ClInclude Include="Ninja\ThrowingState.h">
-      <Filter>Source Files\Ninja\States</Filter>
+      <Filter>Source Files\States</Filter>
     </ClInclude>
     <ClInclude Include="GameObjects\Thug.h">
+      <Filter>Source Files\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Ninja\DyingState.h">
+      <Filter>Source Files\States</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjects\Explosion.h">
+      <Filter>Source Files\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjects\YellowBird.h">
+      <Filter>Source Files\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Ninja\HurtState.h">
+      <Filter>Source Files\States</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjects\Zombie.h">
+      <Filter>Source Files\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjects\Cougar.h">
+      <Filter>Source Files\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjects\Bat.h">
+      <Filter>Source Files\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjects\Runner.h">
       <Filter>Source Files\Enemies</Filter>
     </ClInclude>
   </ItemGroup>

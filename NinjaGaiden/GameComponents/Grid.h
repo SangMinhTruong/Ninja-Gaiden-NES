@@ -22,11 +22,14 @@ private:
 
 	CellMatrix cells;
 
+	vector<GameObject *> allGameObjects;
+
 	vector<Tile *> curTiles;
 	vector<GameObject *> curGameObjects;
 
 	Viewport *viewport;
 	Ninja * ninja;
+	TiledMap * tiledMap;
 
 	Grid();
 
@@ -44,6 +47,7 @@ public:
 	vector<Tile *> GetCurTiles() { return this->curTiles; }
 	vector<GameObject *> GetCurGameObjects() { return this->curGameObjects; }
 
+	void ChangeMap(int id);
 
 	void Update(DWORD dt);
 	void Render();
@@ -66,8 +70,8 @@ public:
 
 	~Grid() 
 	{
-		for (int i = 0; i < width; i++)
-			for (int j = 0; j < height; j++)
+		for (int i = 0; i < height; i++)
+			for (int j = 0; j < width; j++)
 			{
 				if (cells[i][j] != NULL)
 				{

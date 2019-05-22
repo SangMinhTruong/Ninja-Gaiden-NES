@@ -8,6 +8,8 @@ Thug::Thug(int x, int y)
 	this->id = GAME_OBJ_ID_THUG;
 	this->x = x;
 	this->y = y;
+	this->initX = x;
+	this->initY = y;
 	this->width = THUG_SPRITE_WIDTH;
 	this->height = THUG_SPRITE_HEIGHT;
 	collider.x = x;
@@ -71,6 +73,20 @@ void Thug::LoadResources()
 		}
 	}
 	animations.push_back(anim);
+	// Dying
+	anim = new Animation(50);
+	for (int i = 0; i < 3; i++)
+	{
+		RECT rect;
+		rect.left = (i % EXPLOSION_TEXTURE_COLUMNS) * EXPLOSION_SPRITE_WIDTH;
+		rect.right = rect.left + EXPLOSION_SPRITE_WIDTH;
+		rect.top = (i / EXPLOSION_TEXTURE_COLUMNS) * EXPLOSION_SPRITE_HEIGHT;
+		rect.bottom = rect.top + EXPLOSION_SPRITE_HEIGHT;
+		Sprite * sprite = new Sprite(EXPLOSION_TEXTURE_LOCATION, rect, EXPLOSION_TEXTURE_TRANS_COLOR);
+
+		anim->AddFrame(sprite);
+	}
+	animations.push_back(anim);
 }
 int Thug::GetIdleAnimID()
 {
@@ -95,6 +111,10 @@ int Thug::GetStandAttackAnimID()
 int Thug::GetCrouchAttackAnimID()
 {
 	return THUG_ANI_CROUCHING_ATTACKING;
+}
+int Thug::GetDyingAnimID()
+{
+	return THUG_ANI_DYING;
 }
 
 

@@ -13,13 +13,13 @@ public:
 	void TurnRight();
 	void ResetAnim();
 
-	void SetPosition(float x, float y, bool isCrouching);
+	void SetPosition(float x, float y, bool isCrouching, bool isLeft);
 	void SetType(int type) { this->type = type; }
 	D3DXVECTOR2 GetPosition() { return D3DXVECTOR2(this->x, this->y); }
 	//Hàm cập nhật
 	void Update(DWORD dt);
 	//Hàm render
-	void Render(SpriteData spriteData);
+	void Render();
 	~Whip();
 };
 

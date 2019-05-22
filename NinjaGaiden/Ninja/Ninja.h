@@ -22,6 +22,8 @@ public:
 	int GetCrouchAnimID() override;
 	int GetStandAttackAnimID() override;
 	int GetCrouchAttackAnimID() override;
+	int GetHurtAnimID() override;
+	int GetDyingAnimID() override;
 
 	float GetDefaultWalkSpeed() override { return NINJA_WALKING_SPEED; }
 	float GetDefautJumpSpeed() override { return NINJA_JUMP_SPEED_Y; }

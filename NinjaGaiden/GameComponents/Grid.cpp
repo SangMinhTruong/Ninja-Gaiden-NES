@@ -2,6 +2,11 @@
 #include"Cell.h"
 
 #include "Thug.h"
+#include "YellowBird.h"
+#include "Zombie.h"
+#include "Cougar.h"
+#include "Bat.h"
+#include "Runner.h"
 Grid * Grid::__instance = NULL;
 bool CellGameObjectAABB(Cell * cell, GameObject * obj)
 {
@@ -25,8 +30,9 @@ bool CellTileAABB(Cell * cell, Tile & tile)
 Grid::Grid()
 {
 	//khoi tao danh sach cac o trong
-	this->width = (int)(Game::GetInstance()->GetTiledMap()->GetWidth() / 64) + 2;
-	this->height = (int)(Game::GetInstance()->GetTiledMap()->GetHeight() / 64) + 2;
+	this->width = (int)(TiledMap::GetInstance()->GetWidth() / 64) + 2;
+	this->height = (int)(TiledMap::GetInstance()->GetHeight() / 64) + 2;
+	
 
 	for (int i = 0; i < height; i++)
 	{
@@ -41,6 +47,7 @@ Grid::Grid()
 
 	LoadCells();
 
+	this->tiledMap = TiledMap::GetInstance();
 	//Luu viewport
 	this->viewport = Viewport::GetInstance();
 	//Lưu ninja
@@ -88,17 +95,81 @@ void Grid::LoadObjects()
 
 			switch (stoi(curLineTokens[0]))
 			{
-			case 1:
-				Thug * testThug = new Thug(stoi(curLineTokens[1]), stoi(curLineTokens[2]));
-				int thugX = testThug->GetPositionX();
-				int thugY = testThug->GetPositionY();
+			case GAME_OBJ_ID_THUG:
+			{
+				Thug * dummyEnemy = new Thug(stoi(curLineTokens[1]), stoi(curLineTokens[2]));
+				int thugX = dummyEnemy->GetPositionX();
+				int thugY = dummyEnemy->GetPositionY();
 				int cellX = POSXTOCELL(thugX);
 				int cellY = POSYTOCELL(thugY);
 
-				cells[cellY][cellX]->AddGameObject(testThug);
+				allGameObjects.push_back(dummyEnemy);
+				cells[cellY][cellX]->AddGameObject(dummyEnemy);
 
 				break;
 			}
+			case GAME_OBJ_ID_YELLOW_BIRD:
+			{
+				YellowBird * dummyEnemy = new YellowBird(stoi(curLineTokens[1]), stoi(curLineTokens[2]));
+				int thugX = dummyEnemy->GetPositionX();
+				int thugY = dummyEnemy->GetPositionY();
+				int cellX = POSXTOCELL(thugX);
+				int cellY = POSYTOCELL(thugY);
+
+				allGameObjects.push_back(dummyEnemy);
+				cells[cellY][cellX]->AddGameObject(dummyEnemy);
+				break;			
+			}
+			case GAME_OBJ_ID_ZOMBIE:
+			{
+				Zombie * dummyEnemy = new Zombie(stoi(curLineTokens[1]), stoi(curLineTokens[2]));
+				int thugX = dummyEnemy->GetPositionX();
+				int thugY = dummyEnemy->GetPositionY();
+				int cellX = POSXTOCELL(thugX);
+				int cellY = POSYTOCELL(thugY);
+
+				allGameObjects.push_back(dummyEnemy);
+				cells[cellY][cellX]->AddGameObject(dummyEnemy);
+				break;			
+			}
+			case GAME_OBJ_ID_COUGAR:
+			{
+				Cougar * dummyEnemy = new Cougar(stoi(curLineTokens[1]), stoi(curLineTokens[2]));
+				int thugX = dummyEnemy->GetPositionX();
+				int thugY = dummyEnemy->GetPositionY();
+				int cellX = POSXTOCELL(thugX);
+				int cellY = POSYTOCELL(thugY);
+
+				allGameObjects.push_back(dummyEnemy);
+				cells[cellY][cellX]->AddGameObject(dummyEnemy);
+				break;
+			}
+			case GAME_OBJ_ID_BAT:
+			{
+				Bat * dummyEnemy = new Bat(stoi(curLineTokens[1]), stoi(curLineTokens[2]));
+				int thugX = dummyEnemy->GetPositionX();
+				int thugY = dummyEnemy->GetPositionY();
+				int cellX = POSXTOCELL(thugX);
+				int cellY = POSYTOCELL(thugY);
+
+				allGameObjects.push_back(dummyEnemy);
+				cells[cellY][cellX]->AddGameObject(dummyEnemy);
+				break;
+			}
+			case GAME_OBJ_ID_RUNNER:
+			{
+				Runner * dummyEnemy = new Runner(stoi(curLineTokens[1]), stoi(curLineTokens[2]));
+				int thugX = dummyEnemy->GetPositionX();
+				int thugY = dummyEnemy->GetPositionY();
+				int cellX = POSXTOCELL(thugX);
+				int cellY = POSYTOCELL(thugY);
+
+				allGameObjects.push_back(dummyEnemy);
+				cells[cellY][cellX]->AddGameObject(dummyEnemy);
+				break;
+			}
+			}
+
 			lineNum++;
 		}
 		gridInfo.close();
@@ -106,7 +177,7 @@ void Grid::LoadObjects()
 }
 void Grid::LoadMap()
 {
-	Matrix &tiledMapMatrix = Game::GetInstance()->GetTiledMap()->GetMatrix();
+	Matrix &tiledMapMatrix = TiledMap::GetInstance()->GetMatrix();
 	for (int i = 0; i < tiledMapMatrix.size(); i++)
 	{
 		for (int j = 0; j < tiledMapMatrix[i].size(); j++)
@@ -123,7 +194,8 @@ void Grid::LoadMap()
 void Grid::GetCameraPosOnGrid(int &l, int &r, int &t, int &b) {
 	RECT rect = viewport->GetRect();
 	l = (int)(rect.left/GRID_SIZE);
-	t = (int)(rect.top % GRID_SIZE == 0 ? rect.top/GRID_SIZE - 1 : rect.top/GRID_SIZE);
+	//t = (int)(rect.top % GRID_SIZE == 0 ? rect.top/GRID_SIZE - 1 : rect.top/GRID_SIZE);
+	t = (int)(rect.top % GRID_SIZE == 0 ? rect.top / GRID_SIZE - 1 : rect.top / GRID_SIZE);
 	r = (int)(rect.right / GRID_SIZE);
 	b = (int)(rect.bottom / GRID_SIZE);
 }
@@ -132,36 +204,29 @@ void Grid::GetNinjaPosOnGrid(int &l, int &r, int &t, int &b)
 {
 	RECT rect = ninja->GetRect();
 	l = (int)(rect.left / GRID_SIZE);
-	t = (int)(rect.top % GRID_SIZE == 0 ? rect.top / GRID_SIZE - 1 : rect.top / GRID_SIZE);
+	t = (int)(rect.top / GRID_SIZE);
 	r = (int)(rect.right / GRID_SIZE);
 	b = (int)(rect.bottom / GRID_SIZE);
 }
+
+void Grid::ChangeMap(int id)
+{
+	TiledMap::GetInstance()->ChangeMap(id);
+	ninja->Reset();
+
+	delete this->__instance;
+	this->__instance = NULL;
+
+	this->__instance = new Grid();
+
+	Game::GetInstance()->ResetGrid();
+}
+
 void Grid::Update(DWORD dt)
 {
 	int lCell, rCell, tCell, bCell;
 	this->GetCameraPosOnGrid(lCell, rCell, tCell, bCell);
 
-	//Update grid
-	curTiles.clear();
-	curGameObjects.clear();
-	for (int i = bCell; i <= tCell; i++)
-	{
-		for (int j = lCell; j <= rCell; j++)
-		{
-			cells[i][j]->ExtractGameObjects(curGameObjects);
-			cells[i][j]->FlushGameObjects();
-		}
-	}
-	for (int i = 0; i < curGameObjects.size(); i++)
-	{
-		int objX = curGameObjects[i]->GetPositionX();
-		int objY = curGameObjects[i]->GetPositionY();
-
-		int cellX = POSXTOCELL(objX);
-		int cellY = POSYTOCELL(objY);
-
-		cells[cellY][cellX]->AddGameObject(curGameObjects[i]);
-	}
 
 	//Update ninja
 	curTiles.clear();
@@ -210,6 +275,12 @@ void Grid::Update(DWORD dt)
 	}
 	ninja->Update(dt);
 
+	int mapWidth = TiledMap::GetInstance()->GetWidth();
+	if (ninja->GetPositionX() >= mapWidth - NINJA_SPRITE_WIDTH)
+	{
+		this->ChangeMap(TiledMap::GetInstance()->GetMapID() + 1);
+		return;
+	}
 
 	//Update các object trong các cell
 	for (int i = bCell; i <= tCell; i++)
@@ -266,6 +337,42 @@ void Grid::Update(DWORD dt)
 		}
 	}
 
+	//Update grid
+	curTiles.clear();
+	curGameObjects.clear();
+	
+	for (int i = 0; i < height; i++)
+	{
+		for (int j = 0; j < width; j++)
+		{
+			cells[i][j]->FlushGameObjects();
+		}
+	}
+	for (int i = 0; i < allGameObjects.size(); i++)
+	{
+		int curX = allGameObjects[i]->GetPositionX();
+		int curY = allGameObjects[i]->GetPositionY();
+
+		int cellX = POSXTOCELL(curX);
+		int cellY = POSYTOCELL(curY);
+
+		int curInitX = allGameObjects[i]->GetInitPosX();
+		int curInitY = allGameObjects[i]->GetInitPosY();
+
+		int initCellX = POSXTOCELL(curInitX);
+		int initCellY = POSYTOCELL(curInitY);
+
+		if (!(initCellX >= lCell && initCellX <= rCell && initCellY <= tCell && initCellY >= bCell) &&
+			!(cellX >= lCell && cellX <= rCell && cellY <= tCell && cellY >= bCell))
+		{
+			allGameObjects[i]->Reset();
+			cells[initCellY][initCellX]->AddGameObject(allGameObjects[i]);
+		}
+		else
+		{
+			cells[cellY][cellX]->AddGameObject(allGameObjects[i]);
+		}
+	}
 }
 void Grid::Render()
 {
