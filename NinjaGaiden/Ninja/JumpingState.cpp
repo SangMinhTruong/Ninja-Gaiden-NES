@@ -29,6 +29,18 @@ void JumpingState::Crouch()
 {
 
 }
+void JumpingState::Hurt()
+{
+	float vx = gameObject->GetDefaultWalkSpeed() * (gameObject->IsLeft() ? 1 : -1);
+	float vy = gameObject->GetDefautJumpSpeed() / 1.25f;
+
+	gameObject->SetSpeedY(vx);
+	gameObject->SetSpeedY(vy);
+
+	gameObject->SetIsGrounded(false);
+	gameObject->SetIsHurt(true);
+	gameObject->SetState(gameObject->GetHurtState());
+}
 void JumpingState::Update(DWORD dt)
 {
 	State::Update(dt);

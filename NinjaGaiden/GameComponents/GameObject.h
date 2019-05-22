@@ -76,7 +76,9 @@ public:
 	void SetSpeedX(float vx) { this->vx = vx; }
 	void SetSpeedY(float vy) { this->vy = vy; }
 
-	void SetActive() { this->isActive = true; }
+
+	void SetIsLeft(bool isLeft) { this->isLeft = isLeft; }
+	void SetActive(bool isActive) { this->isActive = isActive; }
 	void SetDt(float dt) { this->dt = dt; }
 
 	void SetCollider(Collider col) { this->collider = col; }

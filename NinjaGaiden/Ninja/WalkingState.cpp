@@ -21,7 +21,6 @@ void WalkingState::Walk()
 }
 void WalkingState::Throw()
 {
-	gameObject->SetSpeedX(0);
 	gameObject->SetState(gameObject->GetThrowingState());
 }
 void WalkingState::Jump()
@@ -39,6 +38,18 @@ void WalkingState::Crouch()
 	gameObject->SetIsCrouching(true);
 	gameObject->SetState(gameObject->GetCrouchingState());
 }
+void WalkingState::Hurt()
+{
+	float vx = gameObject->GetDefaultWalkSpeed() * (gameObject->IsLeft() ? 1 : -1);
+	float vy = gameObject->GetDefautJumpSpeed() / 1.25f;
+
+	gameObject->SetSpeedX(vx);
+	gameObject->SetSpeedY(vy);
+
+	gameObject->SetIsGrounded(false);
+	gameObject->SetIsHurt(true);
+	gameObject->SetState(gameObject->GetHurtState());
+}
 void WalkingState::Update(DWORD dt)
 {
 	State::Update(dt);
@@ -49,8 +60,8 @@ void WalkingState::Render()
 	if (gameObject->GetWalkAnimID() != -1)
 	{
 		SpriteData spriteData;
-		spriteData.width = NINJA_SPRITE_WIDTH;
-		spriteData.height = NINJA_SPRITE_HEIGHT;
+		spriteData.width = gameObject->GetWidth();
+		spriteData.height = gameObject->GetHeight();
 		spriteData.x = gameObject->GetPositionX();
 		spriteData.y = gameObject->GetPositionY();
 		spriteData.scale = 1;

@@ -59,7 +59,7 @@ void Zombie::LoadResources()
 		}
 	}
 	animations.push_back(anim);
-	// Standing Attack
+	// Standing Throw
 	anim = new Animation(150);
 	for (int i = 2; i < 3; i++)
 	{
@@ -129,13 +129,54 @@ int Zombie::GetDyingAnimID()
 }
 
 
+void Zombie::CreateThrownWeapon()
+{
+	ZombieBullet * bullet;
+	bullet = new ZombieBullet(this->x, this->y, this->isLeft);
+	bullet->SetZombie(this);
+
+	this->bullets.push_back(bullet);
+}
+void Zombie::RemoveBullet(ZombieBullet * bullet)
+{
+	auto it = find(bullets.begin(), bullets.end(), bullet);
+	delete *it;
+	if (it != bullets.end())
+		bullets.erase(it);
+}
+#include "Debug.h"
 //Hàm cập nhật
 void Zombie::Update(DWORD dt)
 {
 	state->Update(dt);
+
+	for (int i = 0; i < bullets.size(); i++)
+	{
+		bullets[i]->Update(dt);
+	}
+	Viewport * viewport = Viewport::GetInstance();
+	for (int i = 0; i < bullets.size(); i++)
+	{
+		RECT rect = viewport->GetRect();
+
+		if (bullets[i]->GetPositionX() > rect.right ||
+			bullets[i]->GetPositionX() < rect.left ||
+			bullets[i]->GetPositionY() < rect.bottom)
+				this->RemoveBullet(bullets[i]);
+	}
+	/*vector<Subweapon *> subweapons = gameObject->GetSubweapon();
+	if (subweapons.size() > 0)
+	{
+		
+	}*/
 }
 //Hàm render
 void Zombie::Render()
 {
 	state->Render();
+
+	for (int i = 0; i < bullets.size(); i++)
+	{
+		bullets[i]->Render();
+	}
 }

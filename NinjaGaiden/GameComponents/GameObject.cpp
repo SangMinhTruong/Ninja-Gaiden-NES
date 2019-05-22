@@ -170,8 +170,6 @@ void GameObject::FilterCollision(
 		}
 		if (c->collisionID == 3)
 		{
-			nx = c->nx;
-			ny = c->ny;
 			coEventsResult.push_back(coEvents[i]);
 			return;
 		}

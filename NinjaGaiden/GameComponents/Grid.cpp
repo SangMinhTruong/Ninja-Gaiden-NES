@@ -7,6 +7,7 @@
 #include "Cougar.h"
 #include "Bat.h"
 #include "Runner.h"
+#include "MachineGunner.h"
 Grid * Grid::__instance = NULL;
 bool CellGameObjectAABB(Cell * cell, GameObject * obj)
 {
@@ -159,6 +160,18 @@ void Grid::LoadObjects()
 			case GAME_OBJ_ID_RUNNER:
 			{
 				Runner * dummyEnemy = new Runner(stoi(curLineTokens[1]), stoi(curLineTokens[2]));
+				int thugX = dummyEnemy->GetPositionX();
+				int thugY = dummyEnemy->GetPositionY();
+				int cellX = POSXTOCELL(thugX);
+				int cellY = POSYTOCELL(thugY);
+
+				allGameObjects.push_back(dummyEnemy);
+				cells[cellY][cellX]->AddGameObject(dummyEnemy);
+				break;
+			}
+			case GAME_OBJ_ID_MACHINE_GUNNER:
+			{
+				MachineGunner * dummyEnemy = new MachineGunner(stoi(curLineTokens[1]), stoi(curLineTokens[2]));
 				int thugX = dummyEnemy->GetPositionX();
 				int thugY = dummyEnemy->GetPositionY();
 				int cellX = POSXTOCELL(thugX);

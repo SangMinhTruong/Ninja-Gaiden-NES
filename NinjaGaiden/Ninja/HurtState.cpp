@@ -31,6 +31,10 @@ void HurtState::Crouch()
 {
 
 }
+void HurtState::Hurt()
+{
+
+}
 void HurtState::Update(DWORD dt)
 {
 	State::Update(dt);

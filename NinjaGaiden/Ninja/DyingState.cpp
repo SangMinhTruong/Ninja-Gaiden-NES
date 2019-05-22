@@ -31,6 +31,10 @@ void DyingState::Crouch()
 {
 
 }
+void DyingState::Hurt()
+{
+
+}
 void DyingState::Update(DWORD dt)
 {
 
@@ -48,7 +52,7 @@ void DyingState::Render()
 		spriteData.scale = 1;
 		spriteData.angle = 0;
 		spriteData.isLeft = gameObject->IsLeft();
-		spriteData.isFlipped = gameObject->IsFlipped();
+		spriteData.isFlipped = false;
 
 		gameObject->GetAnimationsList()[gameObject->GetDyingAnimID()]->Render(spriteData);
 

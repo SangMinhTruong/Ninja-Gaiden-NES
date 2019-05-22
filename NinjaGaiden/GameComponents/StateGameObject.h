@@ -40,8 +40,6 @@ public:
 	virtual void LoadResources() = 0;
 	//Hàm set
 	void Reset() override;
-
-	void SetIsLeft(bool isLeft) { this->isLeft = isLeft; }
 	void SetIsHurt(bool isHurt) { this->isHurt = isHurt; }
 	void SetIsGrounded(bool isGrounded) { this->isGrounded = isGrounded; }
 	void SetIsCrouching(bool isCrouching) { this->isCrouching = isCrouching; }
@@ -89,6 +87,9 @@ public:
 	void Throw();
 	void Jump();
 	void Crouch();
+	void Hurt();
+
+	virtual void CreateThrownWeapon() {}
 
 	void TurnLeft();
 	void TurnRight();

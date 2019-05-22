@@ -18,7 +18,7 @@ void Cell::Update(DWORD dt)
 	{
 		int flagX = gameObjects[i]->GetPositionX();
 		int flagY = gameObjects[i]->GetPositionY();
-		gameObjects[i]->SetActive();
+		gameObjects[i]->SetActive(true);
 		gameObjects[i]->Update(dt);
 	}
 }

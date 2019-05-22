@@ -34,7 +34,7 @@ public:
 	//Hàm trạng thái
 
 	//Các hàm hành động nhân vật
-	void CreateThrownWeapon();
+	void CreateThrownWeapon() override;
 	//Hàm cập nhật
 	void Update(DWORD dt) override;
 	//Hàm render

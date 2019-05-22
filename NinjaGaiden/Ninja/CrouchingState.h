@@ -12,6 +12,7 @@ public:
 	void Throw();
 	void Jump();
 	void Crouch();
+	void Hurt();
 	void Update(DWORD dt);
 	void Render();
 };

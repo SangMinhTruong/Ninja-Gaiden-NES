@@ -37,6 +37,18 @@ void IdleState::Crouch()
 	gameObject->SetIsCrouching(true);
 	gameObject->SetState(gameObject->GetCrouchingState());
 }
+void IdleState::Hurt()
+{
+	float vx = gameObject->GetDefaultWalkSpeed() * (gameObject->IsLeft() ? 1 : -1);
+	float vy = gameObject->GetDefautJumpSpeed() / 1.25f;
+
+	gameObject->SetSpeedY(vx);
+	gameObject->SetSpeedY(vy);
+
+	gameObject->SetIsGrounded(false);
+	gameObject->SetIsHurt(true);
+	gameObject->SetState(gameObject->GetHurtState());
+}
 void IdleState::Update(DWORD dt)
 {
 	State::Update(dt);
@@ -45,7 +57,8 @@ void IdleState::Update(DWORD dt)
 		gameObject->GetID() == GAME_OBJ_ID_ZOMBIE ||
 		gameObject->GetID() == GAME_OBJ_ID_COUGAR ||
 		gameObject->GetID() == GAME_OBJ_ID_BAT ||
-		gameObject->GetID() == GAME_OBJ_ID_RUNNER)
+		gameObject->GetID() == GAME_OBJ_ID_RUNNER ||
+		gameObject->GetID() == GAME_OBJ_ID_MACHINE_GUNNER)
 	{
 		int id = gameObject->GetID();
 		//Di chuyển theo hướng ninja

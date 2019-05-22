@@ -5,6 +5,7 @@
 void UpdateYellowBird(DWORD dt, StateGameObject * gameObject);
 void UpdateBat(DWORD dt, StateGameObject * gameObject);
 void UpdateZombie(DWORD dt, StateGameObject * gameObject);
+void UpdateMachineGunner(DWORD dt, StateGameObject * gameObject);
 
 void State::Update(DWORD dt)
 {
@@ -36,6 +37,11 @@ void State::Update(DWORD dt)
 	case GAME_OBJ_ID_ZOMBIE: // Zombie
 	{
 		UpdateZombie(dt, gameObject);
+		break;
+	}
+	case GAME_OBJ_ID_MACHINE_GUNNER: // Machine Gunner
+	{
+		UpdateMachineGunner(dt, gameObject);
 		break;
 	}
 	}
@@ -71,16 +77,7 @@ void State::Update(DWORD dt)
 		}
 		if (coEventsResult[0]->collisionID == 3) // Kiểm tra ninja va chạm quái
 		{
-			float vx = gameObject->GetDefaultWalkSpeed() * nx;
-			float vy = gameObject->GetDefautJumpSpeed() / 1.25f;
-
-			gameObject->SetSpeedY(vx);
-			gameObject->SetSpeedY(vy);
-
-			gameObject->SetIsGrounded(false);
-			gameObject->SetIsHurt(true);
-			gameObject->SetState(gameObject->GetHurtState());
-			return;
+			gameObject->Hurt();
 		}
 		if (coEventsResult[0]->collisionID == 1) // Kiểm tra chạm đất
 		{
@@ -202,14 +199,49 @@ void UpdateZombie(DWORD dt, StateGameObject * gameObject)
 	//gameObject->SetPositionX(gameObject->GetPositionX() + vx * dt);
 	//gameObject->SetPositionY(gameObject->GetPositionY() + vy * dt);
 	//Random phong dao
-
-	/*if (rand() % 80 == 10 && isAvailable) {
-		isActivated = 2;
-		isAvailable = false;
-		CreateBullet();
+	i = rand();
+	
+	if (i % 100 < 2)
+	{
+		gameObject->Throw();
 	}
 
-	for (int i = 0; i < bullets.size(); i++) {
-		bullets[i]->Update(dt);
-	}*/
+
+}
+#include "MachineGunner.h"
+void UpdateMachineGunner(DWORD dt, StateGameObject * gameObject)
+{
+	//Di chuyển theo hướng ninja
+	Ninja * ninja = Ninja::GetInstance();
+	if ((ninja->GetPositionX() - gameObject->GetPositionX()) > 10)
+		gameObject->SetIsLeft(false);
+	else if ((ninja->GetPositionX() - gameObject->GetPositionX()) < -10)
+		gameObject->SetIsLeft(true);
+
+	//gameObject->SetPositionX(gameObject->GetPositionX() + vx * dt);
+	//gameObject->SetPositionY(gameObject->GetPositionY() + vy * dt);
+	if (MachineGunner * gunner = dynamic_cast<MachineGunner *>(gameObject))
+	{
+		gunner->SetAttackTimer(gunner->GetAttackTimer() + dt);
+		if (gunner->GetAttackTimer() >= 3000 &&
+			gunner->GetAttackTimer() < 3150)
+		{
+			gunner->SetSpeedX(0);
+			gunner->Throw();
+		}
+		else if (gunner->GetAttackTimer() >= 3150 &&
+				gunner->GetAttackTimer() < 3300)
+		{
+			gunner->SetSpeedX(0);
+	 		gunner->Throw();
+		}
+		else if (gunner->GetAttackTimer() >= 3300)
+		{
+			DebugOut(L"Time: %d\n", gunner->GetAttackTimer());
+			gunner->SetSpeedX(0);
+			gunner->Throw();
+			gunner->SetAttackTimer(0);
+		}
+	}
+	
 }

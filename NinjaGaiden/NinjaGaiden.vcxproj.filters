@@ -129,6 +129,15 @@
     <ClCompile Include="GameObjects\Runner.cpp">
       <Filter>Source Files\Enemies</Filter>
     </ClCompile>
+    <ClCompile Include="GameObjects\ZombieBullet.cpp">
+      <Filter>Source Files\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObjects\MachineGunner.cpp">
+      <Filter>Source Files\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObjects\MachineGunnerBullet.cpp">
+      <Filter>Source Files\Enemies</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameComponents\Animation.h">
@@ -231,6 +240,15 @@
       <Filter>Source Files\Enemies</Filter>
     </ClInclude>
     <ClInclude Include="GameObjects\Runner.h">
+      <Filter>Source Files\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjects\ZombieBullet.h">
+      <Filter>Source Files\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjects\MachineGunner.h">
+      <Filter>Source Files\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjects\MachineGunnerBullet.h">
       <Filter>Source Files\Enemies</Filter>
     </ClInclude>
   </ItemGroup>

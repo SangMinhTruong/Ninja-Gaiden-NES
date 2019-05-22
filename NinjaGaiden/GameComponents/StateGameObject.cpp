@@ -82,6 +82,10 @@ void StateGameObject::Crouch()
 {
 	state->Crouch();
 }
+void StateGameObject::Hurt()
+{
+	state->Hurt();
+}
 void StateGameObject::TurnLeft()
 {
 	isLeft = true;

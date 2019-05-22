@@ -30,10 +30,21 @@ void ThrowingState::Crouch()
 {
 
 }
+void ThrowingState::Hurt()
+{
+	float vx = gameObject->GetDefaultWalkSpeed() * (gameObject->IsLeft() ? 1 : -1);
+	float vy = gameObject->GetDefautJumpSpeed() / 1.25f;
+
+	gameObject->SetSpeedY(vx);
+	gameObject->SetSpeedY(vy);
+
+	gameObject->SetIsGrounded(false);
+	gameObject->SetIsHurt(true);
+	gameObject->SetState(gameObject->GetHurtState());
+}
 void ThrowingState::Update(DWORD dt)
 {
 	State::Update(dt);
-
 }
 void ThrowingState::Render()
 {
@@ -51,6 +62,7 @@ void ThrowingState::Render()
 		spriteData.scale = 1;
 		spriteData.angle = 0;
 		spriteData.isLeft = gameObject->IsLeft();
+		spriteData.isFlipped = gameObject->IsFlipped();
 
 		if (gameObject->IsCrouching())
 		{
@@ -58,7 +70,7 @@ void ThrowingState::Render()
 
 			if (gameObject->GetAnimationsList()[gameObject->GetCrouchAttackAnimID()]->IsDone())
 			{
-				//gameObject->CreateThrownWeapon();
+				gameObject->CreateThrownWeapon();
 				gameObject->GetAnimationsList()[gameObject->GetCrouchAttackAnimID()]->Reset();
 				gameObject->SetIsCrouching(true);
 				gameObject->SetState(gameObject->GetCrouchingState());
@@ -70,7 +82,7 @@ void ThrowingState::Render()
 
 			if (gameObject->GetAnimationsList()[gameObject->GetStandAttackAnimID()]->IsDone())
 			{
-				//gameObject->CreateThrownWeapon();
+				gameObject->CreateThrownWeapon();
 				gameObject->GetAnimationsList()[gameObject->GetStandAttackAnimID()]->Reset();
 				gameObject->SetState(gameObject->GetIdleState());
 			}
