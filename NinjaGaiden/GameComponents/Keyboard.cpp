@@ -105,16 +105,24 @@ void Keyboard::UpdateKeyStates()
 	//Nếu đang nhấn phím phải thì mario đi phải
 	if (IsKeyDown(DIK_RIGHT))
 	{
-		if (!IsKeyDown(DIK_LEFT) && !ninja->IsAttacking() && ninja->IsGrounded())
+		if (!IsKeyDown(DIK_LEFT) && !ninja->IsAttacking())
 		{
-			ninja->TurnRight();
-			if (!IsKeyDown(DIK_LCONTROL))
+			if (ninja->IsGrounded())
 			{
-				ninja->Idle();
-				ninja->Walk();
+				ninja->TurnRight();
+				if (!IsKeyDown(DIK_LCONTROL))
+				{
+					ninja->Idle();
+					ninja->Walk();
+				}
+				else
+					ninja->Crouch();
 			}
 			else
-				ninja->Crouch();
+			{
+				if (ninja->IsLeft())
+					ninja->Walk();
+			}
 		}
 		else if (!IsKeyDown(DIK_LCONTROL))
 			ninja->Idle();
@@ -122,18 +130,46 @@ void Keyboard::UpdateKeyStates()
 	//Nếu đang nhấn phím trái thì mario đi trái
 	else if (IsKeyDown(DIK_LEFT))
 	{
-		if (!IsKeyDown(DIK_RIGHT) && !ninja->IsAttacking() && ninja->IsGrounded())
+		if (!IsKeyDown(DIK_RIGHT) && !ninja->IsAttacking())
 		{
-			ninja->TurnLeft();
-			if (!IsKeyDown(DIK_LCONTROL))
+			if (ninja->IsGrounded())
 			{
-				ninja->Idle();
-				ninja->Walk();
+				ninja->TurnLeft();
+				if (!IsKeyDown(DIK_LCONTROL))
+				{
+					ninja->Idle();
+					ninja->Walk();
+				}
+				else
+					ninja->Crouch();
 			}
 			else
-				ninja->Crouch();
+			{
+				if (!ninja->IsLeft())
+					ninja->Walk();
+			}
 		}
 		else if (!IsKeyDown(DIK_LCONTROL))
+			ninja->Idle();
+	}
+	else if (IsKeyDown(DIK_UP))
+	{
+		if (!IsKeyDown(DIK_DOWN) && ninja->IsClimbing())
+		{
+			ninja->HeadUp();
+			ninja->Climb();
+		}
+		else
+			ninja->Idle();
+	}
+	else if (IsKeyDown(DIK_DOWN))
+	{
+		if (!IsKeyDown(DIK_UP) && ninja->IsClimbing())
+		{
+			ninja->HeadDown();
+			ninja->Climb();
+		}
+		else
 			ninja->Idle();
 	}
 	else if (IsKeyDown(DIK_LCONTROL))

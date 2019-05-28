@@ -9,7 +9,12 @@ void Cell::ExtractTiles(vector<Tile *> &output)
 
 void Cell::ExtractGameObjects(vector<GameObject *> &output)
 {
-	output.insert(output.end(), this->gameObjects.begin(), this->gameObjects.end());
+	for (int i = 0; i < gameObjects.size(); i++)
+	{
+		if (gameObjects[i]->IsActive())
+			output.push_back(gameObjects[i]);
+	}
+	//output.insert(output.end(), this->gameObjects.begin(), this->gameObjects.end());
 }
 
 void Cell::Update(DWORD dt)
@@ -18,8 +23,8 @@ void Cell::Update(DWORD dt)
 	{
 		int flagX = gameObjects[i]->GetPositionX();
 		int flagY = gameObjects[i]->GetPositionY();
-		gameObjects[i]->SetActive(true);
-		gameObjects[i]->Update(dt);
+		if (gameObjects[i]->IsActive())
+			gameObjects[i]->Update(dt);
 	}
 }
 void Cell::RenderTiles()
@@ -34,7 +39,8 @@ void Cell::RenderObjects()
 {
 	for (int i = 0; i < gameObjects.size(); i++)
 	{
-		gameObjects[i]->Render();
+		if (gameObjects[i]->IsActive())
+			gameObjects[i]->Render();
 	}
 }
 void Cell::Clear()

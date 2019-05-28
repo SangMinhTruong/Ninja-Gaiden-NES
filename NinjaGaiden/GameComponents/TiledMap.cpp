@@ -2,6 +2,7 @@
 
 TiledMap * TiledMap::__instance = NULL;
 int TiledMap::mapID = 0;
+
 TiledMap * TiledMap::GetInstance(int id)
 {
 	LPCWSTR filePath = NULL;

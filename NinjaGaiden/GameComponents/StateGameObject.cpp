@@ -7,6 +7,7 @@ StateGameObject::StateGameObject()
 	walkingState = new WalkingState(this);
 	crouchingState = new CrouchingState(this);
 	jumpingState = new JumpingState(this);
+	climbingState = new ClimbingState(this);
 	attackingState = new AttackingState(this);
 	throwingState = new ThrowingState(this);
 	hurtState = new HurtState(this);
@@ -25,6 +26,10 @@ State * StateGameObject::GetIdleState()
 State * StateGameObject::GetWalkingState()
 {
 	return walkingState;
+}
+State * StateGameObject::GetClimbingState()
+{
+	return climbingState;
 }
 State * StateGameObject::GetAttackingState()
 {
@@ -70,6 +75,10 @@ void StateGameObject::Walk()
 {
 	state->Walk();
 }
+void StateGameObject::Climb()
+{
+	state->Climb();
+}
 void StateGameObject::Throw()
 {
 	state->Throw();
@@ -93,6 +102,14 @@ void StateGameObject::TurnLeft()
 void StateGameObject::TurnRight()
 {
 	isLeft = false;
+}
+void StateGameObject::HeadUp()
+{
+	isUp = true;
+}
+void StateGameObject::HeadDown()
+{
+	isUp = false;
 }
 //Hàm cập nhật
 void StateGameObject::Update(DWORD dt)

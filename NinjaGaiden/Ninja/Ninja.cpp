@@ -61,6 +61,7 @@ void Ninja::LoadResources()
 	}
 	animations.push_back(anim);
 
+	
 	// Standing Attack
 	anim = new Animation(50);
 	for (int i = 10; i < 15; i++)
@@ -173,6 +174,21 @@ void Ninja::LoadResources()
 		anim->AddFrame(sprite);
 	}
 	animations.push_back(anim);
+	// Climbing
+	anim = new Animation(150);
+	for (int i = 4; i < 6; i++)
+	{
+		RECT rect;
+		rect.left = (i % NINJA_TEXTURE_COLUMNS) * NINJA_SPRITE_WIDTH;
+		rect.right = rect.left + NINJA_SPRITE_WIDTH;
+		rect.top = (i / NINJA_TEXTURE_COLUMNS) * NINJA_SPRITE_HEIGHT;
+		rect.bottom = rect.top + NINJA_SPRITE_HEIGHT;
+		Sprite * sprite = new Sprite(NINJA_TEXTURE_LOCATION, rect, NINJA_TEXTURE_TRANS_COLOR);
+
+		anim->AddFrame(sprite);
+	}
+	animations.push_back(anim);
+
 }
 void Ninja::CreateThrownWeapon()
 {
@@ -199,6 +215,10 @@ int Ninja::GetWalkAnimID()
 {
 	return NINJA_ANI_WALKING;
 }
+int Ninja::GetClimbAnimID()
+{
+	return NINJA_ANI_CLIMBING;
+}
 int Ninja::GetJumpAnimID()
 {
 	return NINJA_ANI_JUMPING;
@@ -224,11 +244,22 @@ int Ninja::GetDyingAnimID()
 	return NINJA_ANI_DYING;
 }
 
-
+#include "Debug.h"
 //Hàm cập nhật
 void Ninja::Update(DWORD dt)
 {
 	state->Update(dt);
+	if (this->isInvincible)
+	{
+		this->AddInvincibleTimer(dt);
+		if (this->invincibleTimer > NINJA_INVINSIBLE_TIME)
+		{
+			this->SetIsInvincible(false);
+			this->SetIsHurt(false);
+			this->SetSpeedX(0);
+			this->SetState(this->GetIdleState());
+		}
+	}
 }
 //Hàm render
 void Ninja::Render()

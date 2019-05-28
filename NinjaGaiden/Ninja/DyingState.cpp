@@ -19,6 +19,10 @@ void DyingState::Walk()
 {
 
 }
+void DyingState::Climb()
+{
+
+}
 void DyingState::Throw()
 {
 
@@ -60,6 +64,7 @@ void DyingState::Render()
 		{
 			gameObject->GetAnimationsList()[gameObject->GetDyingAnimID()]->Reset();
 			gameObject->Reset();
+			gameObject->SetActive(false);
 			gameObject->SetState(gameObject->GetIdleState());
 		}
 	}

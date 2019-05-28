@@ -19,6 +19,10 @@ void HurtState::Walk()
 {
 
 }
+void HurtState::Climb()
+{
+
+}
 void HurtState::Throw()
 {
 
@@ -37,7 +41,7 @@ void HurtState::Hurt()
 }
 void HurtState::Update(DWORD dt)
 {
-	State::Update(dt);
+	State::Update(dt); 
 }
 void HurtState::Render()
 {
@@ -60,6 +64,7 @@ void HurtState::Render()
 		{
 			gameObject->GetAnimationsList()[gameObject->GetHurtAnimID()]->Reset();
 			gameObject->SetIsHurt(false);
+			gameObject->SetSpeedX(0);
 			gameObject->SetState(gameObject->GetIdleState());
 		}
 	}

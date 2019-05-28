@@ -6,6 +6,7 @@ void UpdateYellowBird(DWORD dt, StateGameObject * gameObject);
 void UpdateBat(DWORD dt, StateGameObject * gameObject);
 void UpdateZombie(DWORD dt, StateGameObject * gameObject);
 void UpdateMachineGunner(DWORD dt, StateGameObject * gameObject);
+void UpdateCannonShooter(DWORD dt, StateGameObject * gameObject);
 
 void State::Update(DWORD dt)
 {
@@ -18,6 +19,12 @@ void State::Update(DWORD dt)
 
 	int id = gameObject->GetID();
 
+	int flagX = 70, flagY = 70;
+	if (id == 1)
+	{
+		flagX = gameObject->GetPositionX();
+		flagY = gameObject->GetPositionY();
+	}
 	if (Ninja::GetInstance()->IsAttacking())
 		coObjects.push_back(Ninja::GetInstance()->GetWhip());
 
@@ -42,6 +49,11 @@ void State::Update(DWORD dt)
 	case GAME_OBJ_ID_MACHINE_GUNNER: // Machine Gunner
 	{
 		UpdateMachineGunner(dt, gameObject);
+		break;
+	}
+	case GAME_OBJ_ID_CANNON_SHOOTER: // Cannon Shooter
+	{
+		UpdateCannonShooter(dt, gameObject);
 		break;
 	}
 	}
@@ -85,6 +97,10 @@ void State::Update(DWORD dt)
 			{
 				gameObject->SetIsGrounded(true);
 			}
+		}
+		if (coEventsResult[0]->collisionID == 4) // Kiểm tra chạm đất
+		{
+			gameObject->Climb();
 		}
 		// Xử lí va chạm
 		int moveX = min_tx * gameObject->GetSpeedX() * dt + nx * 0.4;
@@ -135,11 +151,11 @@ void UpdateYellowBird(DWORD dt, StateGameObject * gameObject)
 	else if ((ninja->GetPositionX() - gameObject->GetPositionX()) < -10)
 		gameObject->SetIsLeft(true);
 
-	float vx = gameObject->GetSpeedX() + (Ninja::GetInstance()->GetPositionX() - gameObject->GetPositionX()) / 10000;
+	float vx = gameObject->GetSpeedX() + (Ninja::GetInstance()->GetPositionX() - gameObject->GetPositionX()) / 20000;
 	float vy = (Ninja::GetInstance()->GetPositionY() - gameObject->GetPositionY() - 15) / 500;
-	if (abs(vx) >= 0.3f)
+	if (abs(vx) >= 0.2f)
 	{
-		vx = ((float)SIGN(vx)) * 0.3f;
+		vx = ((float)SIGN(vx)) * 0.2f;
 	}
 
 	gameObject->SetSpeedX(vx);
@@ -237,11 +253,33 @@ void UpdateMachineGunner(DWORD dt, StateGameObject * gameObject)
 		}
 		else if (gunner->GetAttackTimer() >= 3300)
 		{
-			DebugOut(L"Time: %d\n", gunner->GetAttackTimer());
 			gunner->SetSpeedX(0);
 			gunner->Throw();
 			gunner->SetAttackTimer(0);
 		}
 	}
 	
+}
+#include "CannonShooter.h"
+void UpdateCannonShooter(DWORD dt, StateGameObject * gameObject)
+{
+	//Di chuyển theo hướng ninja
+	Ninja * ninja = Ninja::GetInstance();
+	if ((ninja->GetPositionX() - gameObject->GetPositionX()) > 10)
+		gameObject->SetIsLeft(false);
+	else if ((ninja->GetPositionX() - gameObject->GetPositionX()) < -10)
+		gameObject->SetIsLeft(true);
+
+	//gameObject->SetPositionX(gameObject->GetPositionX() + vx * dt);
+	//gameObject->SetPositionY(gameObject->GetPositionY() + vy * dt);
+	if (CannonShooter * gunner = dynamic_cast<CannonShooter *>(gameObject))
+	{
+		gunner->SetAttackTimer(gunner->GetAttackTimer() + dt);
+		if (gunner->GetAttackTimer() >= 2000)
+		{
+			gunner->SetSpeedX(0);
+			gunner->Throw();
+			gunner->SetAttackTimer(0);
+		}
+	}
 }

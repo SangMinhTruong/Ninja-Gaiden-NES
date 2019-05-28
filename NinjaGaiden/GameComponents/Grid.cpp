@@ -8,6 +8,7 @@
 #include "Bat.h"
 #include "Runner.h"
 #include "MachineGunner.h"
+#include "CannonShooter.h"
 Grid * Grid::__instance = NULL;
 bool CellGameObjectAABB(Cell * cell, GameObject * obj)
 {
@@ -172,6 +173,18 @@ void Grid::LoadObjects()
 			case GAME_OBJ_ID_MACHINE_GUNNER:
 			{
 				MachineGunner * dummyEnemy = new MachineGunner(stoi(curLineTokens[1]), stoi(curLineTokens[2]));
+				int thugX = dummyEnemy->GetPositionX();
+				int thugY = dummyEnemy->GetPositionY();
+				int cellX = POSXTOCELL(thugX);
+				int cellY = POSYTOCELL(thugY);
+
+				allGameObjects.push_back(dummyEnemy);
+				cells[cellY][cellX]->AddGameObject(dummyEnemy);
+				break;
+			}
+			case GAME_OBJ_ID_CANNON_SHOOTER:
+			{
+				CannonShooter * dummyEnemy = new CannonShooter(stoi(curLineTokens[1]), stoi(curLineTokens[2]));
 				int thugX = dummyEnemy->GetPositionX();
 				int thugY = dummyEnemy->GetPositionY();
 				int cellX = POSXTOCELL(thugX);
@@ -375,10 +388,12 @@ void Grid::Update(DWORD dt)
 		int initCellX = POSXTOCELL(curInitX);
 		int initCellY = POSYTOCELL(curInitY);
 
-		if (!(initCellX >= lCell && initCellX <= rCell && initCellY <= tCell && initCellY >= bCell) &&
-			!(cellX >= lCell && cellX <= rCell && cellY <= tCell && cellY >= bCell))
+		if ((!(initCellX >= lCell && initCellX <= rCell && initCellY <= tCell && initCellY >= bCell) &&
+			!(cellX >= lCell && cellX <= rCell && cellY <= tCell && cellY >= bCell)) ||
+			(cellX < 0 || cellY < 0))
 		{
 			allGameObjects[i]->Reset();
+			allGameObjects[i]->SetActive(true);
 			cells[initCellY][initCellX]->AddGameObject(allGameObjects[i]);
 		}
 		else

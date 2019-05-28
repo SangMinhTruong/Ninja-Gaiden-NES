@@ -10,7 +10,7 @@ GameObject::GameObject()
 	vx = vy = 0;
 	isLeft = false;
 	isFlipped = false;
-	isActive = false;
+	isActive = true;
 
 	collider.x = x;
 	collider.y = y;
@@ -81,8 +81,12 @@ void GameObject::CalcPotentialGameObjectCollisions(
 			{
 				if (Ninja * ninja = dynamic_cast<Ninja *>(this))
 				{
-					if (!ninja->IsHurt())
+					if (!ninja->IsInvincible())
+					{
 						coEvents.push_back(e);
+					}
+					else
+						delete e;
 				}
 			}
 			else
@@ -118,9 +122,37 @@ void GameObject::CalcPotentialMapCollisions(
 					{
 						if (e->ny == 1)
 							coEvents.push_back(e);
+						else
+							delete e;
 					}
-					else if (e->ny != -1)
-						coEvents.push_back(e);
+					else
+					{
+						if (this->id == GAME_OBJ_ID_NINJA)
+						{
+							if (Ninja * ninja = dynamic_cast<Ninja *>(this))
+							{
+								TiledMap * tiledMap = TiledMap::GetInstance();
+								vector<int> _32Climbables = tiledMap->Get32Climbables();
+								vector<int> _32Stickables = tiledMap->Get32Stickables();
+								if (find(_32Climbables.begin(), _32Climbables.end(), curTile->tileId) != _32Climbables.end() &&
+									e->nx != 0)
+								{
+									ninja->SetIsClimbing(true);
+									e->collisionID = 4;
+								}
+								if (find(_32Stickables.begin(), _32Stickables.end(), curTile->tileId) != _32Stickables.end() &&
+									e->nx != 0)
+								{
+									ninja->SetIsSticking(true);
+									e->collisionID = 4;
+								}
+							}
+						}
+						if (e->ny != -1)
+							coEvents.push_back(e);
+						else
+							delete e;
+					}
 				}
 				else
 				{

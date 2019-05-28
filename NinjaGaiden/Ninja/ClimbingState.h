@@ -2,10 +2,10 @@
 #include "State.h"
 #include "StateGameObject.h"
 
-class WalkingState : public State
+class ClimbingState : public State
 {
 public:
-	WalkingState(StateGameObject * gameObject);
+	ClimbingState(StateGameObject * gameObject);
 	void Idle();
 	void Attack();
 	void Walk();

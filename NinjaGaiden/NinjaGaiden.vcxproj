@@ -20,6 +20,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameObjects\Bat.cpp" />
+    <ClCompile Include="GameObjects\CannonShooter.cpp" />
+    <ClCompile Include="GameObjects\CannonShooterBullet.cpp" />
     <ClCompile Include="GameObjects\Cougar.cpp" />
     <ClCompile Include="GameObjects\Explosion.cpp" />
     <ClCompile Include="GameComponents\Animation.cpp" />
@@ -40,6 +42,7 @@
     <ClCompile Include="GameObjects\Zombie.cpp" />
     <ClCompile Include="GameObjects\ZombieBullet.cpp" />
     <ClCompile Include="Ninja\AttackingState.cpp" />
+    <ClCompile Include="Ninja\ClimbingState.cpp" />
     <ClCompile Include="Ninja\CrouchingState.cpp" />
     <ClCompile Include="Ninja\DyingState.cpp" />
     <ClCompile Include="Ninja\HurtState.cpp" />
@@ -58,6 +61,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObjects\Bat.h" />
+    <ClInclude Include="GameObjects\CannonShooter.h" />
+    <ClInclude Include="GameObjects\CannonShooterBullet.h" />
     <ClInclude Include="GameObjects\Cougar.h" />
     <ClInclude Include="GameObjects\Explosion.h" />
     <ClInclude Include="GameObjects\MachineGunner.h" />
@@ -66,6 +71,7 @@
     <ClInclude Include="GameObjects\YellowBird.h" />
     <ClInclude Include="GameObjects\Zombie.h" />
     <ClInclude Include="GameObjects\ZombieBullet.h" />
+    <ClInclude Include="Ninja\ClimbingState.h" />
     <ClInclude Include="Ninja\DyingState.h" />
     <ClInclude Include="GameComponents\Animation.h" />
     <ClInclude Include="GameComponents\Cell.h" />

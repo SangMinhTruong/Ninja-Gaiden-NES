@@ -1,5 +1,5 @@
 ﻿#pragma once
-
+#include <vector>
 
 //Tên ứng dụng
 #define WINDOW_CLASS_NAME L"Ninja Gaiden"
@@ -46,6 +46,8 @@
 #define NINJA_WALKING_SPEED		0.125f
 #define NINJA_JUMP_SPEED_Y		0.5f
 #define NINJA_GRAVITY			0.025f
+#define NINJA_CLIMBING_SPEED	0.075f
+#define NINJA_INVINSIBLE_TIME	2000
 //Các số để chạy animation của Ninja
 #define NINJA_ANI_IDLE					0
 #define NINJA_ANI_WALKING 				1
@@ -54,6 +56,7 @@
 #define NINJA_ANI_JUMPING 				4
 #define NINJA_ANI_CROUCHING 			5
 #define NINJA_ANI_HURT		 			6
+#define NINJA_ANI_CLIMBING		 		7
 #define NINJA_ANI_DYING		 			-1
 
 #define NINJA_TEXTURE_LOCATION L"Resources\\Ninja\\Ninja.png"
@@ -264,6 +267,30 @@
 #define MACHINE_GUNNER_SPRITE_HEIGHT	32
 
 //
+//Cannon Shooter
+//
+
+//Giá trị tốc độ đi, tốc độ nhảy, trọng lực
+#define CANNON_SHOOTER_WALKING_SPEED		0.0f
+#define CANNON_SHOOTER_JUMP_SPEED_Y			0.0f
+#define CANNON_SHOOTER_GRAVITY				0.025f
+//Các số để chạy animation của Ninja
+#define CANNON_SHOOTER_ANI_IDLE						0
+#define CANNON_SHOOTER_ANI_WALKING 					1
+#define CANNON_SHOOTER_ANI_STANDING_ATTACKING 		2
+#define CANNON_SHOOTER_ANI_CROUCHING_ATTACKING		-1
+#define CANNON_SHOOTER_ANI_JUMPING 					-1
+#define CANNON_SHOOTER_ANI_CROUCHING 				-1
+#define CANNON_SHOOTER_ANI_DYING		 			3
+
+#define CANNON_SHOOTER_TEXTURE_LOCATION L"Resources\\Enemies\\CannonShooter.png"
+#define CANNON_SHOOTER_TEXTURE_TRANS_COLOR D3DCOLOR_XRGB(255, 0, 255)
+#define CANNON_SHOOTER_TEXTURE_COLUMNS	2
+#define CANNON_SHOOTER_TEXTURE_ROWS		1
+#define CANNON_SHOOTER_SPRITE_WIDTH		32
+#define CANNON_SHOOTER_SPRITE_HEIGHT	32
+
+//
 //Zombie Bullet
 //
 
@@ -290,6 +317,19 @@
 #define MACHINE_GUNNER_BULLET_SPEED_X			0.125f
 #define MACHINE_GUNNER_BULLET_SPEED_Y			0.0f
 #define MACHINE_GUNNER_BULLET_GRAVITY			0.0f
+//
+//Cannon Shooter Bullet
+//
+
+#define CANNON_SHOOTER_BULLET_TEXTURE_LOCATION L"Resources\\Enemies\\CannonShooterBullet.png"
+#define CANNON_SHOOTER_BULLET_TEXTURE_TRANS_COLOR D3DCOLOR_XRGB(255, 0, 255)
+#define CANNON_SHOOTER_BULLET_TEXTURE_COLUMNS	1
+#define CANNON_SHOOTER_BULLET_TEXTURE_ROWS		1
+#define CANNON_SHOOTER_BULLET_SPRITE_WIDTH		8
+#define CANNON_SHOOTER_BULLET_SPRITE_HEIGHT		4
+#define CANNON_SHOOTER_BULLET_SPEED_X			0.125f
+#define CANNON_SHOOTER_BULLET_SPEED_Y			0.0f
+#define CANNON_SHOOTER_BULLET_GRAVITY			0.0f
 //
 //Explosion
 //
@@ -322,8 +362,10 @@
 #define GAME_OBJ_ID_BAT						5
 #define GAME_OBJ_ID_RUNNER					6
 #define GAME_OBJ_ID_MACHINE_GUNNER			7
+#define GAME_OBJ_ID_CANNON_SHOOTER			8
 #define GAME_OBJ_ID_ZOMBIE_BULLET			90
 #define GAME_OBJ_ID_MACHINE_GUNNER_BULLET	91
+#define GAME_OBJ_ID_CANNON_SHOOTER_BULLET	92
 // Misc >= 100, < 200
 #define GAME_OBJ_ID_EXPLOSION				100
 // Weapons >= 200, < 300

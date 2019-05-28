@@ -15,8 +15,11 @@
 using namespace std;
 
 
-const vector<int> _31SolidIds { 24, 25, 26, 39, 58, 63, 65,67, 68, 69, 70 };
-const vector<int> _32SolidIds{ 8, 18, 19, 20, 21, 24, 25, 26, 28, 29, 30, 32, 33, 38, 47};
+const vector<int> _31SolidIds{ 24, 25, 26, 39, 58, 63, 65,67, 68, 69, 70 };
+const vector<int> _32SolidIds{ 8, 18, 19, 20, 21, 24, 25, 26, 28, 29, 30, 32, 33, 38, 47 };
+
+const vector<int> _32ClimbableIds{ 21, 25, 38 };
+const vector<int> _32StickableIds{ 8, 18, 20, 24, 26, 32, 33 };
 
 struct Tile {
 	int tileId;
@@ -66,6 +69,9 @@ public:
 	int GetHeight();
 	int GetTileWidth();
 	int GetTileHeight();
+
+	vector<int> Get32Climbables() { return vector<int> { 21, 25, 38 }; }
+	vector<int> Get32Stickables() { return vector<int> { 8, 18, 20, 24, 26, 32, 33 }; }
 
 	string GetGridInfoLocation() { return gridInfoLocation; }
 

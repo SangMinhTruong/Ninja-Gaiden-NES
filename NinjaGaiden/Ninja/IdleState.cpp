@@ -19,6 +19,10 @@ void IdleState::Walk()
 
 	gameObject->SetState(gameObject->GetWalkingState());
 }
+void IdleState::Climb()
+{
+
+}
 void IdleState::Throw()
 {
 	gameObject->SetState(gameObject->GetThrowingState());
@@ -39,12 +43,16 @@ void IdleState::Crouch()
 }
 void IdleState::Hurt()
 {
-	float vx = gameObject->GetDefaultWalkSpeed() * (gameObject->IsLeft() ? 1 : -1);
-	float vy = gameObject->GetDefautJumpSpeed() / 1.25f;
+	float vx = gameObject->GetDefaultWalkSpeed() * (gameObject->IsLeft() ? 1 : -1) / 1.25f;
+	float vy = gameObject->GetDefautJumpSpeed() / 1.5f;
 
 	gameObject->SetSpeedY(vx);
 	gameObject->SetSpeedY(vy);
-
+	if (gameObject->GetID() == GAME_OBJ_ID_NINJA)
+	{
+		gameObject->SetIsInvincible(true);
+		gameObject->ResetInvincibleTimer();
+	}
 	gameObject->SetIsGrounded(false);
 	gameObject->SetIsHurt(true);
 	gameObject->SetState(gameObject->GetHurtState());
@@ -58,7 +66,8 @@ void IdleState::Update(DWORD dt)
 		gameObject->GetID() == GAME_OBJ_ID_COUGAR ||
 		gameObject->GetID() == GAME_OBJ_ID_BAT ||
 		gameObject->GetID() == GAME_OBJ_ID_RUNNER ||
-		gameObject->GetID() == GAME_OBJ_ID_MACHINE_GUNNER)
+		gameObject->GetID() == GAME_OBJ_ID_MACHINE_GUNNER ||
+		gameObject->GetID() == GAME_OBJ_ID_CANNON_SHOOTER)
 	{
 		int id = gameObject->GetID();
 		//Di chuyển theo hướng ninja

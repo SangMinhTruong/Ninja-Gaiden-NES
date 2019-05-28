@@ -22,6 +22,10 @@ void AttackingState::Walk()
 {
 	
 }
+void AttackingState::Climb()
+{
+
+}
 void AttackingState::Throw()
 {
 
@@ -36,11 +40,17 @@ void AttackingState::Crouch()
 }
 void AttackingState::Hurt()
 {
-	float vx = gameObject->GetDefaultWalkSpeed() * (gameObject->IsLeft() ? 1 : -1);
-	float vy = gameObject->GetDefautJumpSpeed() / 1.25f;
+	float vx = gameObject->GetDefaultWalkSpeed() * (gameObject->IsLeft() ? 1 : -1) / 1.25f;
+	float vy = gameObject->GetDefautJumpSpeed() / 1.5f;
 
 	gameObject->SetSpeedY(vx);
 	gameObject->SetSpeedY(vy);
+
+	if (gameObject->GetID() == GAME_OBJ_ID_NINJA)
+	{
+		gameObject->SetIsInvincible(true);
+		gameObject->ResetInvincibleTimer();
+	}
 
 	gameObject->SetIsGrounded(false);
 	gameObject->SetIsHurt(true);
@@ -116,7 +126,11 @@ void AttackingState::Render()
 					}
 
 				gameObject->GetAnimationsList()[gameObject->GetStandAttackAnimID()]->Reset();
-				gameObject->SetState(gameObject->GetIdleState());
+
+				if (gameObject->IsGrounded())
+					gameObject->SetState(gameObject->GetIdleState());
+				else
+					gameObject->SetState(gameObject->GetJumpingState());
 			}
 		}
 	}

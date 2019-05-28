@@ -138,6 +138,15 @@
     <ClCompile Include="GameObjects\MachineGunnerBullet.cpp">
       <Filter>Source Files\Enemies</Filter>
     </ClCompile>
+    <ClCompile Include="GameObjects\CannonShooter.cpp">
+      <Filter>Source Files\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObjects\CannonShooterBullet.cpp">
+      <Filter>Source Files\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Ninja\ClimbingState.cpp">
+      <Filter>Source Files\States</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameComponents\Animation.h">
@@ -250,6 +259,15 @@
     </ClInclude>
     <ClInclude Include="GameObjects\MachineGunnerBullet.h">
       <Filter>Source Files\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjects\CannonShooter.h">
+      <Filter>Source Files\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjects\CannonShooterBullet.h">
+      <Filter>Source Files\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Ninja\ClimbingState.h">
+      <Filter>Source Files\States</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
