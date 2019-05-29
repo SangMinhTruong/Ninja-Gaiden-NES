@@ -147,6 +147,12 @@
     <ClCompile Include="Ninja\ClimbingState.cpp">
       <Filter>Source Files\States</Filter>
     </ClCompile>
+    <ClCompile Include="GameObjects\Boss.cpp">
+      <Filter>Source Files\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObjects\BossBullet.cpp">
+      <Filter>Source Files\Enemies</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameComponents\Animation.h">
@@ -268,6 +274,12 @@
     </ClInclude>
     <ClInclude Include="Ninja\ClimbingState.h">
       <Filter>Source Files\States</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjects\Boss.h">
+      <Filter>Source Files\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjects\BossBullet.h">
+      <Filter>Source Files\Enemies</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

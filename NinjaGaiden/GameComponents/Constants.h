@@ -6,7 +6,7 @@
 #define MAIN_WINDOW_TITLE L"Ninja Gaiden"
 //Màu background, kích cỡ màn hình
 #define BACKGROUND_COLOR D3DCOLOR_XRGB(200, 200, 255)
-#define SCREEN_WIDTH 313
+#define SCREEN_WIDTH 256
 #define SCREEN_HEIGHT 176
 
 //Framerate tối đa
@@ -291,6 +291,31 @@
 #define CANNON_SHOOTER_SPRITE_HEIGHT	32
 
 //
+//Boss
+//
+
+//Giá trị tốc độ đi, tốc độ nhảy, trọng lực
+#define BOSS_WALKING_SPEED		0.075f
+#define BOSS_JUMP_SPEED_Y		0.0f
+#define BOSS_GRAVITY			0.0f
+//Các số để chạy animation của Ninja
+#define BOSS_ANI_IDLE					0
+#define BOSS_ANI_WALKING 				-1
+#define BOSS_ANI_STANDING_ATTACKING 	-1
+#define BOSS_ANI_CROUCHING_ATTACKING 	-1
+#define BOSS_ANI_JUMPING 				1
+#define BOSS_ANI_CROUCHING 				-1
+#define BOSS_ANI_DYING		 			2
+
+#define BOSS_TEXTURE_LOCATION L"Resources\\Enemies\\Boss.png"
+#define BOSS_TEXTURE_TRANS_COLOR D3DCOLOR_XRGB(255, 0, 255)
+#define BOSS_TEXTURE_COLUMNS	2
+#define BOSS_TEXTURE_ROWS		1
+#define BOSS_SPRITE_WIDTH		38
+#define BOSS_SPRITE_HEIGHT		53
+
+
+//
 //Zombie Bullet
 //
 
@@ -331,6 +356,19 @@
 #define CANNON_SHOOTER_BULLET_SPEED_Y			0.0f
 #define CANNON_SHOOTER_BULLET_GRAVITY			0.0f
 //
+//Boss Bullet
+//
+
+#define BOSS_BULLET_TEXTURE_LOCATION L"Resources\\Enemies\\BossBullet.png"
+#define BOSS_BULLET_TEXTURE_TRANS_COLOR D3DCOLOR_XRGB(255, 0, 255)
+#define BOSS_BULLET_TEXTURE_COLUMNS		1
+#define BOSS_BULLET_TEXTURE_ROWS		1
+#define BOSS_BULLET_SPRITE_WIDTH		5
+#define BOSS_BULLET_SPRITE_HEIGHT		5
+#define BOSS_BULLET_SPEED_X				0.125f
+#define BOSS_BULLET_SPEED_Y				0.0f
+#define BOSS_BULLET_GRAVITY				0.0f
+//
 //Explosion
 //
 
@@ -363,9 +401,11 @@
 #define GAME_OBJ_ID_RUNNER					6
 #define GAME_OBJ_ID_MACHINE_GUNNER			7
 #define GAME_OBJ_ID_CANNON_SHOOTER			8
+#define GAME_OBJ_ID_BOSS					9
 #define GAME_OBJ_ID_ZOMBIE_BULLET			90
 #define GAME_OBJ_ID_MACHINE_GUNNER_BULLET	91
 #define GAME_OBJ_ID_CANNON_SHOOTER_BULLET	92
+#define GAME_OBJ_ID_BOSS_BULLET				93
 // Misc >= 100, < 200
 #define GAME_OBJ_ID_EXPLOSION				100
 // Weapons >= 200, < 300

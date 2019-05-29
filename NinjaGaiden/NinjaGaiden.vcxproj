@@ -20,6 +20,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameObjects\Bat.cpp" />
+    <ClCompile Include="GameObjects\Boss.cpp" />
+    <ClCompile Include="GameObjects\BossBullet.cpp" />
     <ClCompile Include="GameObjects\CannonShooter.cpp" />
     <ClCompile Include="GameObjects\CannonShooterBullet.cpp" />
     <ClCompile Include="GameObjects\Cougar.cpp" />
@@ -61,6 +63,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObjects\Bat.h" />
+    <ClInclude Include="GameObjects\Boss.h" />
+    <ClInclude Include="GameObjects\BossBullet.h" />
     <ClInclude Include="GameObjects\CannonShooter.h" />
     <ClInclude Include="GameObjects\CannonShooterBullet.h" />
     <ClInclude Include="GameObjects\Cougar.h" />

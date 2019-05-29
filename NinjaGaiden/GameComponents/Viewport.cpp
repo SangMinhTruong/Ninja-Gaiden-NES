@@ -7,8 +7,8 @@ Viewport * Viewport::__instance = NULL;
 
 Viewport::Viewport()
 {
-	width = 313;
-	height = 176;
+	width = SCREEN_WIDTH;
+	height = SCREEN_HEIGHT;
 	x = 0;
 	y = 176;
 }
@@ -52,7 +52,6 @@ void Viewport::Update(DWORD dt)
 		this->x = (int)(TiledMap::GetInstance()->GetWidth() - width);
 	else if (ninja->GetPositionX() < rightBoundary)
 		this->x = 0;
-
 }
 void Viewport::SetRenderData(D3DXVECTOR2 &center, D3DXVECTOR2 &translate, D3DXVECTOR2 &scaling)
 {

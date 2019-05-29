@@ -15,7 +15,11 @@ void JumpingState::Attack()
 }
 void JumpingState::Walk()
 {
-	gameObject->SetSpeedX(gameObject->GetDefaultWalkSpeed() * (gameObject->IsLeft() ? 1 : -1) * 0.5f);
+	if ((!gameObject->IsLeft() && gameObject->IsJumpingLeft()) ||
+		(gameObject->IsLeft() && !gameObject->IsJumpingLeft()))
+		gameObject->SetSpeedX(gameObject->GetDefaultWalkSpeed() * (gameObject->IsJumpingLeft() ? -1 : 1) * 0.5f);
+	else
+		gameObject->SetSpeedX(gameObject->GetDefaultWalkSpeed() * (gameObject->IsJumpingLeft() ? -1 : 1));
 }
 void JumpingState::Climb()
 {

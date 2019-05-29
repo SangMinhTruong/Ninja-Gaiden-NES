@@ -16,7 +16,8 @@ using namespace std;
 
 
 const vector<int> _31SolidIds{ 24, 25, 26, 39, 58, 63, 65,67, 68, 69, 70 };
-const vector<int> _32SolidIds{ 8, 18, 19, 20, 21, 24, 25, 26, 28, 29, 30, 32, 33, 38, 47 };
+const vector<int> _32SolidIds{ 8, 18, 19, 20, 21, 25, 26, 27, 28, 29, 30, 31, 32, 33, 38 };
+const vector<int> _33SolidIds{ 2, 8, 9, 13, 17, 23, 25, 29, 36, 37, 38, 39, 40 };
 
 const vector<int> _32ClimbableIds{ 21, 25, 38 };
 const vector<int> _32StickableIds{ 8, 18, 20, 24, 26, 32, 33 };

@@ -9,9 +9,9 @@ Ninja::Ninja()
 	this->whip = new Whip();
 
 	this->id = GAME_OBJ_ID_NINJA;
-	this->x = 1980;
+	this->x = 3000;
 	this->y = 100;
-	this->initX = 100;
+	this->initX = 32;
 	this->initY = 100;
 	this->width = NINJA_SPRITE_WIDTH;
 	this->height = NINJA_SPRITE_HEIGHT;

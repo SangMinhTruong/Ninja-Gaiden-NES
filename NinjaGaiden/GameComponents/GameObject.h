@@ -28,6 +28,7 @@ struct CollisionEvent
 	//2 = weapons on hit
 	//3 = ninja collides with enemies
 	//4 = climbales
+	//5 = stickables
 	//.... <placeholder>
 	LPGAMEOBJECT coO;
 	float t, nx, ny;

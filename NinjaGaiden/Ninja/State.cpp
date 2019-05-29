@@ -7,7 +7,7 @@ void UpdateBat(DWORD dt, StateGameObject * gameObject);
 void UpdateZombie(DWORD dt, StateGameObject * gameObject);
 void UpdateMachineGunner(DWORD dt, StateGameObject * gameObject);
 void UpdateCannonShooter(DWORD dt, StateGameObject * gameObject);
-
+#include "Boss.h"
 void State::Update(DWORD dt)
 {
 	vector<LPCOLLISIONEVENT> coEvents;
@@ -17,23 +17,13 @@ void State::Update(DWORD dt)
 	vector<GameObject *> coObjects = Grid::GetInstance()->GetCurGameObjects();
 
 
-	int id = gameObject->GetID();
 
-	int flagX = 70, flagY = 70;
-	if (id == 1)
-	{
-		flagX = gameObject->GetPositionX();
-		flagY = gameObject->GetPositionY();
-	}
 	if (Ninja::GetInstance()->IsAttacking())
 		coObjects.push_back(Ninja::GetInstance()->GetWhip());
 
 	gameObject->SetSpeedY(gameObject->GetSpeedY() - NINJA_GRAVITY);
 
-	coEvents.clear();
-	gameObject->SetDt(dt);
-	gameObject->CalcPotentialCollisions(tiles, coObjects, coEvents);
-	
+
 	switch (gameObject->GetID())
 	{
 	case GAME_OBJ_ID_YELLOW_BIRD: // Yellow bird
@@ -57,24 +47,87 @@ void State::Update(DWORD dt)
 		break;
 	}
 	}
+	if (gameObject->GetID() == GAME_OBJ_ID_NINJA)
+	{
+
+		int moveX = gameObject->GetPositionX();
+		int moveY = gameObject->GetPositionY();
+	}
+	coEvents.clear();
+	gameObject->SetDt(dt);
+	gameObject->CalcPotentialCollisions(tiles, coObjects, coEvents);
 
 	if (coEvents.size() == 0)
 	{
 		int moveX = 0;
 		int moveY = 0;
-		if (gameObject->GetID() != GAME_OBJ_ID_BAT)
-		{
-			moveX = gameObject->GetPositionX() + trunc(gameObject->GetSpeedX()* dt);
-			moveY = gameObject->GetPositionY() + trunc(gameObject->GetSpeedY()* dt);
-		}
-		else
+		if (gameObject->GetID() == GAME_OBJ_ID_BAT)
 		{
 			moveX = gameObject->GetPositionX() + trunc(gameObject->GetSpeedX()* dt);
 			moveY = 25 * cos(moveX * 2 * 3.14 * 30) + gameObject->GetInitPosY();
 		}
+		else if (gameObject->GetID() == GAME_OBJ_ID_BOSS)
+		{
+			if (Boss * boss = dynamic_cast<Boss *>(gameObject))
+			{
+				if (boss->GetJumpTimer() >= 1000)
+				{
+					moveX = boss->GetPositionX() + trunc(0.25f * dt * (boss->IsJumpingLeft() ? -1 : 1));
+					moveY = (int)(-0.015f * moveX * moveX + 3.36f * moveX - 12.16f);
+
+					gameObject->SetPositionX(moveX);
+					gameObject->SetPositionY(moveY);
+					
+					if (boss->GetAttackTimer() >= 3)
+					{
+						boss->CreateThrownWeapon(boss->GetPositionX() + 10, boss->GetPositionY() - 15);
+						boss->CreateThrownWeapon(boss->GetPositionX() + 10, boss->GetPositionY() - 30);
+						boss->CreateThrownWeapon(boss->GetPositionX() + 10, boss->GetPositionY() - 45);
+
+						boss->ResetAttackTimer();
+					}
+					boss->SetIsGrounded(false);
+					boss->SetState(boss->GetJumpingState());
+				}
+				else
+				{
+					boss->AddJumpTimer(dt);
+					boss->SetIsGrounded(true);
+					boss->SetState(boss->GetIdleState());
+					return;
+				}
+				if ((boss->GetPositionX() <= 32 || boss->GetPositionX() >= 192))
+				{
+					boss->AddAttackTimer(1);
+
+					moveX = gameObject->IsJumpingLeft() ? 32 : 192;
+					moveY = (int)(-0.015f * moveX * moveX + 3.36f * moveX - 12.16f);
+
+					gameObject->SetPositionX(moveX);
+					gameObject->SetPositionY(moveY);
+
+					boss->ResetJumpTimer();
+					boss->SetIsLeft(!boss->IsLeft());
+					boss->SetIsJumpingLeft(!boss->IsJumpingLeft());
+				}
+			}
+			
+		}
+		else
+		{
+			moveX = gameObject->GetPositionX() + trunc(gameObject->GetSpeedX()* dt);
+			moveY = gameObject->GetPositionY() + trunc(gameObject->GetSpeedY()* dt);
+		}
 
 		gameObject->SetPositionX(moveX);
 		gameObject->SetPositionY(moveY);
+
+		if (trunc(gameObject->GetSpeedY()* dt) < 0)
+		{
+			gameObject->SetIsGrounded(false);
+			if (gameObject->GetID() == GAME_OBJ_ID_NINJA && !gameObject->IsClimbing() && !gameObject->IsAttacking() && !gameObject->IsHurt())
+				gameObject->SetState(gameObject->GetJumpingState());
+		}
 	}
 	else
 	{
@@ -87,19 +140,35 @@ void State::Update(DWORD dt)
 			gameObject->SetState(gameObject->GetDyingState());
 			return;
 		}
-		if (coEventsResult[0]->collisionID == 3) // Kiểm tra ninja va chạm quái
+		else if (coEventsResult[0]->collisionID == 3) // Kiểm tra ninja va chạm quái
 		{
 			gameObject->Hurt();
 		}
-		if (coEventsResult[0]->collisionID == 1) // Kiểm tra chạm đất
+		else if (coEventsResult[0]->collisionID == 1) // Kiểm tra chạm đất
 		{
 			if (ny == 1)
 			{
 				gameObject->SetIsGrounded(true);
 			}
 		}
-		if (coEventsResult[0]->collisionID == 4) // Kiểm tra chạm đất
+		else if (coEventsResult[0]->collisionID == 4) // Kiểm tra chạm đất
 		{
+			if (nx == -1)
+				gameObject->SetIsLeft(false);
+			else if (nx == 1)
+				gameObject->SetIsLeft(true);
+
+			gameObject->SetIsClimbing(true);
+			gameObject->Climb();
+		}
+		else if (coEventsResult[0]->collisionID == 5) // Kiểm tra chạm đất
+		{
+			if (nx == -1)
+				gameObject->SetIsLeft(false);
+			else if (nx == 1)
+				gameObject->SetIsLeft(true);
+
+			gameObject->SetIsSticking(true);
 			gameObject->Climb();
 		}
 		// Xử lí va chạm

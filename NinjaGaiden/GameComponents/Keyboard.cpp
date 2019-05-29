@@ -103,7 +103,39 @@ void Keyboard::UpdateKeyStates()
 	Ninja * ninja = Game::GetInstance()->GetNinja();
 
 	//Nếu đang nhấn phím phải thì mario đi phải
-	if (IsKeyDown(DIK_RIGHT))
+	if (ninja->IsHurt())
+	{
+
+	}
+	else if (ninja->IsClimbing() || ninja->IsSticking())
+	{
+		if (ninja->IsClimbing())
+		{
+			if (IsKeyDown(DIK_UP))
+			{
+				if (!IsKeyDown(DIK_DOWN))
+				{
+					ninja->HeadUp();
+					ninja->Climb();
+				}
+				else
+					ninja->Idle();
+			}
+			else if (IsKeyDown(DIK_DOWN))
+			{
+				if (!IsKeyDown(DIK_UP))
+				{
+					ninja->HeadDown();
+					ninja->Climb();
+				}
+				else
+					ninja->Idle();
+			}
+		}
+		else
+			ninja->Idle();
+	}
+	else if (IsKeyDown(DIK_RIGHT))
 	{
 		if (!IsKeyDown(DIK_LEFT) && !ninja->IsAttacking())
 		{
@@ -120,8 +152,8 @@ void Keyboard::UpdateKeyStates()
 			}
 			else
 			{
-				if (ninja->IsLeft())
-					ninja->Walk();
+				ninja->SetIsJumpingLeft(false);
+				ninja->Walk();
 			}
 		}
 		else if (!IsKeyDown(DIK_LCONTROL))
@@ -145,31 +177,11 @@ void Keyboard::UpdateKeyStates()
 			}
 			else
 			{
-				if (!ninja->IsLeft())
-					ninja->Walk();
+				ninja->SetIsJumpingLeft(true);
+				ninja->Walk();
 			}
 		}
 		else if (!IsKeyDown(DIK_LCONTROL))
-			ninja->Idle();
-	}
-	else if (IsKeyDown(DIK_UP))
-	{
-		if (!IsKeyDown(DIK_DOWN) && ninja->IsClimbing())
-		{
-			ninja->HeadUp();
-			ninja->Climb();
-		}
-		else
-			ninja->Idle();
-	}
-	else if (IsKeyDown(DIK_DOWN))
-	{
-		if (!IsKeyDown(DIK_UP) && ninja->IsClimbing())
-		{
-			ninja->HeadDown();
-			ninja->Climb();
-		}
-		else
 			ninja->Idle();
 	}
 	else if (IsKeyDown(DIK_LCONTROL))
@@ -181,7 +193,7 @@ void Keyboard::UpdateKeyStates()
 void Keyboard::OnKeyDown(int KeyCode)
 {
 	Ninja * ninja = Game::GetInstance()->GetNinja();
-	DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
+	//DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
 	switch (KeyCode)
 	{
 	//Nếu là phím Space thì đổi mario sang trạng thái nhảy
@@ -210,7 +222,7 @@ void Keyboard::OnKeyDown(int KeyCode)
 }
 void Keyboard::OnKeyUp(int KeyCode)
 {
-	DebugOut(L"[INFO] KeyUp: %d\n", KeyCode);
+	//DebugOut(L"[INFO] KeyUp: %d\n", KeyCode);
 	switch (KeyCode)
 	{
 	case 0:

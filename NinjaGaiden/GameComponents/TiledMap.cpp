@@ -98,7 +98,10 @@ Row TiledMap::GetMatrixRow(int lineNum, string line, string delimiter)
 				curTile.type = 0;
 			break;
 		case TILED_MAP_ID_3_3:
-			//
+			if (find(_33SolidIds.begin(), _33SolidIds.end(), curTile.tileId) != _33SolidIds.end())
+				curTile.type = 1;
+			else
+				curTile.type = 0;
 			break;
 		}
 		

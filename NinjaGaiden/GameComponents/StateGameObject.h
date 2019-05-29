@@ -37,6 +37,7 @@ protected:
 	DWORD invincibleTimer = 0;
 
 	bool isUp = false;
+	bool isJumpingLeft = false;
 	bool isSticking = false;
 	bool isClimbing = false;
 	bool isGrounded = false;
@@ -57,6 +58,7 @@ public:
 	void SetIsHurt(bool isHurt) { this->isHurt = isHurt; }
 	void SetIsSticking(bool isSticking) { this->isSticking = isSticking; }
 	void SetIsClimbing(bool isClimbing) { this->isClimbing = isClimbing; }
+	void SetIsJumpingLeft(bool isJumpingLeft) { this->isJumpingLeft = isJumpingLeft; }
 	void SetIsGrounded(bool isGrounded) { this->isGrounded = isGrounded; }
 	void SetIsCrouching(bool isCrouching) { this->isCrouching = isCrouching; }
 	void SetLastFrameTime(DWORD lastFrameTime) { this->lastFrameTime = lastFrameTime; }
@@ -96,6 +98,7 @@ public:
 	bool IsHurt() { return isHurt; }
 	bool IsSticking() { return isSticking; }
 	bool IsClimbing() { return isClimbing; }
+	bool IsJumpingLeft() { return isJumpingLeft; }
 	bool IsGrounded() { return isGrounded; }
 	bool IsCrouching() { return isCrouching; }
 	bool IsUp() { return isUp; }

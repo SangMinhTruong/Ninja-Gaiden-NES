@@ -29,11 +29,12 @@ void ClimbingState::Throw()
 }
 void ClimbingState::Jump()
 {
-	if (gameObject->IsGrounded() || gameObject->IsClimbing() || gameObject->IsSticking())
+	if (gameObject->IsClimbing() || gameObject->IsSticking())
 	{
 		gameObject->SetIsClimbing(false);
 		gameObject->SetIsSticking(false);
 		gameObject->SetIsGrounded(false);
+
 		gameObject->SetSpeedY(gameObject->GetDefautJumpSpeed() / 2.0f);
 		gameObject->SetState(gameObject->GetJumpingState());
 	}
@@ -55,8 +56,11 @@ void ClimbingState::Hurt()
 		gameObject->ResetInvincibleTimer();
 	}
 
+	gameObject->SetIsClimbing(false);
+	gameObject->SetIsSticking(false);
 	gameObject->SetIsGrounded(false);
 	gameObject->SetIsHurt(true);
+
 	gameObject->SetState(gameObject->GetHurtState());
 }
 void ClimbingState::Update(DWORD dt)

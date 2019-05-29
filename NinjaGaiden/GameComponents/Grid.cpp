@@ -9,6 +9,7 @@
 #include "Runner.h"
 #include "MachineGunner.h"
 #include "CannonShooter.h"
+#include "Boss.h"
 Grid * Grid::__instance = NULL;
 bool CellGameObjectAABB(Cell * cell, GameObject * obj)
 {
@@ -194,6 +195,18 @@ void Grid::LoadObjects()
 				cells[cellY][cellX]->AddGameObject(dummyEnemy);
 				break;
 			}
+			case GAME_OBJ_ID_BOSS:
+			{
+				Boss * dummyEnemy = new Boss(stoi(curLineTokens[1]), stoi(curLineTokens[2]));
+				int thugX = dummyEnemy->GetPositionX();
+				int thugY = dummyEnemy->GetPositionY();
+				int cellX = POSXTOCELL(thugX);
+				int cellY = POSYTOCELL(thugY);
+
+				allGameObjects.push_back(dummyEnemy);
+				cells[cellY][cellX]->AddGameObject(dummyEnemy);
+				break;
+			}
 			}
 
 			lineNum++;
@@ -302,7 +315,8 @@ void Grid::Update(DWORD dt)
 	ninja->Update(dt);
 
 	int mapWidth = TiledMap::GetInstance()->GetWidth();
-	if (ninja->GetPositionX() >= mapWidth - NINJA_SPRITE_WIDTH)
+	if (ninja->GetPositionX() >= mapWidth - 2 * TILES_WIDTH_PER_TILE - NINJA_SPRITE_WIDTH &&
+		TiledMap::GetInstance()->GetMapID() != TILED_MAP_ID_3_3)
 	{
 		this->ChangeMap(TiledMap::GetInstance()->GetMapID() + 1);
 		return;

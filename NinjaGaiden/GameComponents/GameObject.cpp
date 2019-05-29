@@ -101,7 +101,8 @@ void GameObject::CalcPotentialMapCollisions(
 	vector<LPCOLLISIONEVENT> &coEvents)
 {
 	if (this->id != GAME_OBJ_ID_YELLOW_BIRD &&
-		this->id != GAME_OBJ_ID_BAT)
+		this->id != GAME_OBJ_ID_BAT &&
+		this->id != GAME_OBJ_ID_BOSS)
 	{
 		LPGAMEOBJECT solidTileDummy = new GameObject(0, 0, 16, 16);
 		for (int i = 0; i < tiles.size(); i++)
@@ -129,22 +130,27 @@ void GameObject::CalcPotentialMapCollisions(
 					{
 						if (this->id == GAME_OBJ_ID_NINJA)
 						{
-							if (Ninja * ninja = dynamic_cast<Ninja *>(this))
+							if (TiledMap::GetInstance()->GetMapID() == TILED_MAP_ID_3_2)
 							{
-								TiledMap * tiledMap = TiledMap::GetInstance();
-								vector<int> _32Climbables = tiledMap->Get32Climbables();
-								vector<int> _32Stickables = tiledMap->Get32Stickables();
-								if (find(_32Climbables.begin(), _32Climbables.end(), curTile->tileId) != _32Climbables.end() &&
-									e->nx != 0)
+								if (Ninja * ninja = dynamic_cast<Ninja *>(this))
 								{
-									ninja->SetIsClimbing(true);
-									e->collisionID = 4;
-								}
-								if (find(_32Stickables.begin(), _32Stickables.end(), curTile->tileId) != _32Stickables.end() &&
-									e->nx != 0)
-								{
-									ninja->SetIsSticking(true);
-									e->collisionID = 4;
+									TiledMap * tiledMap = TiledMap::GetInstance();
+									vector<int> _32Climbables = tiledMap->Get32Climbables();
+									vector<int> _32Stickables = tiledMap->Get32Stickables();
+									if (find(_32Climbables.begin(), _32Climbables.end(), curTile->tileId) != _32Climbables.end() &&
+										e->nx != 0 &&
+										!ninja->IsHurt() &&
+										!ninja->IsGrounded())
+									{
+										e->collisionID = 4;
+									}
+									if (find(_32Stickables.begin(), _32Stickables.end(), curTile->tileId) != _32Stickables.end() &&
+										e->nx != 0 &&
+										!ninja->IsHurt() &&
+										!ninja->IsGrounded())
+									{
+										e->collisionID = 5;
+									}
 								}
 							}
 						}
