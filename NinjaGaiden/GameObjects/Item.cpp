@@ -1,10 +1,10 @@
 ﻿#include "Item.h"
 #include "Ninja.h"
 #include "TiledMap.h"
-Item::Item(int x, int y)
+Item::Item(int x, int y, int dropID)
 {
 	this->id = GAME_OBJ_ID_ITEM;
-
+	this->dropID = dropID;
 	this->x = x;
 	this->y = y; 
 	this->initX = x;
@@ -73,6 +73,42 @@ void Item::ResetAnim()
 		animations[i]->Reset();
 }
 
+ItemDrop * Item::CreateItemDrop()
+{
+	ItemDrop * itemDrop = NULL;
+	switch (this->dropID)
+	{
+	case GAME_OBJ_ID_BLUE_SPIRIT_POINT:
+		itemDrop = new ItemDrop(this->x, this->y, dropID);
+		break;
+	case GAME_OBJ_ID_RED_SPIRIT_POINT:
+		itemDrop = new ItemDrop(this->x, this->y, dropID);
+		break;
+	case GAME_OBJ_ID_SHURIKEN_DROP:
+		itemDrop = new ItemDrop(this->x, this->y, dropID);
+		break;
+	case GAME_OBJ_ID_WINDMILL_DROP:
+		itemDrop = new ItemDrop(this->x, this->y, dropID);
+		break;
+	case GAME_OBJ_ID_FIREWHEEL_DROP:
+		itemDrop = new ItemDrop(this->x, this->y, dropID);
+		break;
+	case GAME_OBJ_ID_FREEZE_DROP:
+		itemDrop = new ItemDrop(this->x, this->y, dropID);
+		break;
+	case GAME_OBJ_ID_HEALTH_DROP:
+		itemDrop = new ItemDrop(this->x, this->y, dropID);
+		break;
+	case GAME_OBJ_ID_BLUE_BONUS_DROP:
+		itemDrop = new ItemDrop(this->x, this->y, dropID);
+		break;
+	case GAME_OBJ_ID_RED_BONUS_DROP:
+		itemDrop = new ItemDrop(this->x, this->y, dropID);
+		break;
+	}
+	return itemDrop;
+}
+#include "Grid.h"
 bool AABB(const Collider &c1, const Collider &c2);
 //Hàm cập nhật
 void Item::Update(DWORD dt)
@@ -82,6 +118,9 @@ void Item::Update(DWORD dt)
 		Whip * sword = Ninja::GetInstance()->GetWhip();
 		if (AABB(this->collider, sword->GetCollider()))
 		{
+			GameObject * itemDrop = this->CreateItemDrop();
+			Grid::GetInstance()->AddObject(itemDrop);
+
 			this->isActive = false;
 			return;
 		}

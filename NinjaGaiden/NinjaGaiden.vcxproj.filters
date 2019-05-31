@@ -22,9 +22,6 @@
     <Filter Include="Source Files\Enemies">
       <UniqueIdentifier>{fd0d64ff-da0b-4e23-8ba7-6d2523c5beea}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\States">
-      <UniqueIdentifier>{d05c021e-6a04-459c-abdd-a3794d0f253c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Misc">
       <UniqueIdentifier>{b6a3b29e-930a-41fd-b787-b839949c849f}</UniqueIdentifier>
     </Filter>
@@ -33,6 +30,9 @@
     </Filter>
     <Filter Include="Source Files\Ninja\Weapons">
       <UniqueIdentifier>{b198ddef-134a-42be-8ce7-d807811f768e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\States">
+      <UniqueIdentifier>{d05c021e-6a04-459c-abdd-a3794d0f253c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -167,6 +167,9 @@
     </ClCompile>
     <ClCompile Include="Ninja\FireWheel.cpp">
       <Filter>Source Files\Ninja\Weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObjects\ItemDrop.cpp">
+      <Filter>Source Files\Items</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -304,6 +307,9 @@
     </ClInclude>
     <ClInclude Include="Ninja\FireWheel.h">
       <Filter>Source Files\Ninja\Weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjects\ItemDrop.h">
+      <Filter>Source Files\Items</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

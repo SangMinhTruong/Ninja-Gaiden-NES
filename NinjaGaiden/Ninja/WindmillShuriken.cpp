@@ -54,16 +54,22 @@ void WindmillShuriken::LoadResources()
 		animation->AddFrame(sprite);
 	}
 }
+bool AABB(const Collider &c1, const Collider &c2);
 //Hàm cập nhật
 void WindmillShuriken::Update(DWORD dt)
 {
 
 	Ninja * ninja = Ninja::GetInstance();
+	//Dao động điều hoà
+	oT = oT + 1;
 
+	this->vx = (100 * cos(2 * 3.14*0.010*oT + (isLeft ? 3.14 / 2 : -3.14 / 2)) + ninja->GetPositionX()) / dt;
+	this->vy = (ninja->GetPositionY() - 10 - this->y) / 1500;
 
-	//Vô hiệu vũ khí khi va chạm
-	if (onHit)
-		ninja->RemoveSubweapon(this);
+	
+
+	this->x = this->vx*dt;
+	this->y += this->vy*dt;
 
 
 	//Kích hoạt va chạm với ninja khi rời khỏi khoảng 50
@@ -72,18 +78,19 @@ void WindmillShuriken::Update(DWORD dt)
 		if (abs(ninja->GetPositionX() - this->x) >= 50)
 			nCollision = true;
 
-
-
-	//Dao động điều hoà
-	oT = oT + 1;
-
-	this->vx = (100 * cos(2 * 3.14*0.009*oT + (isLeft ? 3.14 / 2 : -3.14 / 2)) + ninja->GetPositionX()) / dt;
-	this->vy = (ninja->GetPositionY() - 10 - this->y) / 2000;
-
-	this->x = this->vx*dt;
-	this->y += this->vy*dt;
-
 	this->UpdateObjectCollider();
+	ninja->UpdateObjectCollider();
+	if (AABB(this->collider, ninja->GetCollider()))
+	{
+		this->Hit();
+	}
+
+	//Vô hiệu vũ khí khi va chạm
+	if (onHit)
+	{
+		ninja->RemoveSubweapon(this);
+	}
+
 }
 //Hàm render
 void WindmillShuriken::Render()

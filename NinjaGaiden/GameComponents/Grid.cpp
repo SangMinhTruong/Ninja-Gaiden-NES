@@ -11,6 +11,7 @@
 #include "CannonShooter.h"
 #include "Boss.h"
 #include "Item.h"
+
 Grid * Grid::__instance = NULL;
 bool CellGameObjectAABB(Cell * cell, GameObject * obj)
 {
@@ -80,10 +81,21 @@ void Grid::LoadObjects()
 	{
 		//Đọc map
 		string line;
-
+		//Đọc enemies hay items
+		bool type = false;
 		int lineNum = 0;
 		while (getline(gridInfo, line))
 		{
+			if (line == "ENEMIES")
+			{
+				type = false;
+				continue;
+			}
+			else if (line == "ITEMS")
+			{
+				type = true;
+				continue;
+			}
 			size_t pos = 0;
 			string token;
 			vector<string> curLineTokens;
@@ -96,130 +108,138 @@ void Grid::LoadObjects()
 				curLineTokens.push_back(token);
 				line.erase(0, pos + delimiter.length());
 			}
-
-			switch (stoi(curLineTokens[0]))
+			if (type == false)
 			{
-			case GAME_OBJ_ID_THUG:
-			{
-				Thug * dummyEnemy = new Thug(stoi(curLineTokens[1]), stoi(curLineTokens[2]));
-				int thugX = dummyEnemy->GetPositionX();
-				int thugY = dummyEnemy->GetPositionY();
-				int cellX = POSXTOCELL(thugX);
-				int cellY = POSYTOCELL(thugY);
+				switch (stoi(curLineTokens[0]))
+				{
+				case GAME_OBJ_ID_THUG:
+				{
+					Thug * dummyEnemy = new Thug(stoi(curLineTokens[1]), stoi(curLineTokens[2]));
+					int thugX = dummyEnemy->GetPositionX();
+					int thugY = dummyEnemy->GetPositionY();
+					int cellX = POSXTOCELL(thugX);
+					int cellY = POSYTOCELL(thugY);
 
-				allGameObjects.push_back(dummyEnemy);
-				cells[cellY][cellX]->AddGameObject(dummyEnemy);
+					allGameObjects.push_back(dummyEnemy);
+					cells[cellY][cellX]->AddGameObject(dummyEnemy);
 
-				break;
+					break;
+				}
+				case GAME_OBJ_ID_YELLOW_BIRD:
+				{
+					YellowBird * dummyEnemy = new YellowBird(stoi(curLineTokens[1]), stoi(curLineTokens[2]));
+					int thugX = dummyEnemy->GetPositionX();
+					int thugY = dummyEnemy->GetPositionY();
+					int cellX = POSXTOCELL(thugX);
+					int cellY = POSYTOCELL(thugY);
+
+					allGameObjects.push_back(dummyEnemy);
+					cells[cellY][cellX]->AddGameObject(dummyEnemy);
+					break;
+				}
+				case GAME_OBJ_ID_ZOMBIE:
+				{
+					Zombie * dummyEnemy = new Zombie(stoi(curLineTokens[1]), stoi(curLineTokens[2]));
+					int thugX = dummyEnemy->GetPositionX();
+					int thugY = dummyEnemy->GetPositionY();
+					int cellX = POSXTOCELL(thugX);
+					int cellY = POSYTOCELL(thugY);
+
+					allGameObjects.push_back(dummyEnemy);
+					cells[cellY][cellX]->AddGameObject(dummyEnemy);
+					break;
+				}
+				case GAME_OBJ_ID_COUGAR:
+				{
+					Cougar * dummyEnemy = new Cougar(stoi(curLineTokens[1]), stoi(curLineTokens[2]));
+					int thugX = dummyEnemy->GetPositionX();
+					int thugY = dummyEnemy->GetPositionY();
+					int cellX = POSXTOCELL(thugX);
+					int cellY = POSYTOCELL(thugY);
+
+					allGameObjects.push_back(dummyEnemy);
+					cells[cellY][cellX]->AddGameObject(dummyEnemy);
+					break;
+				}
+				case GAME_OBJ_ID_BAT:
+				{
+					Bat * dummyEnemy = new Bat(stoi(curLineTokens[1]), stoi(curLineTokens[2]));
+					int thugX = dummyEnemy->GetPositionX();
+					int thugY = dummyEnemy->GetPositionY();
+					int cellX = POSXTOCELL(thugX);
+					int cellY = POSYTOCELL(thugY);
+
+					allGameObjects.push_back(dummyEnemy);
+					cells[cellY][cellX]->AddGameObject(dummyEnemy);
+					break;
+				}
+				case GAME_OBJ_ID_RUNNER:
+				{
+					Runner * dummyEnemy = new Runner(stoi(curLineTokens[1]), stoi(curLineTokens[2]));
+					int thugX = dummyEnemy->GetPositionX();
+					int thugY = dummyEnemy->GetPositionY();
+					int cellX = POSXTOCELL(thugX);
+					int cellY = POSYTOCELL(thugY);
+
+					allGameObjects.push_back(dummyEnemy);
+					cells[cellY][cellX]->AddGameObject(dummyEnemy);
+					break;
+				}
+				case GAME_OBJ_ID_MACHINE_GUNNER:
+				{
+					MachineGunner * dummyEnemy = new MachineGunner(stoi(curLineTokens[1]), stoi(curLineTokens[2]));
+					int thugX = dummyEnemy->GetPositionX();
+					int thugY = dummyEnemy->GetPositionY();
+					int cellX = POSXTOCELL(thugX);
+					int cellY = POSYTOCELL(thugY);
+
+					allGameObjects.push_back(dummyEnemy);
+					cells[cellY][cellX]->AddGameObject(dummyEnemy);
+					break;
+				}
+				case GAME_OBJ_ID_CANNON_SHOOTER:
+				{
+					CannonShooter * dummyEnemy = new CannonShooter(stoi(curLineTokens[1]), stoi(curLineTokens[2]));
+					int thugX = dummyEnemy->GetPositionX();
+					int thugY = dummyEnemy->GetPositionY();
+					int cellX = POSXTOCELL(thugX);
+					int cellY = POSYTOCELL(thugY);
+
+					allGameObjects.push_back(dummyEnemy);
+					cells[cellY][cellX]->AddGameObject(dummyEnemy);
+					break;
+				}
+				case GAME_OBJ_ID_BOSS:
+				{
+					Boss * dummyEnemy = new Boss(stoi(curLineTokens[1]), stoi(curLineTokens[2]));
+					int thugX = dummyEnemy->GetPositionX();
+					int thugY = dummyEnemy->GetPositionY();
+					int cellX = POSXTOCELL(thugX);
+					int cellY = POSYTOCELL(thugY);
+
+					allGameObjects.push_back(dummyEnemy);
+					cells[cellY][cellX]->AddGameObject(dummyEnemy);
+					break;
+				}
+				}
 			}
-			case GAME_OBJ_ID_YELLOW_BIRD:
+			else
 			{
-				YellowBird * dummyEnemy = new YellowBird(stoi(curLineTokens[1]), stoi(curLineTokens[2]));
-				int thugX = dummyEnemy->GetPositionX();
-				int thugY = dummyEnemy->GetPositionY();
-				int cellX = POSXTOCELL(thugX);
-				int cellY = POSYTOCELL(thugY);
+				switch (stoi(curLineTokens[0]))
+				{
+				case GAME_OBJ_ID_ITEM:
+				{
+					Item * dummyEnemy = new Item(stoi(curLineTokens[1]), stoi(curLineTokens[2]), stoi(curLineTokens[3]));
+					int thugX = dummyEnemy->GetPositionX();
+					int thugY = dummyEnemy->GetPositionY();
+					int cellX = POSXTOCELL(thugX);
+					int cellY = POSYTOCELL(thugY);
 
-				allGameObjects.push_back(dummyEnemy);
-				cells[cellY][cellX]->AddGameObject(dummyEnemy);
-				break;			
-			}
-			case GAME_OBJ_ID_ZOMBIE:
-			{
-				Zombie * dummyEnemy = new Zombie(stoi(curLineTokens[1]), stoi(curLineTokens[2]));
-				int thugX = dummyEnemy->GetPositionX();
-				int thugY = dummyEnemy->GetPositionY();
-				int cellX = POSXTOCELL(thugX);
-				int cellY = POSYTOCELL(thugY);
-
-				allGameObjects.push_back(dummyEnemy);
-				cells[cellY][cellX]->AddGameObject(dummyEnemy);
-				break;			
-			}
-			case GAME_OBJ_ID_COUGAR:
-			{
-				Cougar * dummyEnemy = new Cougar(stoi(curLineTokens[1]), stoi(curLineTokens[2]));
-				int thugX = dummyEnemy->GetPositionX();
-				int thugY = dummyEnemy->GetPositionY();
-				int cellX = POSXTOCELL(thugX);
-				int cellY = POSYTOCELL(thugY);
-
-				allGameObjects.push_back(dummyEnemy);
-				cells[cellY][cellX]->AddGameObject(dummyEnemy);
-				break;
-			}
-			case GAME_OBJ_ID_BAT:
-			{
-				Bat * dummyEnemy = new Bat(stoi(curLineTokens[1]), stoi(curLineTokens[2]));
-				int thugX = dummyEnemy->GetPositionX();
-				int thugY = dummyEnemy->GetPositionY();
-				int cellX = POSXTOCELL(thugX);
-				int cellY = POSYTOCELL(thugY);
-
-				allGameObjects.push_back(dummyEnemy);
-				cells[cellY][cellX]->AddGameObject(dummyEnemy);
-				break;
-			}
-			case GAME_OBJ_ID_RUNNER:
-			{
-				Runner * dummyEnemy = new Runner(stoi(curLineTokens[1]), stoi(curLineTokens[2]));
-				int thugX = dummyEnemy->GetPositionX();
-				int thugY = dummyEnemy->GetPositionY();
-				int cellX = POSXTOCELL(thugX);
-				int cellY = POSYTOCELL(thugY);
-
-				allGameObjects.push_back(dummyEnemy);
-				cells[cellY][cellX]->AddGameObject(dummyEnemy);
-				break;
-			}
-			case GAME_OBJ_ID_MACHINE_GUNNER:
-			{
-				MachineGunner * dummyEnemy = new MachineGunner(stoi(curLineTokens[1]), stoi(curLineTokens[2]));
-				int thugX = dummyEnemy->GetPositionX();
-				int thugY = dummyEnemy->GetPositionY();
-				int cellX = POSXTOCELL(thugX);
-				int cellY = POSYTOCELL(thugY);
-
-				allGameObjects.push_back(dummyEnemy);
-				cells[cellY][cellX]->AddGameObject(dummyEnemy);
-				break;
-			}
-			case GAME_OBJ_ID_CANNON_SHOOTER:
-			{
-				CannonShooter * dummyEnemy = new CannonShooter(stoi(curLineTokens[1]), stoi(curLineTokens[2]));
-				int thugX = dummyEnemy->GetPositionX();
-				int thugY = dummyEnemy->GetPositionY();
-				int cellX = POSXTOCELL(thugX);
-				int cellY = POSYTOCELL(thugY);
-
-				allGameObjects.push_back(dummyEnemy);
-				cells[cellY][cellX]->AddGameObject(dummyEnemy);
-				break;
-			}
-			case GAME_OBJ_ID_BOSS:
-			{
-				Boss * dummyEnemy = new Boss(stoi(curLineTokens[1]), stoi(curLineTokens[2]));
-				int thugX = dummyEnemy->GetPositionX();
-				int thugY = dummyEnemy->GetPositionY();
-				int cellX = POSXTOCELL(thugX);
-				int cellY = POSYTOCELL(thugY);
-
-				allGameObjects.push_back(dummyEnemy);
-				cells[cellY][cellX]->AddGameObject(dummyEnemy);
-				break;
-			}
-			case GAME_OBJ_ID_ITEM:
-			{
-				Item * dummyEnemy = new Item(stoi(curLineTokens[1]), stoi(curLineTokens[2]));
-				int thugX = dummyEnemy->GetPositionX();
-				int thugY = dummyEnemy->GetPositionY();
-				int cellX = POSXTOCELL(thugX);
-				int cellY = POSYTOCELL(thugY);
-
-				allGameObjects.push_back(dummyEnemy);
-				cells[cellY][cellX]->AddGameObject(dummyEnemy);
-				break;
-			}
+					allGameObjects.push_back(dummyEnemy);
+					cells[cellY][cellX]->AddGameObject(dummyEnemy);
+					break;
+				}
+				}
 			}
 
 			lineNum++;
@@ -242,6 +262,17 @@ void Grid::LoadMap()
 			cells[cellY][cellX]->AddTile(dummyPtr);
 		}
 	}
+}
+
+void Grid::AddObject(GameObject * gameObject)
+{
+	int objX = gameObject->GetPositionX();
+	int objY = gameObject->GetPositionY();
+	int cellX = POSXTOCELL(objX);
+	int cellY = POSYTOCELL(objY);
+
+	allGameObjects.push_back(gameObject);
+	cells[cellY][cellX]->AddGameObject(gameObject);
 }
 void Grid::GetCameraPosOnGrid(int &l, int &r, int &t, int &b) {
 	RECT rect = viewport->GetRect();
@@ -419,7 +450,8 @@ void Grid::Update(DWORD dt)
 			!(cellX >= lCell && cellX <= rCell && cellY <= tCell && cellY >= bCell)) ||
 			(cellX < 0 || cellY < 0))
 		{
-			if (allGameObjects[i]->GetID() != GAME_OBJ_ID_ITEM)
+			if (allGameObjects[i]->GetID() != GAME_OBJ_ID_ITEM &&
+				!IS_ITEM_DROP(allGameObjects[i]->GetID()))
 			{
 				allGameObjects[i]->Reset();
 				allGameObjects[i]->SetActive(true);

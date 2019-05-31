@@ -123,6 +123,10 @@ int Zombie::GetCrouchAttackAnimID()
 {
 	return ZOMBIE_ANI_CROUCHING_ATTACKING;
 }
+int Zombie::GetThrowingAttackAnimID()
+{
+	return ZOMBIE_ANI_THROWING;
+}
 int Zombie::GetDyingAnimID()
 {
 	return ZOMBIE_ANI_DYING;

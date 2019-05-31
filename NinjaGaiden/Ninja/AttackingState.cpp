@@ -81,22 +81,12 @@ void AttackingState::Render()
 		if (gameObject->IsCrouching())
 		{
 			gameObject->GetAnimationsList()[gameObject->GetCrouchAttackAnimID()]->Render(spriteData);
-			//Render vũ khí
-			if (gameObject->GetID() == GAME_OBJ_ID_NINJA)
-				if (Ninja * ninja = dynamic_cast<Ninja * >(gameObject))
-				{
-					//ninja->GetWhip()->Render();
-				}
 
 			if (gameObject->GetAnimationsList()[gameObject->GetCrouchAttackAnimID()]->IsDone())
 			{
-				if (gameObject->GetID() == GAME_OBJ_ID_NINJA)
-					if (Ninja * ninja = dynamic_cast<Ninja *>(gameObject))
-					{
-						//ninja->GetWhip()->ResetAnim();
-					}
 
 				gameObject->GetAnimationsList()[gameObject->GetCrouchAttackAnimID()]->Reset();
+				gameObject->SetSpeedX(0);
 				gameObject->SetIsCrouching(true);
 				gameObject->SetState(gameObject->GetCrouchingState());
 			}
@@ -104,25 +94,16 @@ void AttackingState::Render()
 		else
 		{
 			gameObject->GetAnimationsList()[gameObject->GetStandAttackAnimID()]->Render(spriteData);
-			//Render vũ khí
-			if (gameObject->GetID() == GAME_OBJ_ID_NINJA)
-				if (Ninja * ninja = dynamic_cast<Ninja *>(gameObject))
-				{
-					//ninja->GetWhip()->Render();
-				}
 
 			if (gameObject->GetAnimationsList()[gameObject->GetStandAttackAnimID()]->IsDone())
 			{
-				if (gameObject->GetID() == GAME_OBJ_ID_NINJA)
-					if (Ninja * ninja = dynamic_cast<Ninja *>(gameObject))
-					{
-						//ninja->GetWhip()->ResetAnim();
-					}
-
 				gameObject->GetAnimationsList()[gameObject->GetStandAttackAnimID()]->Reset();
 
 				if (gameObject->IsGrounded())
+				{
 					gameObject->SetState(gameObject->GetIdleState());
+					gameObject->SetSpeedX(0);
+				}
 				else
 					gameObject->SetState(gameObject->GetJumpingState());
 			}

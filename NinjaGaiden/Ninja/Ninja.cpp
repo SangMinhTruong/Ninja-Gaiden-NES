@@ -188,7 +188,62 @@ void Ninja::LoadResources()
 		anim->AddFrame(sprite);
 	}
 	animations.push_back(anim);
+	// Standing Throw
+	anim = new Animation(100);
+	for (int i = 20; i < 23; i++)
+	{
+		if (i == 20 || i == 21)
+		{
+			RECT rect;
+			rect.left = (i % NINJA_TEXTURE_COLUMNS) * NINJA_SPRITE_WIDTH;
+			rect.right = rect.left + NINJA_SPRITE_WIDTH;
+			rect.top = (i / NINJA_TEXTURE_COLUMNS) * NINJA_SPRITE_HEIGHT;
+			rect.bottom = rect.top + NINJA_SPRITE_HEIGHT;
+			Sprite * sprite = new Sprite(NINJA_TEXTURE_LOCATION, rect, NINJA_TEXTURE_TRANS_COLOR);
 
+			anim->AddFrame(sprite);
+		}
+		else if (i == 22)
+		{
+			RECT rect;
+			rect.left = (i % NINJA_TEXTURE_COLUMNS) * NINJA_SPRITE_WIDTH;
+			rect.right = rect.left + NINJA_SPRITE_WIDTH * 2;
+			rect.top = (i / NINJA_TEXTURE_COLUMNS) * NINJA_SPRITE_HEIGHT;
+			rect.bottom = rect.top + NINJA_SPRITE_HEIGHT;
+			Sprite * sprite = new Sprite(NINJA_TEXTURE_LOCATION, rect, NINJA_TEXTURE_TRANS_COLOR);
+
+			anim->AddFrame(sprite);
+		}
+	}
+	animations.push_back(anim);
+}
+
+void Ninja::PowerUp(int type)
+{
+	switch (type)
+	{
+	case GAME_OBJ_ID_BLUE_SPIRIT_POINT:
+		break;
+	case GAME_OBJ_ID_RED_SPIRIT_POINT:
+		break;
+	case GAME_OBJ_ID_SHURIKEN_DROP:
+		this->SetCurrentSubweapon(SUBWEAPON_SHURIKEN);
+		break;
+	case GAME_OBJ_ID_WINDMILL_DROP:
+		this->SetCurrentSubweapon(SUBWEAPON_WINDMILLSHURIKEN);
+		break;
+	case GAME_OBJ_ID_FIREWHEEL_DROP:
+		this->SetCurrentSubweapon(SUBWEAPON_FIREWHEEL);
+		break;
+	case GAME_OBJ_ID_FREEZE_DROP:
+		break;
+	case GAME_OBJ_ID_HEALTH_DROP:
+		break;
+	case GAME_OBJ_ID_BLUE_BONUS_DROP:
+		break;
+	case GAME_OBJ_ID_RED_BONUS_DROP:
+		break;
+	}
 }
 void Ninja::CreateThrownWeapon()
 {
@@ -263,6 +318,10 @@ int Ninja::GetStandAttackAnimID()
 int Ninja::GetCrouchAttackAnimID()
 {
 	return NINJA_ANI_CROUCHING_ATTACKING;
+}
+int Ninja::GetThrowingAttackAnimID()
+{
+	return NINJA_ANI_THROWING;
 }
 int Ninja::GetHurtAnimID()
 {

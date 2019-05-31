@@ -24,6 +24,7 @@ public:
 	int GetCrouchAnimID() override;
 	int GetStandAttackAnimID() override;
 	int GetCrouchAttackAnimID() override;
+	int GetThrowingAttackAnimID() override;
 	int GetDyingAnimID() override;
 
 	float GetDefaultWalkSpeed() override { return CANNON_SHOOTER_WALKING_SPEED; }

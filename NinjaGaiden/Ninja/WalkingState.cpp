@@ -25,6 +25,7 @@ void WalkingState::Climb()
 }
 void WalkingState::Throw()
 {
+	gameObject->SetSpeedX(0);
 	gameObject->SetState(gameObject->GetThrowingState());
 }
 void WalkingState::Jump()

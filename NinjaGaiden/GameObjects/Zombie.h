@@ -21,6 +21,7 @@ public:
 	int GetCrouchAnimID() override;
 	int GetStandAttackAnimID() override;
 	int GetCrouchAttackAnimID() override;
+	int GetThrowingAttackAnimID() override;
 	int GetDyingAnimID() override;
 
 	float GetDefaultWalkSpeed() override { return ZOMBIE_WALKING_SPEED; }

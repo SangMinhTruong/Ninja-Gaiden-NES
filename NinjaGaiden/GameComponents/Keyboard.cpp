@@ -16,7 +16,7 @@ void Keyboard::InitKeyboard(HWND hWnd)
 	HRESULT
 		hr = DirectInput8Create
 		(
-		(HINSTANCE)GetWindowLong(hWnd, GWL_HINSTANCE),
+		(HINSTANCE)GetWindowLongPtrA(hWnd, GWLP_HINSTANCE),
 			DIRECTINPUT_VERSION,
 			IID_IDirectInput8, (VOID**)&di, NULL
 		);

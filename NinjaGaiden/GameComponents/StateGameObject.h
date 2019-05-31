@@ -74,15 +74,16 @@ public:
 	State * GetHurtState();
 	State * GetDyingState();
 
-	virtual int GetIdleAnimID() { return NULL; };
-	virtual int GetWalkAnimID() { return NULL; };
-	virtual int GetClimbAnimID() { return NULL; };
-	virtual int GetJumpAnimID() { return NULL; };
-	virtual int GetCrouchAnimID() { return NULL; };
-	virtual int GetStandAttackAnimID() { return NULL; };
-	virtual int GetCrouchAttackAnimID() { return NULL; };
-	virtual int GetHurtAnimID() { return NULL; };
-	virtual int GetDyingAnimID() { return NULL; };
+	virtual int GetIdleAnimID() { return -1; };
+	virtual int GetWalkAnimID() { return -1; };
+	virtual int GetClimbAnimID() { return -1; };
+	virtual int GetJumpAnimID() { return -1; };
+	virtual int GetCrouchAnimID() { return -1; };
+	virtual int GetStandAttackAnimID() { return -1; };
+	virtual int GetCrouchAttackAnimID() { return -1; };
+	virtual int GetThrowingAttackAnimID() { return -1; };
+	virtual int GetHurtAnimID() { return -1; };
+	virtual int GetDyingAnimID() { return -1; };
 
 
 	virtual float GetDefaultWalkSpeed() = 0;
@@ -90,7 +91,7 @@ public:
 	virtual float GetDefaultClimbingSpeed() { return NULL; };
 
 	//Hàm trạng thái
-	bool IsAttacking() { return state == attackingState || state == throwingState; }
+	bool IsAttacking() { return state == attackingState; }
 	bool IsInvincible() { return isInvincible; }
 	bool IsHurt() { return isHurt; }
 	bool IsSticking() { return isSticking; }

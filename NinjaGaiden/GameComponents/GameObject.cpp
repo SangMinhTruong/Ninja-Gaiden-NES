@@ -1,7 +1,6 @@
 ﻿#include "GameObject.h"
 #include "Game.h"
 
-
 GameObject::GameObject()
 {
 	x = y = 0;
@@ -61,12 +60,13 @@ void GameObject::CalcPotentialGameObjectCollisions(
 		GameObject * curObject = coObjects[i];
 		curObject->UpdateObjectCollider();
 
-		if (curObject->id == GAME_OBJ_ID_SWORD ||
-			curObject->id == GAME_OBJ_ID_SHURIKEN ||
-			curObject->id == GAME_OBJ_ID_WINDMILLSHURIKEN ||
-			curObject->id == GAME_OBJ_ID_FIREWHEEL)
+		if (curObject->GetID() == GAME_OBJ_ID_SWORD ||
+			curObject->GetID() == GAME_OBJ_ID_SHURIKEN ||
+			curObject->GetID() == GAME_OBJ_ID_WINDMILLSHURIKEN ||
+			curObject->GetID() == GAME_OBJ_ID_FIREWHEEL)
 		{	
-			if (this->id != GAME_OBJ_ID_NINJA)
+			if (this->id != GAME_OBJ_ID_NINJA &&
+				!IS_ITEM_DROP(this->id))
 				if (AABB(this->collider, curObject->GetCollider()))
 				{
 					LPCOLLISIONEVENT e = new CollisionEvent();
@@ -77,7 +77,8 @@ void GameObject::CalcPotentialGameObjectCollisions(
 		}
 		else if (this->id == GAME_OBJ_ID_NINJA)
 		{
-			if (curObject->GetID() != GAME_OBJ_ID_ITEM)
+			if (curObject->GetID() != GAME_OBJ_ID_ITEM &&
+				!IS_ITEM_DROP(curObject->GetID()))
 			{
 				LPCOLLISIONEVENT e = SweptAABBEx(curObject);
 				e->collisionID = 3;
@@ -116,6 +117,7 @@ void GameObject::CalcPotentialMapCollisions(
 			Tile * curTile = tiles[i];
 			if (curTile->type == 1)
 			{
+				int id = this->id;
 				solidTileDummy->SetPositionX(curTile->x);
 				solidTileDummy->SetPositionY(curTile->y);
 				solidTileDummy->UpdateTileCollider();

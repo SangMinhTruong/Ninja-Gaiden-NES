@@ -21,7 +21,7 @@ class Ninja : public StateGameObject
 	//Roi
 	Whip * whip;
 	//Vũ khí phụ
-	int curSubweapon;
+	int curSubweapon = -1;
 	static vector<Subweapon *> subweapons;
 public:
 	void LoadResources() override;
@@ -36,6 +36,7 @@ public:
 	int GetCrouchAnimID() override;
 	int GetStandAttackAnimID() override;
 	int GetCrouchAttackAnimID() override;
+	int GetThrowingAttackAnimID() override;
 	int GetHurtAnimID() override;
 	int GetDyingAnimID() override;
 
@@ -46,11 +47,13 @@ public:
 	float GetDefaultClimbingSpeed() override { return NINJA_CLIMBING_SPEED; };
 
 	static Ninja * GetInstance();
+	int GetCurrentSubweapon() { return this->curSubweapon; }
 	vector<Subweapon *> GetSubweapon() { return this->subweapons; }
 	Whip * GetWhip() { return this->whip; }
 	//Hàm trạng thái
 
 	//Các hàm hành động nhân vật
+	void PowerUp(int type);
 	void CreateThrownWeapon() override;
 	bool RemoveSubweapon(Subweapon * subweapon);
 	//Hàm cập nhật

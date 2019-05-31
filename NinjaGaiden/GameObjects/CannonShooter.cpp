@@ -113,6 +113,10 @@ int CannonShooter::GetCrouchAttackAnimID()
 {
 	return CANNON_SHOOTER_ANI_CROUCHING_ATTACKING;
 }
+int CannonShooter::GetThrowingAttackAnimID()
+{
+	return CANNON_SHOOTER_ANI_THROWING;
+}
 int CannonShooter::GetDyingAnimID()
 {
 	return CANNON_SHOOTER_ANI_DYING;

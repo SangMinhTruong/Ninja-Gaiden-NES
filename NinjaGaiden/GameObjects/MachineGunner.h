@@ -24,6 +24,7 @@ public:
 	int GetCrouchAnimID() override;
 	int GetStandAttackAnimID() override;
 	int GetCrouchAttackAnimID() override;
+	int GetThrowingAttackAnimID() override;
 	int GetDyingAnimID() override;
 
 	float GetDefaultWalkSpeed() override { return MACHINE_GUNNER_WALKING_SPEED; }

@@ -4,7 +4,7 @@ void Subweapon::SetThrownPosition(float x, float y, bool isCrouching)
 {
 	int offset = 0;
 
-	this->x = (isLeft ? x - (10 + offset) : x + (30 + offset));
+	this->x = (isLeft ? x - 16 : x + 42);
 
 	this->y = y - 7;
 

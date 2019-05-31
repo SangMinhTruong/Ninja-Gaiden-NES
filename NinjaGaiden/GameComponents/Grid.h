@@ -41,6 +41,8 @@ public:
 
 	static Grid * GetInstance();
 
+	void AddObject(GameObject * gameObject);
+
 	void GetCameraPosOnGrid(int &l, int &r, int &t, int &b);
 	void GetNinjaPosOnGrid(int &l, int &r, int &t, int &b);
 

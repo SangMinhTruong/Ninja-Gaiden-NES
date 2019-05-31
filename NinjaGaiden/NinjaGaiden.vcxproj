@@ -37,6 +37,7 @@
     <ClCompile Include="GameComponents\Sprite.cpp" />
     <ClCompile Include="GameComponents\Viewport.cpp" />
     <ClCompile Include="GameObjects\Item.cpp" />
+    <ClCompile Include="GameObjects\ItemDrop.cpp" />
     <ClCompile Include="GameObjects\MachineGunner.cpp" />
     <ClCompile Include="GameObjects\MachineGunnerBullet.cpp" />
     <ClCompile Include="GameObjects\Runner.cpp" />
@@ -73,6 +74,7 @@
     <ClInclude Include="GameObjects\Cougar.h" />
     <ClInclude Include="GameObjects\Explosion.h" />
     <ClInclude Include="GameObjects\Item.h" />
+    <ClInclude Include="GameObjects\ItemDrop.h" />
     <ClInclude Include="GameObjects\MachineGunner.h" />
     <ClInclude Include="GameObjects\MachineGunnerBullet.h" />
     <ClInclude Include="GameObjects\Runner.h" />
@@ -164,11 +166,11 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IncludePath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;.\GameComponents;.\Ninja;.\GameObjects;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x86;$(LibraryPath)</LibraryPath>
+    <LibraryPath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x64;C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IncludePath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;.\GameComponents;.\Ninja;.\GameObjects;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x86;$(LibraryPath)</LibraryPath>
+    <LibraryPath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x64;C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

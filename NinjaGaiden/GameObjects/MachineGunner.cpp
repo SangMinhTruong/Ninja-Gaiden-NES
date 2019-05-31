@@ -113,6 +113,10 @@ int MachineGunner::GetCrouchAttackAnimID()
 {
 	return MACHINE_GUNNER_ANI_CROUCHING_ATTACKING;
 }
+int MachineGunner::GetThrowingAttackAnimID()
+{
+	return MACHINE_GUNNER_ANI_THROWING;
+}
 int MachineGunner::GetDyingAnimID()
 {
 	return MACHINE_GUNNER_ANI_DYING;
