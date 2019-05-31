@@ -1,10 +1,14 @@
-#include "Subweapon.h"
+﻿#include "Subweapon.h"
 
 void Subweapon::SetThrownPosition(float x, float y, bool isCrouching)
 {
-	this->x = (isLeft ? x : x + 20);
-	if (isCrouching)
-		this->y = y + 15 + 16.5f;
-	else
-		this->y = y + 15;
+	int offset = 0;
+
+	this->x = (isLeft ? x - (10 + offset) : x + (30 + offset));
+
+	this->y = y - 7;
+
+	//Khởi tạo hộp va chạm
+	this->collider.x = this->x;
+	this->collider.y = this->y;
 }

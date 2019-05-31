@@ -28,6 +28,12 @@
     <Filter Include="Source Files\Misc">
       <UniqueIdentifier>{b6a3b29e-930a-41fd-b787-b839949c849f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Items">
+      <UniqueIdentifier>{834afc4c-d4eb-45d6-9cc9-93770e673430}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Ninja\Weapons">
+      <UniqueIdentifier>{b198ddef-134a-42be-8ce7-d807811f768e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameComponents\Animation.cpp">
@@ -50,12 +56,6 @@
     </ClCompile>
     <ClCompile Include="GameComponents\Sprite.cpp">
       <Filter>Source Files\GameComponents</Filter>
-    </ClCompile>
-    <ClCompile Include="Ninja\Knife.cpp">
-      <Filter>Source Files\Ninja</Filter>
-    </ClCompile>
-    <ClCompile Include="Ninja\Subweapon.cpp">
-      <Filter>Source Files\Ninja</Filter>
     </ClCompile>
     <ClCompile Include="Ninja\Whip.cpp">
       <Filter>Source Files\Ninja</Filter>
@@ -153,6 +153,21 @@
     <ClCompile Include="GameObjects\BossBullet.cpp">
       <Filter>Source Files\Enemies</Filter>
     </ClCompile>
+    <ClCompile Include="GameObjects\Item.cpp">
+      <Filter>Source Files\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="Ninja\Subweapon.cpp">
+      <Filter>Source Files\Ninja\Weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="Ninja\Shuriken.cpp">
+      <Filter>Source Files\Ninja\Weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="Ninja\WindmillShuriken.cpp">
+      <Filter>Source Files\Ninja\Weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="Ninja\FireWheel.cpp">
+      <Filter>Source Files\Ninja\Weapons</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameComponents\Animation.h">
@@ -181,12 +196,6 @@
     </ClInclude>
     <ClInclude Include="GameComponents\Sprite.h">
       <Filter>Source Files\GameComponents</Filter>
-    </ClInclude>
-    <ClInclude Include="Ninja\Knife.h">
-      <Filter>Source Files\Ninja</Filter>
-    </ClInclude>
-    <ClInclude Include="Ninja\Subweapon.h">
-      <Filter>Source Files\Ninja</Filter>
     </ClInclude>
     <ClInclude Include="Ninja\Whip.h">
       <Filter>Source Files\Ninja</Filter>
@@ -280,6 +289,21 @@
     </ClInclude>
     <ClInclude Include="GameObjects\BossBullet.h">
       <Filter>Source Files\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjects\Item.h">
+      <Filter>Source Files\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="Ninja\Subweapon.h">
+      <Filter>Source Files\Ninja\Weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="Ninja\Shuriken.h">
+      <Filter>Source Files\Ninja\Weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="Ninja\WindmillShuriken.h">
+      <Filter>Source Files\Ninja\Weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="Ninja\FireWheel.h">
+      <Filter>Source Files\Ninja\Weapons</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

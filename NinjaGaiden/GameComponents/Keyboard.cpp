@@ -207,13 +207,13 @@ void Keyboard::OnKeyDown(int KeyCode)
 		ninja->Throw();
 		break;
 	case DIK_1:
-		ninja->SetWhip(WHIP_NORMAL);
+		ninja->SetCurrentSubweapon(SUBWEAPON_SHURIKEN);
 		break;
 	case DIK_2:
-		ninja->SetWhip(WHIP_SHORT_CHAIN);
+		ninja->SetCurrentSubweapon(SUBWEAPON_WINDMILLSHURIKEN);
 		break;
 	case DIK_3:
-		ninja->SetWhip(WHIP_LONG_CHAIN);
+		ninja->SetCurrentSubweapon(SUBWEAPON_FIREWHEEL);
 		break;
 	case DIK_Q:
 		ninja->SetPositionY(100);

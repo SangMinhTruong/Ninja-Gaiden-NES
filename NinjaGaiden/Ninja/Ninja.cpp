@@ -9,7 +9,7 @@ Ninja::Ninja()
 	this->whip = new Whip();
 
 	this->id = GAME_OBJ_ID_NINJA;
-	this->x = 3000;
+	this->x = 1980;
 	this->y = 100;
 	this->initX = 32;
 	this->initY = 100;
@@ -195,18 +195,47 @@ void Ninja::CreateThrownWeapon()
 	Subweapon * subweapon;
 	switch (curSubweapon)
 	{
-	case SUBWEAPON_KNIFE:
-		subweapon = new Knife();
-		if (isLeft) 
+	case SUBWEAPON_SHURIKEN:
+
+		subweapon = new Shuriken();
+		if (isLeft)
 			subweapon->TurnLeft();
-		else 
+		else
 			subweapon->TurnRight();
 		subweapon->SetThrownPosition(this->x, this->y, isCrouching);
 		this->subweapons.push_back(subweapon);
 		break;
+	case SUBWEAPON_WINDMILLSHURIKEN:
+		subweapon = new WindmillShuriken();
+		if (isLeft)
+			subweapon->TurnLeft();
+		else
+			subweapon->TurnRight();
+		subweapon->SetThrownPosition(this->x, this->y, isCrouching);
+		this->subweapons.push_back(subweapon);
+		break;
+	case SUBWEAPON_FIREWHEEL:
+		vector<Subweapon*> fireWheels = FireWheel::Create(x, y, isLeft);
+		this->subweapons.insert(subweapons.end(), fireWheels.begin(), fireWheels.end());
+		break;
 	}
 }
 
+bool Ninja::RemoveSubweapon(Subweapon * subweapon)
+{
+	if (subweapon->GetID() == GAME_OBJ_ID_WINDMILLSHURIKEN)
+		if (!((WindmillShuriken *)(subweapon))->IsNinjaCollision())
+			return false;
+	for (std::vector<Subweapon*>::iterator it = subweapons.begin(); it != subweapons.end(); it++) {
+
+		if (*it == subweapon) {
+
+			subweapons.erase(it);
+			return true;
+		}
+	}
+	return false;
+}
 int Ninja::GetIdleAnimID()
 {
 	return NINJA_ANI_IDLE;
@@ -249,6 +278,13 @@ int Ninja::GetDyingAnimID()
 void Ninja::Update(DWORD dt)
 {
 	state->Update(dt);
+
+	//Cập nhật vũ khí
+	this->GetWhip()->Update(dt);
+	for (int i = 0; i < this->subweapons.size(); i++) {
+		subweapons.at(i)->Update(dt);
+	}
+
 	if (this->isInvincible)
 	{
 		this->AddInvincibleTimer(dt);
@@ -256,8 +292,6 @@ void Ninja::Update(DWORD dt)
 		{
 			this->SetIsInvincible(false);
 			this->SetIsHurt(false);
-			this->SetSpeedX(0);
-			this->SetState(this->GetIdleState());
 		}
 	}
 }
@@ -265,4 +299,7 @@ void Ninja::Update(DWORD dt)
 void Ninja::Render()
 {
 	state->Render();
+	for (int i = 0; i < this->subweapons.size(); i++) {
+		subweapons.at(i)->Render();
+	}
 }

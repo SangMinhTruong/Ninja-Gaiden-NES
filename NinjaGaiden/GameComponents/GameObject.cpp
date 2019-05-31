@@ -61,7 +61,10 @@ void GameObject::CalcPotentialGameObjectCollisions(
 		GameObject * curObject = coObjects[i];
 		curObject->UpdateObjectCollider();
 
-		if (curObject->id == GAME_OBJ_ID_SWORD)
+		if (curObject->id == GAME_OBJ_ID_SWORD ||
+			curObject->id == GAME_OBJ_ID_SHURIKEN ||
+			curObject->id == GAME_OBJ_ID_WINDMILLSHURIKEN ||
+			curObject->id == GAME_OBJ_ID_FIREWHEEL)
 		{	
 			if (this->id != GAME_OBJ_ID_NINJA)
 				if (AABB(this->collider, curObject->GetCollider()))
@@ -74,24 +77,27 @@ void GameObject::CalcPotentialGameObjectCollisions(
 		}
 		else if (this->id == GAME_OBJ_ID_NINJA)
 		{
-			LPCOLLISIONEVENT e = SweptAABBEx(curObject);
-			e->collisionID = 3;
+			if (curObject->GetID() != GAME_OBJ_ID_ITEM)
+			{
+				LPCOLLISIONEVENT e = SweptAABBEx(curObject);
+				e->collisionID = 3;
 
-			if (e->t >= 0 && e->t < 1.0f)
-			{
-				if (Ninja * ninja = dynamic_cast<Ninja *>(this))
+				if (e->t >= 0 && e->t < 1.0f)
 				{
-					if (!ninja->IsInvincible())
+					if (Ninja * ninja = dynamic_cast<Ninja *>(this))
 					{
-						coEvents.push_back(e);
+						if (!ninja->IsInvincible())
+						{
+							coEvents.push_back(e);
+						}
+						else
+							delete e;
 					}
-					else
-						delete e;
 				}
-			}
-			else
-			{
-				delete e;
+				else
+				{
+					delete e;
+				}
 			}
 		}
 	}

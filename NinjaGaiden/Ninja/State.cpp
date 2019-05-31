@@ -21,6 +21,10 @@ void State::Update(DWORD dt)
 	if (Ninja::GetInstance()->IsAttacking())
 		coObjects.push_back(Ninja::GetInstance()->GetWhip());
 
+	vector<Subweapon *>subweapons = Ninja::GetInstance()->GetSubweapon();
+	if (subweapons.size() > 0)
+		coObjects.insert(coObjects.end(), subweapons.begin(), subweapons.end());
+
 	gameObject->SetSpeedY(gameObject->GetSpeedY() - NINJA_GRAVITY);
 
 
@@ -46,12 +50,6 @@ void State::Update(DWORD dt)
 		UpdateCannonShooter(dt, gameObject);
 		break;
 	}
-	}
-	if (gameObject->GetID() == GAME_OBJ_ID_NINJA)
-	{
-
-		int moveX = gameObject->GetPositionX();
-		int moveY = gameObject->GetPositionY();
 	}
 	coEvents.clear();
 	gameObject->SetDt(dt);
@@ -151,7 +149,7 @@ void State::Update(DWORD dt)
 				gameObject->SetIsGrounded(true);
 			}
 		}
-		else if (coEventsResult[0]->collisionID == 4) // Kiểm tra chạm đất
+		else if (coEventsResult[0]->collisionID == 4) // Kiểm tra leo tường
 		{
 			if (nx == -1)
 				gameObject->SetIsLeft(false);
@@ -160,8 +158,9 @@ void State::Update(DWORD dt)
 
 			gameObject->SetIsClimbing(true);
 			gameObject->Climb();
+			return;
 		}
-		else if (coEventsResult[0]->collisionID == 5) // Kiểm tra chạm đất
+		else if (coEventsResult[0]->collisionID == 5) // Kiểm tra bám tường
 		{
 			if (nx == -1)
 				gameObject->SetIsLeft(false);
@@ -170,6 +169,7 @@ void State::Update(DWORD dt)
 
 			gameObject->SetIsSticking(true);
 			gameObject->Climb();
+			return;
 		}
 		// Xử lí va chạm
 		int moveX = min_tx * gameObject->GetSpeedX() * dt + nx * 0.4;

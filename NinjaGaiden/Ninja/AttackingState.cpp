@@ -59,12 +59,6 @@ void AttackingState::Hurt()
 void AttackingState::Update(DWORD dt)
 {
 	State::Update(dt);
-	if (gameObject->GetID() == GAME_OBJ_ID_NINJA)
-		if (Ninja * ninja = dynamic_cast<Ninja *>(gameObject))
-		{
-			ninja->GetWhip()->Update(dt);
-		}
-
 }
 void AttackingState::Render()
 {

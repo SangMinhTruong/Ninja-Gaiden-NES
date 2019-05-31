@@ -2,6 +2,17 @@
 
 #include "StateGameObject.h"
 
+#include "Shuriken.h"
+#include "WindmillShuriken.h"
+#include "Whip.h"
+#include "FireWheel.h"
+
+
+class Subweapon;
+class Shuriken;
+class Windmill;
+class FireWheel;
+
 class Ninja : public StateGameObject
 {
 	Ninja();
@@ -15,6 +26,7 @@ class Ninja : public StateGameObject
 public:
 	void LoadResources() override;
 	//Hàm set
+	void SetCurrentSubweapon(int i) { this->curSubweapon = i; }
 	void SetWhip(int type) { this->whip->SetType(type); }
 	//Hàm get
 	int GetIdleAnimID() override;
@@ -40,6 +52,7 @@ public:
 
 	//Các hàm hành động nhân vật
 	void CreateThrownWeapon() override;
+	bool RemoveSubweapon(Subweapon * subweapon);
 	//Hàm cập nhật
 	void Update(DWORD dt) override;
 	//Hàm render

@@ -78,7 +78,7 @@ void Game::LoadResources()
 	if (ninja == NULL) 
 		ninja = Ninja::GetInstance();
 
-	TiledMap::GetInstance(TILED_MAP_ID_3_2);
+	TiledMap::GetInstance(TILED_MAP_ID_3_1);
 
 	if (viewport == NULL)
 		viewport = Viewport::GetInstance();

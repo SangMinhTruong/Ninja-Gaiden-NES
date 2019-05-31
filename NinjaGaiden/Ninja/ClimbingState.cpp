@@ -59,6 +59,7 @@ void ClimbingState::Hurt()
 	gameObject->SetIsClimbing(false);
 	gameObject->SetIsSticking(false);
 	gameObject->SetIsGrounded(false);
+
 	gameObject->SetIsHurt(true);
 
 	gameObject->SetState(gameObject->GetHurtState());

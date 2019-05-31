@@ -21,8 +21,6 @@ void Cell::Update(DWORD dt)
 {
 	for (int i = 0; i < gameObjects.size(); i++)
 	{
-		int flagX = gameObjects[i]->GetPositionX();
-		int flagY = gameObjects[i]->GetPositionY();
 		if (gameObjects[i]->IsActive())
 			gameObjects[i]->Update(dt);
 	}

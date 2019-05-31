@@ -10,6 +10,7 @@
 #include "MachineGunner.h"
 #include "CannonShooter.h"
 #include "Boss.h"
+#include "Item.h"
 Grid * Grid::__instance = NULL;
 bool CellGameObjectAABB(Cell * cell, GameObject * obj)
 {
@@ -198,6 +199,18 @@ void Grid::LoadObjects()
 			case GAME_OBJ_ID_BOSS:
 			{
 				Boss * dummyEnemy = new Boss(stoi(curLineTokens[1]), stoi(curLineTokens[2]));
+				int thugX = dummyEnemy->GetPositionX();
+				int thugY = dummyEnemy->GetPositionY();
+				int cellX = POSXTOCELL(thugX);
+				int cellY = POSYTOCELL(thugY);
+
+				allGameObjects.push_back(dummyEnemy);
+				cells[cellY][cellX]->AddGameObject(dummyEnemy);
+				break;
+			}
+			case GAME_OBJ_ID_ITEM:
+			{
+				Item * dummyEnemy = new Item(stoi(curLineTokens[1]), stoi(curLineTokens[2]));
 				int thugX = dummyEnemy->GetPositionX();
 				int thugY = dummyEnemy->GetPositionY();
 				int cellX = POSXTOCELL(thugX);
@@ -406,9 +419,12 @@ void Grid::Update(DWORD dt)
 			!(cellX >= lCell && cellX <= rCell && cellY <= tCell && cellY >= bCell)) ||
 			(cellX < 0 || cellY < 0))
 		{
-			allGameObjects[i]->Reset();
-			allGameObjects[i]->SetActive(true);
-			cells[initCellY][initCellX]->AddGameObject(allGameObjects[i]);
+			if (allGameObjects[i]->GetID() != GAME_OBJ_ID_ITEM)
+			{
+				allGameObjects[i]->Reset();
+				allGameObjects[i]->SetActive(true);
+				cells[initCellY][initCellX]->AddGameObject(allGameObjects[i]);
+			}
 		}
 		else
 		{

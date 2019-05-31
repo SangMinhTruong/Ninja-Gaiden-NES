@@ -1,9 +1,6 @@
 ﻿#pragma once
 #include "GameObject.h"
 
-#include "Whip.h"
-#include "Knife.h"
-
 #include "IdleState.h"
 #include "WalkingState.h"
 #include "JumpingState.h"
