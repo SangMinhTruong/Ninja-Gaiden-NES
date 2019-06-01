@@ -52,6 +52,8 @@ void AttackingState::Hurt()
 		gameObject->ResetInvincibleTimer();
 	}
 
+	gameObject->GetAnimationsList()[gameObject->GetCrouchAttackAnimID()]->Reset();
+	gameObject->GetAnimationsList()[gameObject->GetStandAttackAnimID()]->Reset();
 	gameObject->SetIsGrounded(false);
 	gameObject->SetIsHurt(true);
 	gameObject->SetState(gameObject->GetHurtState());

@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="GameComponents\UI.cpp" />
     <ClCompile Include="GameObjects\Bat.cpp" />
     <ClCompile Include="GameObjects\Boss.cpp" />
     <ClCompile Include="GameObjects\BossBullet.cpp" />
@@ -66,6 +67,7 @@
     <ClCompile Include="Ninja\WindmillShuriken.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="GameComponents\UI.h" />
     <ClInclude Include="GameObjects\Bat.h" />
     <ClInclude Include="GameObjects\Boss.h" />
     <ClInclude Include="GameObjects\BossBullet.h" />

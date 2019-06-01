@@ -217,14 +217,16 @@ void Ninja::LoadResources()
 	}
 	animations.push_back(anim);
 }
-
+#include "Game.h"
 void Ninja::PowerUp(int type)
 {
 	switch (type)
 	{
 	case GAME_OBJ_ID_BLUE_SPIRIT_POINT:
+		Game::GetInstance()->GainSpirit(5);
 		break;
 	case GAME_OBJ_ID_RED_SPIRIT_POINT:
+		Game::GetInstance()->GainSpirit(10);
 		break;
 	case GAME_OBJ_ID_SHURIKEN_DROP:
 		this->SetCurrentSubweapon(SUBWEAPON_SHURIKEN);
@@ -238,10 +240,13 @@ void Ninja::PowerUp(int type)
 	case GAME_OBJ_ID_FREEZE_DROP:
 		break;
 	case GAME_OBJ_ID_HEALTH_DROP:
+		Game::GetInstance()->GainNinjaHP(5);
 		break;
 	case GAME_OBJ_ID_BLUE_BONUS_DROP:
+		Game::GetInstance()->GainPoint(500);
 		break;
 	case GAME_OBJ_ID_RED_BONUS_DROP:
+		Game::GetInstance()->GainPoint(1000);
 		break;
 	}
 }

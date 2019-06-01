@@ -5,9 +5,9 @@
 #define WINDOW_CLASS_NAME L"Ninja Gaiden"
 #define MAIN_WINDOW_TITLE L"Ninja Gaiden"
 //Màu background, kích cỡ màn hình
-#define BACKGROUND_COLOR D3DCOLOR_XRGB(200, 200, 255)
+#define BACKGROUND_COLOR D3DCOLOR_XRGB(0, 0, 0)
 #define SCREEN_WIDTH 256
-#define SCREEN_HEIGHT 176
+#define SCREEN_HEIGHT 240
 
 //Framerate tối đa
 #define MAX_FRAME_RATE 60
@@ -573,3 +573,15 @@
 
 // Utility
 #define SIGN(K) K > 0 ? 1 : -1
+
+//
+//UI
+//
+
+//Font
+#define GAME_FONT L"Resources\\UI\\font.ttf"
+#define SPIRIT_SYMBOL L"Resources\\UI\\Spirit.png"
+#define ITEM_SYMBOL L"Resources\\UI\\Items.png"
+#define HP_SYMBOL L"Resources\\UI\\HP.bmp"
+#define NOHP_SYMBOL L"Resources\\UI\\NOHP.bmp"
+#define ITEM_FRAME_SYMBOL L"Resources\\UI\\ItemFrame.png"

@@ -84,6 +84,18 @@ void Game::LoadResources()
 		viewport = Viewport::GetInstance();
 	if (grid == NULL)
 		grid = Grid::GetInstance();
+
+	//Khởi tạo UI
+	if (ui == NULL)
+		ui = UI::GetInstance();
+	gameInfo.Score = 0;
+	gameInfo.Timer = 145000;
+	gameInfo.NinjaHP = 16;
+	gameInfo.EnemyHP = 16;
+	gameInfo.Stage = "3-1";
+	gameInfo.currentItem = -1;
+	gameInfo.LiveCount = 2;
+	gameInfo.SpiritPoint = 0;
 }
 //Xử lí
 void Game::ResetGrid()
@@ -95,6 +107,14 @@ void Game::Update(DWORD dt)
 	keyboard->Update();
 	grid->Update(dt);
 	viewport->Update(dt);
+
+	//
+	//UI
+	//
+	CountDownTimer(dt);
+	UpdateItem();
+
+	ui->Update(dt);
 }
 void Game::Render()
 {
@@ -112,6 +132,7 @@ void Game::Render()
 		//Bắt đầu xử lí sprite
 		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
 
+		ui->Render();
 		grid->Render();
 
 		//Kết thúc xử lí sprite

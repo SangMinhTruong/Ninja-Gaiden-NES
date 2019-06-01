@@ -2,6 +2,7 @@
 #include "Constants.h"
 #include "Graphics.h"
 #include "Keyboard.h"
+#include "UI.h"
 #include "Ninja.h"
 #include "TiledMap.h"
 #include "Grid.h"
@@ -10,6 +11,18 @@
 class Graphics;
 class Keyboard;
 class Grid;
+class UI;
+
+struct GameInformation {
+	DWORD Score;
+	DWORD Timer;
+	DWORD NinjaHP;
+	DWORD EnemyHP;
+	std::string Stage;
+	DWORD LiveCount;
+	DWORD SpiritPoint;
+	DWORD currentItem;
+};
 
 class Game
 {
@@ -21,6 +34,8 @@ class Game
 
 	Keyboard * keyboard;
 	Graphics * graphics;
+	UI * ui;
+	GameInformation gameInfo;
 
 	Ninja * ninja;
 	Viewport * viewport;
@@ -32,6 +47,15 @@ public:
 	static LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 	void LoadResources();
 	//Xử lí
+	void GainPoint(DWORD score) { gameInfo.Score += score; }
+	void CountDownTimer(DWORD dt) { gameInfo.Timer -= dt; }
+	void GainNinjaHP(DWORD amount) { if (gameInfo.NinjaHP + amount >= 16) gameInfo.NinjaHP = 16; else gameInfo.NinjaHP += amount; }
+	void LoseNinjaHP(DWORD amount) { if (gameInfo.NinjaHP - amount <= 0) gameInfo.NinjaHP = 0; else gameInfo.NinjaHP -= amount; }
+	void LoseBossHP(DWORD amount) { if (gameInfo.EnemyHP - amount <= 0) gameInfo.EnemyHP = 0; else gameInfo.EnemyHP -= amount; }
+	void LoseSpirit(DWORD amount) { gameInfo.SpiritPoint -= amount; }
+	void GainSpirit(DWORD amount) { gameInfo.SpiritPoint += amount; }
+	void UpdateItem() { gameInfo.currentItem = ninja->GetCurrentSubweapon(); }
+
 	void ResetGrid();
 
 	void Update(DWORD dt);
@@ -40,6 +64,7 @@ public:
 
 	static float SweptAABB(Collider c1, Collider c2, float &normalx, float &normaly);
 	//Lấy đối tượng
+	GameInformation GetInformation() { return gameInfo; }
 	Ninja * GetNinja();
 	static Game * GetInstance();
 	//Hàm hủy đối tượng

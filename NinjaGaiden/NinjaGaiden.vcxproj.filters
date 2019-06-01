@@ -171,6 +171,9 @@
     <ClCompile Include="GameObjects\ItemDrop.cpp">
       <Filter>Source Files\Items</Filter>
     </ClCompile>
+    <ClCompile Include="GameComponents\UI.cpp">
+      <Filter>Source Files\GameComponents</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameComponents\Animation.h">
@@ -310,6 +313,9 @@
     </ClInclude>
     <ClInclude Include="GameObjects\ItemDrop.h">
       <Filter>Source Files\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="GameComponents\UI.h">
+      <Filter>Source Files\GameComponents</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

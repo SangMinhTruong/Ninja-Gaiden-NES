@@ -10,7 +10,7 @@ Viewport::Viewport()
 	width = SCREEN_WIDTH;
 	height = SCREEN_HEIGHT;
 	x = 0;
-	y = 176;
+	y = SCREEN_HEIGHT;
 }
 
 

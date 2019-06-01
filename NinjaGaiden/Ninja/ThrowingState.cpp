@@ -1,5 +1,5 @@
 #include "ThrowingState.h"
-
+#include "Game.h"
 ThrowingState::ThrowingState(StateGameObject * gameObject)
 {
 	this->gameObject = gameObject;
@@ -45,6 +45,7 @@ void ThrowingState::Hurt()
 		gameObject->ResetInvincibleTimer();
 	}
 
+	gameObject->GetAnimationsList()[gameObject->GetThrowingAttackAnimID()]->Reset();
 	gameObject->SetIsGrounded(false);
 	gameObject->SetIsHurt(true);
 	gameObject->SetState(gameObject->GetHurtState());
@@ -59,7 +60,6 @@ void ThrowingState::Render()
 
 	if (gameObject->GetThrowingAttackAnimID() != -1)
 	{
-
 		SpriteData spriteData;
 		spriteData.width = gameObject->GetWidth();
 		spriteData.height = gameObject->GetHeight();
@@ -74,7 +74,18 @@ void ThrowingState::Render()
 
 		if (gameObject->GetAnimationsList()[gameObject->GetThrowingAttackAnimID()]->IsDone())
 		{
-			gameObject->CreateThrownWeapon();
+			if (gameObject->GetID() == GAME_OBJ_ID_NINJA)
+			{
+				GameInformation gameInfo = Game::GetInstance()->GetInformation();
+				if (gameInfo.SpiritPoint > 0 &&
+					gameInfo.currentItem != -1)
+				{
+					gameObject->CreateThrownWeapon();
+					Game::GetInstance()->LoseSpirit(5);
+				}
+			}
+			else
+				gameObject->CreateThrownWeapon();
 			gameObject->GetAnimationsList()[gameObject->GetThrowingAttackAnimID()]->Reset();
 				
 			if (gameObject->IsGrounded())

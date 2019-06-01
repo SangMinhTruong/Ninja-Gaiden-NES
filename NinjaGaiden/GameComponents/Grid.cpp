@@ -277,7 +277,6 @@ void Grid::AddObject(GameObject * gameObject)
 void Grid::GetCameraPosOnGrid(int &l, int &r, int &t, int &b) {
 	RECT rect = viewport->GetRect();
 	l = (int)(rect.left/GRID_SIZE);
-	//t = (int)(rect.top % GRID_SIZE == 0 ? rect.top/GRID_SIZE - 1 : rect.top/GRID_SIZE);
 	t = (int)(rect.top % GRID_SIZE == 0 ? rect.top / GRID_SIZE - 1 : rect.top / GRID_SIZE);
 	r = (int)(rect.right / GRID_SIZE);
 	b = (int)(rect.bottom / GRID_SIZE);

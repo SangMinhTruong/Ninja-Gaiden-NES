@@ -135,12 +135,31 @@ void State::Update(DWORD dt)
 
 		if (coEventsResult[0]->collisionID == 2) // Kiểm tra quái va chạm vũ khí
 		{
-			gameObject->SetState(gameObject->GetDyingState());
+			if (gameObject->GetID() == GAME_OBJ_ID_BOSS)
+			{
+				if (Game::GetInstance()->GetInformation().EnemyHP == 0)
+					gameObject->SetState(gameObject->GetDyingState());
+				else if (!gameObject->IsInvincible())
+				{
+					gameObject->SetIsInvincible(true);
+					gameObject->ResetInvincibleTimer();
+					Game::GetInstance()->LoseBossHP(1);
+				}
+			}
+			else
+			{
+				gameObject->SetState(gameObject->GetDyingState());
+				Game::GetInstance()->GainPoint(100);
+			}
 			return;
 		}
 		else if (coEventsResult[0]->collisionID == 3) // Kiểm tra ninja va chạm quái
 		{
-			gameObject->Hurt();
+			if (gameObject->GetID() == GAME_OBJ_ID_NINJA)
+			{
+				Game::GetInstance()->LoseNinjaHP(1);
+				gameObject->Hurt();
+			}
 		}
 		else if (coEventsResult[0]->collisionID == 1) // Kiểm tra chạm đất
 		{
