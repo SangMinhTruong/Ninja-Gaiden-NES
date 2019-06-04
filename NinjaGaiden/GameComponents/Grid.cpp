@@ -295,6 +295,20 @@ void Grid::ChangeMap(int id)
 {
 	TiledMap::GetInstance()->ChangeMap(id);
 	ninja->Reset();
+	viewport->ResetPosition();
+
+	GameSound * gameSound = GameSound::GetInstance();
+
+	if (id == TILED_MAP_ID_3_2)	{
+		if (gameSound->isPlaying(IDSound::STAGE_31))
+			gameSound->Stop(IDSound::STAGE_31);
+		gameSound->Play(IDSound::STAGE_32);
+	}
+	else if (id == TILED_MAP_ID_3_3) {
+		if (gameSound->isPlaying(IDSound::STAGE_32))
+			gameSound->Stop(IDSound::STAGE_32);
+		gameSound->Play(IDSound::STAGE_33);
+	}
 
 	delete this->__instance;
 	this->__instance = NULL;
@@ -357,14 +371,18 @@ void Grid::Update(DWORD dt)
 	}
 	ninja->Update(dt);
 
+	//Scene Transition Effect
+
+	SceneEffect *sceneEffect = SceneEffect::GetInstance();
+
 	int mapWidth = TiledMap::GetInstance()->GetWidth();
 	if (ninja->GetPositionX() >= mapWidth - 2 * TILES_WIDTH_PER_TILE - NINJA_SPRITE_WIDTH &&
-		TiledMap::GetInstance()->GetMapID() != TILED_MAP_ID_3_3)
+		TiledMap::GetInstance()->GetMapID() != TILED_MAP_ID_3_3 )
 	{
-		this->ChangeMap(TiledMap::GetInstance()->GetMapID() + 1);
+		//this->ChangeMap(TiledMap::GetInstance()->GetMapID() + 1);
+		Game::GetInstance()->ChangeMap(TiledMap::GetInstance()->GetMapID() + 1);
 		return;
 	}
-
 	//Update các object trong các cell
 	for (int i = bCell; i <= tCell; i++)
 	{		

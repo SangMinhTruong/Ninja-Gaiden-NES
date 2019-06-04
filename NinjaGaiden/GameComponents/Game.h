@@ -6,6 +6,8 @@
 #include "Ninja.h"
 #include "TiledMap.h"
 #include "Grid.h"
+#include"SceneEffect.h"
+#include"Sound.h"
 
 #include <chrono>
 class Graphics;
@@ -16,6 +18,7 @@ class UI;
 struct GameInformation {
 	DWORD Score;
 	DWORD Timer;
+	DWORD previousTimer;
 	DWORD NinjaHP;
 	DWORD EnemyHP;
 	std::string Stage;
@@ -28,6 +31,10 @@ class Game
 {
 	bool initialized = false;
 
+	bool isMapLoaded = false;
+	bool isChangingMap = false;
+	DWORD changingMapTimer = 0;
+
 	static Game * __instance;
 	static HINSTANCE hInstance;
 	HWND hWnd;									//Xử lí cửa sổ
@@ -36,6 +43,8 @@ class Game
 	Graphics * graphics;
 	UI * ui;
 	GameInformation gameInfo;
+
+	GameSound *gameSound;
 
 	Ninja * ninja;
 	Viewport * viewport;
@@ -46,9 +55,10 @@ public:
 	HWND CreateGameWindow(HINSTANCE hInstance, int ScreenWidth, int ScreenHeight);
 	static LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 	void LoadResources();
+	void ChangeMap(int id);
 	//Xử lí
 	void GainPoint(DWORD score) { gameInfo.Score += score; }
-	void CountDownTimer(DWORD dt) { gameInfo.Timer -= dt; }
+	void CountDownTimer(DWORD dt) { gameInfo.Timer > dt ? gameInfo.Timer -= dt : gameInfo.Timer = 0; }
 	void GainNinjaHP(DWORD amount) { if (gameInfo.NinjaHP + amount >= 16) gameInfo.NinjaHP = 16; else gameInfo.NinjaHP += amount; }
 	void LoseNinjaHP(DWORD amount) { if (gameInfo.NinjaHP - amount <= 0) gameInfo.NinjaHP = 0; else gameInfo.NinjaHP -= amount; }
 	void LoseBossHP(DWORD amount) { if (gameInfo.EnemyHP - amount <= 0) gameInfo.EnemyHP = 0; else gameInfo.EnemyHP -= amount; }

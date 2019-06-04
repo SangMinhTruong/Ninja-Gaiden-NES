@@ -40,6 +40,7 @@ void AttackingState::Crouch()
 }
 void AttackingState::Hurt()
 {
+	 
 	float vx = gameObject->GetDefaultWalkSpeed() * (gameObject->IsLeft() ? 1 : -1) / 1.25f;
 	float vy = gameObject->GetDefautJumpSpeed() / 1.5f;
 

@@ -1,5 +1,7 @@
 ﻿#include"UI.h"
 UI* UI::_instance = NULL;
+UIUtility *  UIUtility::__instance = NULL;
+
 UI* UI::GetInstance() {
 	if (_instance == NULL) {
 		_instance = new UI();
@@ -14,8 +16,9 @@ void UI::LoadResources() {
 	//Khởi tạo thiết bị vẽ
 	d3ddv = Graphics::GetInstance()->GetDirect3DDevice();
 
+	 
 	//Khởi tạo thông số
-	SetRect(&displayRect, 35, 3, SCREEN_WIDTH, SCREEN_HEIGHT);
+	SetRect(&displayRect, 4  , 5  , SCREEN_WIDTH, SCREEN_HEIGHT);
 	Score = 0;
 	Timer = 0;
 	NinjaHP = 0;
@@ -26,10 +29,11 @@ void UI::LoadResources() {
 	//Khởi tạo font
 	font = NULL;
 	AddFontResourceEx(GAME_FONT, FR_PRIVATE, NULL);
+	
 	HRESULT result = D3DXCreateFont(
-		d3ddv, 17, 0, FW_BOLD, 1, false,
+		d3ddv, 16, 0, FW_BOLD, 1, false,
 		DEFAULT_CHARSET, OUT_DEFAULT_PRECIS,
-		ANTIALIASED_QUALITY, FF_DONTCARE, L"ArcadeClassic", &font);
+		DEFAULT_QUALITY, FF_DONTCARE, L"ArcadeClassic", &font);
 	if (!SUCCEEDED(result))
 		OutputDebugString(L"[ERROR] Loading font failed !!!!!!!!!!");
 
@@ -37,12 +41,14 @@ void UI::LoadResources() {
 	RECT r;
 	SpriteData spriteData;
 
+	
+
 	//Spirit
 
 	SetRect(&r, 0, 0, 60, 31);
 	spirit = new Sprite(SPIRIT_SYMBOL, r, D3DCOLOR_XRGB(0, 0, 0));
-	spriteData.x = 85;
-	spriteData.y = 42;
+	spriteData.x = 50;
+	spriteData.y = 40;
 	spriteData.width = 60;
 	spriteData.height = 31;
 	spriteData.angle = 0;
@@ -57,8 +63,8 @@ void UI::LoadResources() {
 		SetRect(&r, 0, 16 * i, 16, 16 * (i + 1));
 		Sprite *item = new Sprite(ITEM_SYMBOL, r, D3DCOLOR_XRGB(0, 128, 128));
 
-		spriteData.x = 132;
-		spriteData.y = 25;
+		spriteData.x = 100;
+		spriteData.y = 27;
 		spriteData.width = 16;
 		spriteData.height = 16;
 		spriteData.angle = 0;
@@ -70,13 +76,13 @@ void UI::LoadResources() {
 		items.push_back(item);
 	}
 	//HP & noHP
-	SetRect(&r, 0, 0, 4, 7);
-	int baseX = 225;
-	int baseY = 23;
+	SetRect(&r, 0, 0, 3, 7);
+	int baseX = 191;
+	int baseY = 24;
 	for (int i = 0; i < 16; i++) {
 		Sprite *HP = new Sprite(HP_SYMBOL, r, D3DCOLOR_XRGB(0, 0, 0));
 		Sprite *noHP = new Sprite(NOHP_SYMBOL, r, D3DCOLOR_XRGB(0, 0, 0));
-		spriteData.x = baseX + i * 5;
+		spriteData.x = baseX + i * 4;
 		spriteData.y = baseY;
 		spriteData.width = 4;
 		spriteData.height = 7;
@@ -99,8 +105,8 @@ void UI::LoadResources() {
 	SetRect(&r, 0, 0, 195, 63);
 	itemFrame = new Sprite(ITEM_FRAME_SYMBOL, r, D3DCOLOR_XRGB(0, 0, 0));
 
-	spriteData.x = 130;
-	spriteData.y = 23;
+	spriteData.x = 98;
+	spriteData.y = 25;
 	spriteData.width = 195;
 	spriteData.height = 63;
 	spriteData.angle = 0;
@@ -114,7 +120,7 @@ void UI::Update(DWORD dt) {
 	//Lấy thông tin hiển thị
 	Game * game = Game::GetInstance();
 	GameInformation gameInfo = game->GetInformation();
-
+	
 
 	//Cập nhật thông tin
 	this->Score = gameInfo.Score;
@@ -144,7 +150,7 @@ void UI::Update(DWORD dt) {
 	displayText = "";
 	displayText += "SCORE - " + scoreStr + "  STAGE - " + gameInfo.Stage + "\n";
 	displayText += "TIMER - " + timerStr + "            NINJA - " + "\n";
-	displayText += "P - " + pStr + "       -" + spiritStr + "             ENEMY - " + "\n";
+	displayText += "P - " + pStr + "       - " + spiritStr + "            ENEMY - " + "\n";
 
 
 
@@ -152,6 +158,20 @@ void UI::Update(DWORD dt) {
 }
 
 void UI::Draw(Sprite *sprite, float scaleX, float scaleY, int offsetY) {
+
+	//UIUtility
+	UIUtility * uiu = UIUtility::getInstance();
+
+	/*int massMoveX = 0;
+	int massMoveY = 0;
+	if (sprite == spirit | true) {
+		massMoveX = uiu->getMoveX();
+		massMoveY = uiu->getMoveY();
+	}*/
+
+	SceneEffect *sceneEffect  = SceneEffect::GetInstance();
+	int colorOffset = sceneEffect->GetCurrentOffset();
+
 	LPD3DXSPRITE spriteHandler = Graphics::GetInstance()->GetSpriteHandler();
 
 	D3DXMATRIX matrix;
@@ -163,18 +183,20 @@ void UI::Draw(Sprite *sprite, float scaleX, float scaleY, int offsetY) {
 	HRESULT result = spriteHandler->Draw(sprite->GetTexture(), 
 		&sprite->GetRect(), 
 		NULL, 
-		new D3DXVECTOR3(sprite->GetTranslate().x*(1 / scaleX), 
-			sprite->GetTranslate().y*(1 / scaleY) + offsetY, 0), 
-		D3DCOLOR_XRGB(255, 255, 255));
-
-	if (SUCCEEDED(result))
+		new D3DXVECTOR3((sprite->GetTranslate().x  )*(1 / scaleX)  , 
+			(sprite->GetTranslate().y +  offsetY)*(1 / scaleY) , 0), 
+		D3DCOLOR_XRGB(255-colorOffset,255-colorOffset, 255-colorOffset));
+	
+	/*if (SUCCEEDED(result))
 		DebugOut(L"[SUCCESSFUL] Render sprite successfully !");
 	else
-		DebugOut(L"[ERROR] Failed to render sprite !");
+		DebugOut(L"[ERROR] Failed to render sprite !");*/
 }
 void UI::Render() {
 	//Vẽ thông tin lên màn hình
-	if (font) {
+	 
+	
+	if ((font) && !SceneEffect::GetInstance()->IsDone()) {
 		font->DrawTextA(NULL, displayText.c_str(), -1, &displayRect, DT_LEFT, D3DCOLOR_XRGB(255, 255, 255));
 	}
 
@@ -184,7 +206,7 @@ void UI::Render() {
 	Draw(itemFrame, 0.15, 0.42);
 
 	//Vẽ HP  
-	int offset = 14;
+	int offset = 17;
 	for (int i = 0; i < 16; i++) {
 		if (i < NinjaHP)
 			Draw(HPs.at(i), 1.f, 1.3f);

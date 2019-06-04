@@ -122,7 +122,7 @@ void Boss::RemoveBullet(BossBullet * bullet)
 void Boss::Update(DWORD dt)
 {
 	state->Update(dt); 
-
+	
 	if (this->isInvincible)
 	{
 		this->AddInvincibleTimer(dt);

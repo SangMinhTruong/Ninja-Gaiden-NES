@@ -46,6 +46,16 @@ void Graphics::Init(HWND hWnd)
 	D3DXCreateSprite(d3ddv, &spriteHandler);
 
 	viewport = Viewport::GetInstance();
+
+	D3DXCreateEffectFromFile(d3ddv,
+		L"color.fx",
+		0,
+		0,
+		0,
+		0,
+		&shader,
+		0
+	);
 	//In ra khởi tạo Graphics thành công
 	OutputDebugString(L"[INFO] InitGraphics done;\n");
 }
@@ -97,6 +107,12 @@ HRESULT Graphics::LoadTexture(LPCWSTR filePath, D3DCOLOR transColor, LPDIRECT3DT
 //Hàm vẽ
 void Graphics::Draw(Sprite * sprite, D3DCOLOR color)
 {
+
+	//Hiệu ứng chuyển scene
+	SceneEffect *sceneEffect = SceneEffect::GetInstance();
+	int offsetColor = sceneEffect->GetCurrentOffset();
+	color = D3DCOLOR_XRGB(255 - offsetColor, 255 - offsetColor, 255 - offsetColor);
+
 	if (sprite->GetTexture() == NULL)
 		return;
 

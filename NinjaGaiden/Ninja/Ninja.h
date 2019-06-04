@@ -7,6 +7,7 @@
 #include "Whip.h"
 #include "FireWheel.h"
 
+#include"Sound.h"
 
 class Subweapon;
 class Shuriken;
@@ -22,6 +23,8 @@ class Ninja : public StateGameObject
 	Whip * whip;
 	//Vũ khí phụ
 	int curSubweapon = -1;
+	 
+
 	static vector<Subweapon *> subweapons;
 public:
 	void LoadResources() override;
@@ -45,6 +48,8 @@ public:
 	float GetDefaultWalkSpeed() override { return NINJA_WALKING_SPEED; }
 	float GetDefautJumpSpeed() override { return NINJA_JUMP_SPEED_Y; }
 	float GetDefaultClimbingSpeed() override { return NINJA_CLIMBING_SPEED; };
+
+
 
 	static Ninja * GetInstance();
 	int GetCurrentSubweapon() { return this->curSubweapon; }

@@ -9,8 +9,28 @@
 #include"Constants.h"
 #include"Game.h"
 #include"Debug.h"
-
+#include"SceneEffect.h"
+ 
 class Game;
+
+class UIUtility {
+
+	int moveX = 0;
+	int moveY = 0;
+	UIUtility() {};
+	static UIUtility *  __instance;
+public:
+	static UIUtility *getInstance() { if (!__instance) __instance = new UIUtility(); return __instance; };
+	void ShiftRightX(int offset) { moveX += offset; DebugOut(L"MoveX = %d MoveY = %d \n", moveX, moveY); }
+	void ShiftLeftX(int offset) { moveX -= offset; DebugOut(L"MoveX = %d MoveY = %d \n", moveX,  moveY);}
+	void ShiftUpY(int offset) { moveY -= offset; DebugOut(L"MoveX = %d MoveY = %d \n", moveX, moveY); }
+	void ShiftDownY(int offset) { moveY += offset; DebugOut(L"MoveX = %d MoveY = %d \n", moveX, moveY); }
+	int getMoveX() { return moveX; }
+	int getMoveY() { return moveY; }
+
+};
+
+
 
 class UI {
 private:

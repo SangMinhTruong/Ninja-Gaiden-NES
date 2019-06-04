@@ -1,4 +1,4 @@
-#include "WalkingState.h"
+﻿#include "WalkingState.h"
 
 WalkingState::WalkingState(StateGameObject * gameObject)
 {
@@ -12,6 +12,9 @@ void WalkingState::Idle()
 }
 void WalkingState::Attack()
 {
+	//Tiếng kiếm kêu
+	if (this->gameObject->GetID() == GAME_OBJ_ID_NINJA)
+		GameSound::GetInstance()->Play(IDSound::SWORD);
 	gameObject->SetSpeedX(0);
 	gameObject->SetState(gameObject->GetAttackingState());
 }
@@ -30,6 +33,9 @@ void WalkingState::Throw()
 }
 void WalkingState::Jump()
 {
+	//Là ninja thì nhảy phải kêu
+	if (this->gameObject->GetID() == GAME_OBJ_ID_NINJA)
+		GameSound::GetInstance()->Play(IDSound::NINJA_JUMP);
 	if (gameObject->IsGrounded())
 	{
 		gameObject->SetIsGrounded(false);
@@ -45,6 +51,9 @@ void WalkingState::Crouch()
 }
 void WalkingState::Hurt()
 {
+	//Ninja dính vũ khí
+	if (this->gameObject->GetID() == GAME_OBJ_ID_NINJA) 
+		GameSound::GetInstance()->Play(IDSound::NINJA_HURT);
 	float vx = gameObject->GetDefaultWalkSpeed() * (gameObject->IsLeft() ? 1 : -1) / 1.25f;
 	float vy = gameObject->GetDefautJumpSpeed() / 1.5f;
 

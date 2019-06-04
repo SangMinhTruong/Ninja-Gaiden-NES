@@ -84,8 +84,10 @@ void CannonShooterBullet::Update(DWORD dt)
 		LPCOLLISIONEVENT e = ninja->SweptAABBEx(this);
 		if (e->t >= 0 && e->t < 1.0f)
 		{
-			if (!ninja->IsHurt())
+			if (!ninja->IsHurt()) {
+				GameSound::GetInstance()->Play(IDSound::NINJA_HURT);
 				ninja->Hurt();
+			}
 		}
 	}
 }

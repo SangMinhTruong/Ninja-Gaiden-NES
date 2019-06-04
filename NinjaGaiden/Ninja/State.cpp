@@ -75,7 +75,7 @@ void State::Update(DWORD dt)
 
 					gameObject->SetPositionX(moveX);
 					gameObject->SetPositionY(moveY);
-					
+
 					if (boss->GetAttackTimer() >= 3)
 					{
 						boss->CreateThrownWeapon(boss->GetPositionX() + 10, boss->GetPositionY() - 15);
@@ -90,7 +90,10 @@ void State::Update(DWORD dt)
 				else
 				{
 					boss->AddJumpTimer(dt);
-					boss->SetIsGrounded(true);
+					if (!boss->IsGrounded()) {
+						GameSound::GetInstance()->Play(IDSound::BOSS_JUMP);
+						boss->SetIsGrounded(true);
+					}
 					boss->SetState(boss->GetIdleState());
 					return;
 				}
@@ -109,7 +112,7 @@ void State::Update(DWORD dt)
 					boss->SetIsJumpingLeft(!boss->IsJumpingLeft());
 				}
 			}
-			
+
 		}
 		else
 		{
@@ -137,8 +140,10 @@ void State::Update(DWORD dt)
 		{
 			if (gameObject->GetID() == GAME_OBJ_ID_BOSS)
 			{
-				if (Game::GetInstance()->GetInformation().EnemyHP == 0)
+				if (Game::GetInstance()->GetInformation().EnemyHP == 0) {
 					gameObject->SetState(gameObject->GetDyingState());
+					GameSound::GetInstance()->Play(IDSound::BOSS_DESTROYED);
+				}
 				else if (!gameObject->IsInvincible())
 				{
 					gameObject->SetIsInvincible(true);
@@ -148,6 +153,7 @@ void State::Update(DWORD dt)
 			}
 			else
 			{
+				GameSound::GetInstance()->Play(IDSound::ENEMYDESTROYED);
 				gameObject->SetState(gameObject->GetDyingState());
 				Game::GetInstance()->GainPoint(100);
 			}
@@ -157,6 +163,7 @@ void State::Update(DWORD dt)
 		{
 			if (gameObject->GetID() == GAME_OBJ_ID_NINJA)
 			{
+				GameSound::GetInstance()->Play(IDSound::NINJA_HURT);
 				Game::GetInstance()->LoseNinjaHP(1);
 				gameObject->Hurt();
 			}
@@ -304,7 +311,7 @@ void UpdateZombie(DWORD dt, StateGameObject * gameObject)
 	//gameObject->SetPositionY(gameObject->GetPositionY() + vy * dt);
 	//Random phong dao
 	i = rand();
-	
+
 	if (i % 100 < 2)
 	{
 		gameObject->Throw();
@@ -334,10 +341,10 @@ void UpdateMachineGunner(DWORD dt, StateGameObject * gameObject)
 			gunner->Throw();
 		}
 		else if (gunner->GetAttackTimer() >= 3150 &&
-				gunner->GetAttackTimer() < 3300)
+			gunner->GetAttackTimer() < 3300)
 		{
 			gunner->SetSpeedX(0);
-	 		gunner->Throw();
+			gunner->Throw();
 		}
 		else if (gunner->GetAttackTimer() >= 3300)
 		{
@@ -346,7 +353,7 @@ void UpdateMachineGunner(DWORD dt, StateGameObject * gameObject)
 			gunner->SetAttackTimer(0);
 		}
 	}
-	
+
 }
 #include "CannonShooter.h"
 void UpdateCannonShooter(DWORD dt, StateGameObject * gameObject)

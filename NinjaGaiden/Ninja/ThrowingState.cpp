@@ -1,4 +1,4 @@
-#include "ThrowingState.h"
+﻿#include "ThrowingState.h"
 #include "Game.h"
 ThrowingState::ThrowingState(StateGameObject * gameObject)
 {
@@ -34,6 +34,9 @@ void ThrowingState::Crouch()
 }
 void ThrowingState::Hurt()
 {
+	//Ninja dính vũ khí
+	if (this->gameObject == GAME_OBJ_ID_NINJA)
+		GameSound::GetInstance()->Play(IDSound::NINJA_HURT);
 	float vx = gameObject->GetDefaultWalkSpeed() * (gameObject->IsLeft() ? 1 : -1) / 1.25f;
 	float vy = gameObject->GetDefautJumpSpeed() / 1.5f;
 

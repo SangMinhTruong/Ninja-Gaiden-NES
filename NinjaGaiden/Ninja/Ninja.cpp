@@ -4,7 +4,7 @@ vector<Subweapon *> Ninja::subweapons = vector<Subweapon *>();
 Ninja * Ninja::__instance = NULL;
 Ninja::Ninja()
 {
-	LoadResources(); 
+	LoadResources();
 
 	this->whip = new Whip();
 
@@ -61,7 +61,7 @@ void Ninja::LoadResources()
 	}
 	animations.push_back(anim);
 
-	
+
 	// Standing Attack
 	anim = new Animation(50);
 	for (int i = 10; i < 15; i++)
@@ -220,6 +220,9 @@ void Ninja::LoadResources()
 #include "Game.h"
 void Ninja::PowerUp(int type)
 {
+	//Gặp item thì zzzzzin zzzin
+	GameSound::GetInstance()->Play(IDSound::ITEM_COLLECT);
+
 	switch (type)
 	{
 	case GAME_OBJ_ID_BLUE_SPIRIT_POINT:
@@ -252,11 +255,12 @@ void Ninja::PowerUp(int type)
 }
 void Ninja::CreateThrownWeapon()
 {
+	GameSound * gameSound = GameSound::GetInstance();
 	Subweapon * subweapon;
 	switch (curSubweapon)
 	{
 	case SUBWEAPON_SHURIKEN:
-
+		gameSound->Play(IDSound::SHURIKEN);
 		subweapon = new Shuriken();
 		if (isLeft)
 			subweapon->TurnLeft();
@@ -266,6 +270,7 @@ void Ninja::CreateThrownWeapon()
 		this->subweapons.push_back(subweapon);
 		break;
 	case SUBWEAPON_WINDMILLSHURIKEN:
+		gameSound->Play(IDSound::WINDMILL);
 		subweapon = new WindmillShuriken();
 		if (isLeft)
 			subweapon->TurnLeft();
@@ -275,6 +280,7 @@ void Ninja::CreateThrownWeapon()
 		this->subweapons.push_back(subweapon);
 		break;
 	case SUBWEAPON_FIREWHEEL:
+		gameSound->Play(IDSound::FIREWHEEL);
 		vector<Subweapon*> fireWheels = FireWheel::Create(x, y, isLeft);
 		this->subweapons.insert(subweapons.end(), fireWheels.begin(), fireWheels.end());
 		break;
@@ -348,6 +354,7 @@ void Ninja::Update(DWORD dt)
 	for (int i = 0; i < this->subweapons.size(); i++) {
 		subweapons.at(i)->Update(dt);
 	}
+
 
 	if (this->isInvincible)
 	{

@@ -8,6 +8,7 @@ class Subweapon : public GameObject
 protected:
 	int type;
 	bool onHit = false;
+ 
 public:
 	virtual void LoadResources() = 0;
 
@@ -20,6 +21,8 @@ public:
 
 	bool isOnHit() { return onHit; }
 	void Hit() { onHit = true; }
+
+	 
 
 	void SetThrownPosition(float x, float y, bool isCrouching);
 	void SetType(int type) { this->type = type; }

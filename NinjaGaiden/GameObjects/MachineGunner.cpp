@@ -125,11 +125,14 @@ int MachineGunner::GetDyingAnimID()
 
 void MachineGunner::CreateThrownWeapon()
 {
+	
 	MachineGunnerBullet * bullet;
 	bullet = new MachineGunnerBullet(this->x, this->y, this->isLeft);
 	bullet->SetMachineGunner(this);
 
 	this->bullets.push_back(bullet);
+
+	GameSound::GetInstance()->Play(IDSound::MACHINE_GUNNER);
 }
 void MachineGunner::RemoveBullet(MachineGunnerBullet * bullet)
 {

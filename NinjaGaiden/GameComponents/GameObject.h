@@ -8,6 +8,8 @@
 #include "Sprite.h"
 #include "Animation.h"
 
+#include"Sound.h"
+
 using namespace std;
 struct Collider
 {

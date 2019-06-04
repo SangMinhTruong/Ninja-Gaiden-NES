@@ -125,6 +125,7 @@ int CannonShooter::GetDyingAnimID()
 
 void CannonShooter::CreateThrownWeapon()
 {
+	GameSound::GetInstance()->Play(IDSound::CANNONSHOOTER);
 	CannonShooterBullet * bullet;
 	bullet = new CannonShooterBullet(this->x, this->y, this->isLeft);
 	bullet->SetCannonShooter(this);

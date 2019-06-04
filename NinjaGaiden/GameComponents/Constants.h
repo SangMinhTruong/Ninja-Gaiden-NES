@@ -89,7 +89,7 @@
 #define SUBWEAPON_GRAVITY		0.025f
 
 ////Shuriken
-#define SUBWEAPON_SHURIKEN						1
+#define SUBWEAPON_SHURIKEN						0
 #define SUBWEAPON_SHURIKEN_TEXTURE_LOCATION		L"Resources\\Weapons\\Subweapons\\Shuriken.png"
 #define SUBWEAPON_SHURIKEN_TEXTURE_TRANS_COLOR	D3DCOLOR_XRGB(255, 0, 255)
 #define SUBWEAPON_SHURIKEN_TEXTURE_COLUMNS		2
@@ -98,7 +98,7 @@
 #define SUBWEAPON_SHURIKEN_SPRITE_HEIGHT		8
 
 ////Windmill Shuriken
-#define SUBWEAPON_WINDMILLSHURIKEN						2
+#define SUBWEAPON_WINDMILLSHURIKEN						3
 #define SUBWEAPON_WINDMILLSHURIKEN_TEXTURE_LOCATION		L"Resources\\Weapons\\Subweapons\\WindmillShuriken.png"
 #define SUBWEAPON_WINDMILLSHURIKEN_TEXTURE_TRANS_COLOR	D3DCOLOR_XRGB(255, 0, 255)
 #define SUBWEAPON_WINDMILLSHURIKEN_TEXTURE_COLUMNS		2
@@ -107,7 +107,7 @@
 #define SUBWEAPON_WINDMILLSHURIKEN_SPRITE_HEIGHT		16
 
 ////FIRE WHEEL
-#define SUBWEAPON_FIREWHEEL							3
+#define SUBWEAPON_FIREWHEEL							2 
 #define SUBWEAPON_FIREWHEEL_TEXTURE_LOCATION		L"Resources\\Weapons\\Subweapons\\FireWheel.png"
 #define SUBWEAPON_FIREWHEEL_TEXTURE_TRANS_COLOR		D3DCOLOR_XRGB(255, 0, 255)
 #define SUBWEAPON_FIREWHEEL_TEXTURE_COLUMNS			4
@@ -585,3 +585,52 @@
 #define HP_SYMBOL L"Resources\\UI\\HP.bmp"
 #define NOHP_SYMBOL L"Resources\\UI\\NOHP.bmp"
 #define ITEM_FRAME_SYMBOL L"Resources\\UI\\ItemFrame.png"
+
+
+
+
+//
+//Sound
+//
+
+enum IDSound{
+		SWORD,
+		WINDMILL,
+		SHURIKEN,
+		TIMER,
+		NINJA_HURT,
+		MACHINE_GUNNER,
+		NINJA_JUMP,
+		ITEM_COLLECT,
+		FIREWHEEL,
+		ENEMYDESTROYED,
+		CANNONSHOOTER,
+		BOSS_JUMP,
+		BOSS_DESTROYED,
+		STAGE_31,
+		STAGE_32,
+		STAGE_33,
+		GAME_OVER,
+		PRESS_START,
+		START
+};
+
+#define SOUND_PATH_SWORD "Resources\\Sound\\Effect\\Sword.wav"
+#define SOUND_PATH_WINDMILL "Resources\\Sound\\Effect\\WindmillShuriken.wav"
+#define SOUND_PATH_SHURIKEN "Resources\\Sound\\Effect\\Shuriken.wav"
+#define SOUND_PATH_TIMER "Resources\\Sound\\Effect\\Timer.wav"
+#define SOUND_PATH_NINJA_HURT "Resources\\Sound\\Effect\\NinjaHurt.wav"
+#define SOUND_PATH_MACHINE_GUNNER "Resources\\Sound\\Effect\\MachineGunner.wav"
+#define SOUND_PATH_NINJA_JUMP "Resources\\Sound\\Effect\\Jumping.wav"
+#define SOUND_PATH_ITEM_COLLECT "Resources\\Sound\\Effect\\ItemCollecting.wav"
+#define SOUND_PATH_FIREWHEEL "Resources\\Sound\\Effect\\FireWheel.wav"
+#define SOUND_PATH_ENEMYDESTROYED "Resources\\Sound\\Effect\\EnemyHurt.wav"
+#define SOUND_PATH_CANNONSHOOTER "Resources\\Sound\\Effect\\CannonShooter.wav"
+#define SOUND_PATH_BOSS_JUMP "Resources\\Sound\\Effect\\BossJumping.wav"
+#define SOUND_PATH_BOSS_DESTROYED "Resources\\Sound\\Effect\\BossDestroyed.wav"
+#define SOUND_PATH_STAGE_31 "Resources\\Sound\\Stage\\3-1 - Pursuit.wav"
+#define SOUND_PATH_STAGE_32 "Resources\\Sound\\Stage\\3-2 - High Ground.wav"
+#define SOUND_PATH_STAGE_33 "Resources\\Sound\\Stage\\3-3 Boss Battle.wav"
+#define SOUND_PATH_GAME_OVER "Resources\\Sound\\Stage\\Over - All Gone (Game Over).wav"
+#define SOUND_PATH_PRESS_START "Resources\\Sound\\Stage\\PressStart- Master Ninja Theme.wav"
+#define SOUND_PATH_START "Resources\\Sound\\Stage\\Start - Title.wav"

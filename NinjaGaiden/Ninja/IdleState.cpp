@@ -11,6 +11,9 @@ void IdleState::Idle()
 }
 void IdleState::Attack()
 {
+	//Tiếng kiếm kêu
+	if (this->gameObject->GetID() == GAME_OBJ_ID_NINJA)
+		GameSound::GetInstance()->Play(IDSound::SWORD);
 	gameObject->SetState(gameObject->GetAttackingState());
 }
 void IdleState::Walk()
@@ -29,6 +32,9 @@ void IdleState::Throw()
 }
 void IdleState::Jump()
 {
+	//Là ninja thì nhảy phải kêu
+	if (this->gameObject->GetID() == GAME_OBJ_ID_NINJA)
+		GameSound::GetInstance()->Play(IDSound::NINJA_JUMP);
 	if (gameObject->IsGrounded())
 	{
 		gameObject->SetIsGrounded(false);
@@ -43,6 +49,7 @@ void IdleState::Crouch()
 }
 void IdleState::Hurt()
 {
+	 
 	float vx = gameObject->GetDefaultWalkSpeed() * (gameObject->IsLeft() ? 1 : -1) / 1.25f;
 	float vy = gameObject->GetDefautJumpSpeed() / 1.5f;
 

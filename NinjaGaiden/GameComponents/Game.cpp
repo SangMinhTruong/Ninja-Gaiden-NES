@@ -16,6 +16,8 @@ void Game::Init()
 	keyboard = Keyboard::GetInstance();
 	keyboard->InitKeyboard(hWnd);
 
+	
+
 	LoadResources();
 	OutputDebugString(L"[INFO] InitGame done;\n");
 }
@@ -79,6 +81,11 @@ void Game::LoadResources()
 		ninja = Ninja::GetInstance();
 
 	TiledMap::GetInstance(TILED_MAP_ID_3_1);
+	isMapLoaded = true;
+
+	isMapLoaded = true;
+	isChangingMap = true;
+	changingMapTimer = 2000;
 
 	if (viewport == NULL)
 		viewport = Viewport::GetInstance();
@@ -89,13 +96,26 @@ void Game::LoadResources()
 	if (ui == NULL)
 		ui = UI::GetInstance();
 	gameInfo.Score = 0;
-	gameInfo.Timer = 145000;
+	gameInfo.Timer = 15000;
 	gameInfo.NinjaHP = 16;
 	gameInfo.EnemyHP = 16;
 	gameInfo.Stage = "3-1";
 	gameInfo.currentItem = -1;
 	gameInfo.LiveCount = 2;
 	gameInfo.SpiritPoint = 0;
+	gameInfo.previousTimer = gameInfo.Timer;
+	//Khởi tạo game sound
+	gameSound = GameSound::GetInstance();
+	gameSound->InitGameSound(hWnd);
+	gameSound->LoadResources();
+
+	gameSound->PlayLoop(IDSound::STAGE_31);
+}
+void Game::ChangeMap(int id)
+{
+	isChangingMap = true;
+	isMapLoaded = false;
+	changingMapTimer = 0;
 }
 //Xử lí
 void Game::ResetGrid()
@@ -104,17 +124,44 @@ void Game::ResetGrid()
 }
 void Game::Update(DWORD dt)
 {
-	keyboard->Update();
-	grid->Update(dt);
-	viewport->Update(dt);
+	if (isChangingMap)
+	{
+		changingMapTimer += dt;
+		if (changingMapTimer >= 1500 && changingMapTimer < 2000 && !isMapLoaded)
+		{
+			Grid::GetInstance()->ChangeMap(TiledMap::GetInstance()->GetMapID() + 1);
+			isMapLoaded = true;
+		}
+		if (changingMapTimer >= 3500)
+		{
+			isChangingMap = false;
+			changingMapTimer = 0;
+		}
+	}
+	else
+	{
 
-	//
-	//UI
-	//
-	CountDownTimer(dt);
-	UpdateItem();
+		keyboard->Update();
+		grid->Update(dt);
+		viewport->Update(dt);
 
-	ui->Update(dt);
+		//
+		//UI
+		//
+		CountDownTimer(dt);
+		if (floor((gameInfo.previousTimer - gameInfo.Timer) / 1000) >= 1 && gameInfo.Timer <= 10000) {
+			gameSound->Play(IDSound::TIMER);
+			gameInfo.previousTimer = gameInfo.Timer;
+		}
+
+		//Âm thanh đếm ngược
+
+
+		UpdateItem();
+
+		ui->Update(dt);
+		//SceneEffect::GetInstance()->Update(dt);
+	}
 }
 void Game::Render()
 {
@@ -122,6 +169,7 @@ void Game::Render()
 	LPDIRECT3DDEVICE9 d3ddv = graphics->GetDirect3DDevice();
 	LPDIRECT3DSURFACE9 bb = graphics->GetBackBuffer();
 	LPD3DXSPRITE spriteHandler = graphics->GetSpriteHandler();
+	ID3DXEffect * shader = graphics->GetShader();
 
 
 	//Bắt đầu render
@@ -129,14 +177,49 @@ void Game::Render()
 	{
 		//Tô màu backbuffer
 		d3ddv->ColorFill(bb, NULL, BACKGROUND_COLOR);
-		//Bắt đầu xử lí sprite
-		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
+		if (isChangingMap)
+		{
+			unsigned passes = 0;
+			shader->Begin(&passes, 0);
 
-		ui->Render();
-		grid->Render();
+			spriteHandler->Begin(D3DXSPRITE_ALPHABLEND | D3DXSPRITE_DONOTSAVESTATE);
 
-		//Kết thúc xử lí sprite
-		spriteHandler->End();
+			if (changingMapTimer >= 0 && changingMapTimer < 500)
+				shader->BeginPass(0);
+			else if (changingMapTimer >= 500 && changingMapTimer < 1000)
+				shader->BeginPass(1);
+			else if (changingMapTimer >= 1000 && changingMapTimer < 1500)
+				shader->BeginPass(2);
+			else if (changingMapTimer >= 1500 && changingMapTimer < 2000)
+				shader->BeginPass(3);
+			else if (changingMapTimer >= 2000 && changingMapTimer < 2500)
+				shader->BeginPass(2);
+			else if (changingMapTimer >= 2500 && changingMapTimer < 3000)
+				shader->BeginPass(1);
+			else if (changingMapTimer >= 3000 && changingMapTimer < 3500)
+				shader->BeginPass(0);
+
+			ui->Render();
+			grid->Render();
+
+			//Kết thúc xử lí sprite
+			spriteHandler->End();
+
+			shader->EndPass();
+
+			shader->End();
+
+		}
+		else
+		{
+			spriteHandler->Begin(D3DXSPRITE_ALPHABLEND | D3DXSPRITE_DONOTSAVESTATE);
+
+			ui->Render();
+			grid->Render();
+
+			//Kết thúc xử lí sprite
+			spriteHandler->End();
+		}
 		//Kết thúc render
 		d3ddv->EndScene();
 	}

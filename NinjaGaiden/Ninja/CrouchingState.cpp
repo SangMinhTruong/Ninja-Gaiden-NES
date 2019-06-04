@@ -1,4 +1,4 @@
-#include "CrouchingState.h"
+﻿#include "CrouchingState.h"
 
 
 CrouchingState::CrouchingState(StateGameObject * gameObject)
@@ -12,6 +12,9 @@ void CrouchingState::Idle()
 }
 void CrouchingState::Attack()
 {
+	//Tiếng kiếm kêu
+	if (this->gameObject->GetID() == GAME_OBJ_ID_NINJA)
+		GameSound::GetInstance()->Play(IDSound::SWORD);
 	gameObject->SetState(gameObject->GetAttackingState());
 }
 void CrouchingState::Walk()
@@ -36,6 +39,7 @@ void CrouchingState::Crouch()
 }
 void CrouchingState::Hurt()
 {
+	 
 	float vx = gameObject->GetDefaultWalkSpeed() * (gameObject->IsLeft() ? 1 : -1) / 1.25f;
 	float vy = gameObject->GetDefautJumpSpeed() / 1.5f;
 

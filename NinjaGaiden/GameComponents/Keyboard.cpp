@@ -98,9 +98,24 @@ void Keyboard::Poll_Keyboard()
 		}
 	}
 }
+
+#include"UI.h"
+ 
+
 void Keyboard::UpdateKeyStates()
 {
 	Ninja * ninja = Game::GetInstance()->GetNinja();
+
+	//UIUtility
+	UIUtility * uiu = UIUtility::getInstance();
+	if (IsKeyDown(DIK_J))
+		uiu->ShiftLeftX(10);
+	if (IsKeyDown(DIK_L))
+		uiu->ShiftRightX(10);
+	if (IsKeyDown(DIK_I))
+		uiu->ShiftUpY(10);
+	if (IsKeyDown(DIK_K))
+		uiu->ShiftDownY(10);
 
 	//Nếu đang nhấn phím phải thì mario đi phải
 	if (ninja->IsHurt())
