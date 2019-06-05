@@ -152,12 +152,19 @@ void GameObject::CalcPotentialMapCollisions(
 									{
 										e->collisionID = 4;
 									}
-									if (find(_32Stickables.begin(), _32Stickables.end(), curTile->tileId) != _32Stickables.end() &&
+									else if (find(_32Stickables.begin(), _32Stickables.end(), curTile->tileId) != _32Stickables.end() &&
 										e->nx != 0 &&
 										!ninja->IsHurt() &&
 										!ninja->IsGrounded())
 									{
 										e->collisionID = 5;
+									}
+
+									if ((ninja->IsClimbing() || ninja->IsSticking()) &&
+										(curTile->tileId == 28 || curTile->tileId == 29))
+									{
+										delete e;
+										return;
 									}
 								}
 							}

@@ -20,7 +20,11 @@ void ClimbingState::Climb()
 {
 	if (gameObject->IsClimbing())
 	{
-		gameObject->SetSpeedY(gameObject->GetDefaultClimbingSpeed() * (gameObject->IsUp() ? 1 : -1));
+		if (gameObject->GetPositionY() >= gameObject->GetUpperClimbingLimit() &&
+			gameObject->IsUp())
+			gameObject->SetSpeedY(0);
+		else
+			gameObject->SetSpeedY(gameObject->GetDefaultClimbingSpeed() * (gameObject->IsUp() ? 1 : -1));
 	}
 }
 void ClimbingState::Throw()

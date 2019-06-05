@@ -23,9 +23,6 @@ class Ninja : public StateGameObject
 	Whip * whip;
 	//Vũ khí phụ
 	int curSubweapon = -1;
-	 
-	
-
 	static vector<Subweapon *> subweapons;
 public:
 	void LoadResources() override;

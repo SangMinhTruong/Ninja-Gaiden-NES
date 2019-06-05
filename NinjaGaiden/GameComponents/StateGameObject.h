@@ -33,7 +33,7 @@ protected:
 	bool isInvincible = false;
 	DWORD invincibleTimer = 0;
 	bool renderTick = false;
-
+	//Thông số trạng thái
 	bool isUp = false;
 	bool isJumpingLeft = false;
 	bool isSticking = false;
@@ -41,6 +41,8 @@ protected:
 	bool isGrounded = false;
 	bool isCrouching = false;
 	bool isHurt = false;
+	//Giới hạn leo tường
+	int upperClimbingLimit = -1;
 	//Vector chứa các animations
 	vector<Animation *> animations;
 	DWORD lastFrameTime;
@@ -55,6 +57,7 @@ public:
 	void ResetInvincibleTimer() { this->invincibleTimer = 0;}
 	void AddInvincibleTimer(DWORD dt) { this->invincibleTimer += dt; }
 
+	void SetUpperClimbingLimit(int climbingLimit) { this->upperClimbingLimit = climbingLimit; }
 	void SetIsInvincible(bool isInvincible) { this->isInvincible = isInvincible; }
 	void SetIsHurt(bool isHurt) { this->isHurt = isHurt; }
 	void SetIsSticking(bool isSticking) { this->isSticking = isSticking; }
@@ -67,6 +70,7 @@ public:
 	//Hàm get
 
 	DWORD GetLastFrameTime() { return this->lastFrameTime; }
+	int GetUpperClimbingLimit() { return this->upperClimbingLimit; }
 
 	State * GetIdleState();
 	State * GetWalkingState();

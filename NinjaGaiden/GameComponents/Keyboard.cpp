@@ -146,6 +146,8 @@ void Keyboard::UpdateKeyStates()
 				else
 					ninja->Idle();
 			}
+			else
+				ninja->Idle();
 		}
 		else
 			ninja->Idle();

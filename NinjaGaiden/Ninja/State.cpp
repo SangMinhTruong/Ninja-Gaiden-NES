@@ -173,10 +173,28 @@ void State::Update(DWORD dt)
 			if (ny == 1)
 			{
 				gameObject->SetIsGrounded(true);
+
+				if (gameObject->IsClimbing() || gameObject->IsSticking())
+				{
+					gameObject->SetIsClimbing(false);
+					gameObject->SetIsSticking(false);
+
+					gameObject->SetSpeedY(0);
+					gameObject->SetState(gameObject->GetIdleState());
+				}
 			}
 		}
 		else if (coEventsResult[0]->collisionID == 4) // Kiểm tra leo tường
 		{
+			vector<Tile *> tiles = Grid::GetInstance()->GetCurTiles();
+			for (int i = 0; i < tiles.size(); i++)
+			{
+				if (tiles[i]->tileId == 21)
+				{
+					gameObject->SetUpperClimbingLimit(tiles[i]->y);
+					break;
+				}
+			}
 			if (nx == -1)
 				gameObject->SetIsLeft(false);
 			else if (nx == 1)
