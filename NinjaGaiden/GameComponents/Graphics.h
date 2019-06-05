@@ -3,8 +3,10 @@
 #include <d3d9.h>
 #include <d3dx9.h>
 #include "Viewport.h"
-#include "Sprite.h"
-#include"SceneEffect.h"
+#include "Sprite.h" 
+ 
+
+
 class Sprite;
 
 //Lớp Graphics chính

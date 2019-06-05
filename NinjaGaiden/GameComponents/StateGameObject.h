@@ -32,6 +32,7 @@ protected:
 	//Bất tử
 	bool isInvincible = false;
 	DWORD invincibleTimer = 0;
+	bool renderTick = false;
 
 	bool isUp = false;
 	bool isJumpingLeft = false;
@@ -43,6 +44,9 @@ protected:
 	//Vector chứa các animations
 	vector<Animation *> animations;
 	DWORD lastFrameTime;
+
+
+
 public:
 	virtual void LoadResources() = 0;
 	//Hàm set

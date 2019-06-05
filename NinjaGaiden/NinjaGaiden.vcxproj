@@ -21,7 +21,7 @@
   <ItemGroup>
     <ClCompile Include="GameComponents\dsutil.cpp" />
     <ClCompile Include="GameComponents\dxutil.cpp" />
-    <ClCompile Include="GameComponents\SceneEffect.cpp" />
+    <ClCompile Include="GameComponents\GlobalEvent.cpp" />
     <ClCompile Include="GameComponents\Sound.cpp" />
     <ClCompile Include="GameComponents\UI.cpp" />
     <ClCompile Include="GameObjects\Bat.cpp" />
@@ -73,7 +73,7 @@
   <ItemGroup>
     <ClInclude Include="GameComponents\dsutil.h" />
     <ClInclude Include="GameComponents\dxutil.h" />
-    <ClInclude Include="GameComponents\SceneEffect.h" />
+    <ClInclude Include="GameComponents\GlobalEvent.h" />
     <ClInclude Include="GameComponents\Sound.h" />
     <ClInclude Include="GameComponents\UI.h" />
     <ClInclude Include="GameObjects\Bat.h" />

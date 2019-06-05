@@ -1,5 +1,6 @@
 ﻿#include "Graphics.h"
 #include "Debug.h"
+
 Graphics * Graphics::__instance = NULL;
 Viewport * Graphics::viewport = NULL;
 //Khởi tạo Graphics chính
@@ -109,10 +110,10 @@ void Graphics::Draw(Sprite * sprite, D3DCOLOR color)
 {
 
 	//Hiệu ứng chuyển scene
-	SceneEffect *sceneEffect = SceneEffect::GetInstance();
+	/*SceneEffect *sceneEffect = SceneEffect::GetInstance();
 	int offsetColor = sceneEffect->GetCurrentOffset();
-	color = D3DCOLOR_XRGB(255 - offsetColor, 255 - offsetColor, 255 - offsetColor);
-
+	color = D3DCOLOR_XRGB(255 - offsetColor, 255 - offsetColor, 255 - offsetColor);*/
+	 
 	if (sprite->GetTexture() == NULL)
 		return;
 

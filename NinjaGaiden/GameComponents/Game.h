@@ -5,8 +5,7 @@
 #include "UI.h"
 #include "Ninja.h"
 #include "TiledMap.h"
-#include "Grid.h"
-#include"SceneEffect.h"
+#include "Grid.h" 
 #include"Sound.h"
 
 #include <chrono>
@@ -25,6 +24,7 @@ struct GameInformation {
 	DWORD LiveCount;
 	DWORD SpiritPoint;
 	DWORD currentItem;
+	DWORD frozenTimer;
 };
 
 class Game
@@ -64,7 +64,10 @@ public:
 	void LoseBossHP(DWORD amount) { if (gameInfo.EnemyHP - amount <= 0) gameInfo.EnemyHP = 0; else gameInfo.EnemyHP -= amount; }
 	void LoseSpirit(DWORD amount) { gameInfo.SpiritPoint -= amount; }
 	void GainSpirit(DWORD amount) { gameInfo.SpiritPoint += amount; }
+	void FreezeTimer() { gameInfo.frozenTimer = 5; gameInfo.previousTimer = gameInfo.Timer; }
+
 	void UpdateItem() { gameInfo.currentItem = ninja->GetCurrentSubweapon(); }
+
 
 	void ResetGrid();
 
@@ -77,6 +80,10 @@ public:
 	GameInformation GetInformation() { return gameInfo; }
 	Ninja * GetNinja();
 	static Game * GetInstance();
+
+	bool IsFrozenTime() { return gameInfo.frozenTimer; }
+
+
 	//Hàm hủy đối tượng
 	~Game();
 };

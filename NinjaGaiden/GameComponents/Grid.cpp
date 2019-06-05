@@ -370,11 +370,7 @@ void Grid::Update(DWORD dt)
 		}
 	}
 	ninja->Update(dt);
-
-	//Scene Transition Effect
-
-	SceneEffect *sceneEffect = SceneEffect::GetInstance();
-
+ 
 	int mapWidth = TiledMap::GetInstance()->GetWidth();
 	if (ninja->GetPositionX() >= mapWidth - 2 * TILES_WIDTH_PER_TILE - NINJA_SPRITE_WIDTH &&
 		TiledMap::GetInstance()->GetMapID() != TILED_MAP_ID_3_3 )
@@ -383,6 +379,12 @@ void Grid::Update(DWORD dt)
 		Game::GetInstance()->ChangeMap(TiledMap::GetInstance()->GetMapID() + 1);
 		return;
 	}
+
+	//Đông thời gian
+	if (Game::GetInstance()->IsFrozenTime()) {
+		return;
+	}
+
 	//Update các object trong các cell
 	for (int i = bCell; i <= tCell; i++)
 	{		

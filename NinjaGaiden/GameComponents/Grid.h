@@ -3,7 +3,7 @@
 #include "GameObject.h"
 #include "Constants.h" 
 #include "Cell.h"
-#include "SceneEffect.h"
+ 
 #include <vector>
 
 #include"Sound.h"

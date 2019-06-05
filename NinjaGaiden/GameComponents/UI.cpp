@@ -169,8 +169,8 @@ void UI::Draw(Sprite *sprite, float scaleX, float scaleY, int offsetY) {
 		massMoveY = uiu->getMoveY();
 	}*/
 
-	SceneEffect *sceneEffect  = SceneEffect::GetInstance();
-	int colorOffset = sceneEffect->GetCurrentOffset();
+	 
+	int colorOffset = 0;
 
 	LPD3DXSPRITE spriteHandler = Graphics::GetInstance()->GetSpriteHandler();
 
@@ -196,7 +196,7 @@ void UI::Render() {
 	//Vẽ thông tin lên màn hình
 	 
 	
-	if ((font) && !SceneEffect::GetInstance()->IsDone()) {
+	if ((font) ) {
 		font->DrawTextA(NULL, displayText.c_str(), -1, &displayRect, DT_LEFT, D3DCOLOR_XRGB(255, 255, 255));
 	}
 

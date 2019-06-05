@@ -96,7 +96,7 @@ void Game::LoadResources()
 	if (ui == NULL)
 		ui = UI::GetInstance();
 	gameInfo.Score = 0;
-	gameInfo.Timer = 15000;
+	gameInfo.Timer = 145000;
 	gameInfo.NinjaHP = 16;
 	gameInfo.EnemyHP = 16;
 	gameInfo.Stage = "3-1";
@@ -149,7 +149,9 @@ void Game::Update(DWORD dt)
 		//UI
 		//
 		CountDownTimer(dt);
-		if (floor((gameInfo.previousTimer - gameInfo.Timer) / 1000) >= 1 && gameInfo.Timer <= 10000) {
+		if (floor((gameInfo.previousTimer - gameInfo.Timer) / 1000) >= 1 && (gameInfo.Timer <= 10000||gameInfo.frozenTimer)) {
+			if (gameInfo.frozenTimer)
+				gameInfo.frozenTimer--;
 			gameSound->Play(IDSound::TIMER);
 			gameInfo.previousTimer = gameInfo.Timer;
 		}

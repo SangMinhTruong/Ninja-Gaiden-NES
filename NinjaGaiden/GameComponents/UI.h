@@ -8,8 +8,7 @@
 #include"Graphics.h"
 #include"Constants.h"
 #include"Game.h"
-#include"Debug.h"
-#include"SceneEffect.h"
+#include"Debug.h" 
  
 class Game;
 

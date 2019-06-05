@@ -174,9 +174,6 @@
     <ClCompile Include="GameComponents\UI.cpp">
       <Filter>Source Files\GameComponents</Filter>
     </ClCompile>
-    <ClCompile Include="GameComponents\SceneEffect.cpp">
-      <Filter>Source Files\GameComponents</Filter>
-    </ClCompile>
     <ClCompile Include="GameComponents\Sound.cpp">
       <Filter>Source Files\GameComponents</Filter>
     </ClCompile>
@@ -184,6 +181,9 @@
       <Filter>Source Files\GameComponents</Filter>
     </ClCompile>
     <ClCompile Include="GameComponents\dxutil.cpp">
+      <Filter>Source Files\GameComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="GameComponents\GlobalEvent.cpp">
       <Filter>Source Files\GameComponents</Filter>
     </ClCompile>
   </ItemGroup>
@@ -329,9 +329,6 @@
     <ClInclude Include="GameComponents\UI.h">
       <Filter>Source Files\GameComponents</Filter>
     </ClInclude>
-    <ClInclude Include="GameComponents\SceneEffect.h">
-      <Filter>Source Files\GameComponents</Filter>
-    </ClInclude>
     <ClInclude Include="GameComponents\Sound.h">
       <Filter>Source Files\GameComponents</Filter>
     </ClInclude>
@@ -339,6 +336,9 @@
       <Filter>Source Files\GameComponents</Filter>
     </ClInclude>
     <ClInclude Include="GameComponents\dxutil.h">
+      <Filter>Source Files\GameComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="GameComponents\GlobalEvent.h">
       <Filter>Source Files\GameComponents</Filter>
     </ClInclude>
   </ItemGroup>

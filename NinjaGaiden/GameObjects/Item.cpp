@@ -113,9 +113,10 @@ bool AABB(const Collider &c1, const Collider &c2);
 //Hàm cập nhật
 void Item::Update(DWORD dt)
 {
-	if (Ninja::GetInstance()->IsAttacking())
+	Ninja * ninja = Ninja::GetInstance();
+	if (ninja->IsAttacking())
 	{
-		Whip * sword = Ninja::GetInstance()->GetWhip();
+		Whip * sword = ninja ->GetWhip();
 		if (AABB(this->collider, sword->GetCollider()))
 		{
 			GameObject * itemDrop = this->CreateItemDrop();
@@ -125,6 +126,20 @@ void Item::Update(DWORD dt)
 			return;
 		}
 	}
+	//Xét va chạm với subweapon
+	vector<Subweapon*> subweapons;
+	subweapons = ninja->GetSubweapon();
+	for (int i = 0; i < subweapons.size(); i++) {
+		if (AABB(this->collider, subweapons.at(i)->GetCollider()))
+		{
+			GameObject * itemDrop = this->CreateItemDrop();
+			Grid::GetInstance()->AddObject(itemDrop);
+
+			this->isActive = false;
+			return;
+		}
+	}
+
 }
 //Hàm render
 void Item::Render()

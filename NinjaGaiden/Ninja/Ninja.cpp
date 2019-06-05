@@ -241,6 +241,7 @@ void Ninja::PowerUp(int type)
 		this->SetCurrentSubweapon(SUBWEAPON_FIREWHEEL);
 		break;
 	case GAME_OBJ_ID_FREEZE_DROP:
+		Game::GetInstance()->FreezeTimer();
 		break;
 	case GAME_OBJ_ID_HEALTH_DROP:
 		Game::GetInstance()->GainNinjaHP(5);
@@ -369,8 +370,18 @@ void Ninja::Update(DWORD dt)
 //Hàm render
 void Ninja::Render()
 {
-	state->Render();
 	for (int i = 0; i < this->subweapons.size(); i++) {
 		subweapons.at(i)->Render();
 	}
+	//Nếu đang invicible thì nhấp nháy
+	if (isInvincible) {
+		if (renderTick) {
+			renderTick = false;
+			return;
+		}
+	}
+	renderTick = true;
+
+	state->Render();
+	
 }
