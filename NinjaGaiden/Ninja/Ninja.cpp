@@ -366,6 +366,7 @@ void Ninja::Update(DWORD dt)
 			this->SetIsHurt(false);
 		}
 	}
+
 }
 //Hàm render
 void Ninja::Render()

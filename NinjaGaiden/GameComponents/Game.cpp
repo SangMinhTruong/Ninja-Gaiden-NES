@@ -16,7 +16,7 @@ void Game::Init()
 	keyboard = Keyboard::GetInstance();
 	keyboard->InitKeyboard(hWnd);
 
-	
+	srand(time(NULL));
 
 	LoadResources();
 	OutputDebugString(L"[INFO] InitGame done;\n");
@@ -117,6 +117,30 @@ void Game::ChangeMap(int id)
 	isMapLoaded = false;
 	changingMapTimer = 0;
 }
+
+void Game::GameOver()
+{
+	isGameOver = true;
+	dyingTimer = 0;
+}
+void Game::NinjaDies()
+{
+	isDying = true;
+
+	if (gameSound->isPlaying(IDSound::STAGE_31))
+		gameSound->Stop(IDSound::STAGE_31);
+	else if (gameSound->isPlaying(IDSound::STAGE_32))
+		gameSound->Stop(IDSound::STAGE_32);
+	else if (gameSound->isPlaying(IDSound::STAGE_33))
+		gameSound->Stop(IDSound::STAGE_33);
+	gameSound->Play(IDSound::GAME_OVER);
+
+	if (gameInfo.LiveCount == 0)
+		GameOver();
+	else
+		gameInfo.LiveCount--;
+	
+}
 //Xử lí
 void Game::ResetGrid()
 { 
@@ -136,6 +160,26 @@ void Game::Update(DWORD dt)
 		{
 			isChangingMap = false;
 			changingMapTimer = 0;
+		}
+	}
+	else if (isDying)
+	{
+		dyingTimer += dt;
+		if (dyingTimer >= 4000)
+		{
+			gameOverColor = 0;
+			dyingTimer = 0;
+			isDying = false;
+			isGameOver = false;
+			ninja->Reset();
+			viewport->ResetPosition();
+			int id = TiledMap::GetInstance()->GetMapID();
+			if (id == TILED_MAP_ID_3_1)
+				gameSound->PlayLoop(IDSound::STAGE_31);
+			else if (id == TILED_MAP_ID_3_2)
+				gameSound->PlayLoop(IDSound::STAGE_32);
+			else if (id == TILED_MAP_ID_3_3)
+				gameSound->PlayLoop(IDSound::STAGE_33);
 		}
 	}
 	else
@@ -162,6 +206,13 @@ void Game::Update(DWORD dt)
 		UpdateItem();
 
 		ui->Update(dt);
+		if (this->gameInfo.NinjaHP <= 0 ||
+			(ninja->GetPositionY() < 0 ||
+			ninja->GetPositionX() < 0 ||
+			ninja->GetPositionY() > 256))
+		{
+			NinjaDies();
+		}
 		//SceneEffect::GetInstance()->Update(dt);
 	}
 }
@@ -183,10 +234,11 @@ void Game::Render()
 		{
 			unsigned passes = 0;
 			shader->Begin(&passes, 0);
-
+			shader->SetFloat("timer", changingMapTimer);
 			spriteHandler->Begin(D3DXSPRITE_ALPHABLEND | D3DXSPRITE_DONOTSAVESTATE);
 
-			if (changingMapTimer >= 0 && changingMapTimer < 500)
+			shader->BeginPass(0);
+			/*if (changingMapTimer >= 0 && changingMapTimer < 500)
 				shader->BeginPass(0);
 			else if (changingMapTimer >= 500 && changingMapTimer < 1000)
 				shader->BeginPass(1);
@@ -199,7 +251,7 @@ void Game::Render()
 			else if (changingMapTimer >= 2500 && changingMapTimer < 3000)
 				shader->BeginPass(1);
 			else if (changingMapTimer >= 3000 && changingMapTimer < 3500)
-				shader->BeginPass(0);
+				shader->BeginPass(0);*/
 
 			ui->Render();
 			grid->Render();
@@ -212,13 +264,36 @@ void Game::Render()
 			shader->End();
 
 		}
-		else
+		else if (isGameOver)
 		{
+			unsigned passes = 0;
+			shader->Begin(&passes, 0);
+
+			if (dyingTimer % 100 >= 0 && dyingTimer % 100 <= 10)
+			{
+				gameOverColor++;
+				if (gameOverColor > 8) gameOverColor = 1;
+			}
+
+			shader->SetInt("gameOverColor", gameOverColor);
+
 			spriteHandler->Begin(D3DXSPRITE_ALPHABLEND | D3DXSPRITE_DONOTSAVESTATE);
 
+			shader->BeginPass(1);
 			ui->Render();
 			grid->Render();
 
+			//Kết thúc xử lí sprite
+			spriteHandler->End();
+			shader->EndPass();
+
+			shader->End();
+		}
+		else
+		{
+			spriteHandler->Begin(D3DXSPRITE_ALPHABLEND | D3DXSPRITE_DONOTSAVESTATE);	
+			ui->Render();
+			grid->Render();
 			//Kết thúc xử lí sprite
 			spriteHandler->End();
 		}

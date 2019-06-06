@@ -230,12 +230,12 @@ void State::Update(DWORD dt)
 	for (UINT i = 0; i < coEvents.size(); i++)
 		delete coEvents[i];
 
-	if (gameObject->GetPositionY() < 0 ||
+	if ((gameObject->GetPositionY() < 0 ||
 		gameObject->GetPositionX() < 0 ||
-		gameObject->GetPositionY() > 256)
+		gameObject->GetPositionY() > 256) &&
+		gameObject->GetID() != GAME_OBJ_ID_NINJA)
 	{
 		gameObject->Reset();
-		Viewport::GetInstance()->ResetPosition();
 	}
 	/*vector<Subweapon *> subweapons = gameObject->GetSubweapon();
 	if (subweapons.size() > 0)

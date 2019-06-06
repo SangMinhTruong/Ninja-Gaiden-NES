@@ -35,6 +35,11 @@ class Game
 	bool isChangingMap = false;
 	DWORD changingMapTimer = 0;
 
+	bool isDying = false;
+	bool isGameOver = false;
+	DWORD dyingTimer = 0;
+	int gameOverColor = 0;
+
 	static Game * __instance;
 	static HINSTANCE hInstance;
 	HWND hWnd;									//Xử lí cửa sổ
@@ -56,6 +61,8 @@ public:
 	static LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 	void LoadResources();
 	void ChangeMap(int id);
+	void GameOver();
+	void NinjaDies();
 	//Xử lí
 	void GainPoint(DWORD score) { gameInfo.Score += score; }
 	void CountDownTimer(DWORD dt) { gameInfo.Timer > dt ? gameInfo.Timer -= dt : gameInfo.Timer = 0; }
