@@ -40,6 +40,9 @@ class Game
 	DWORD dyingTimer = 0;
 	int gameOverColor = 0;
 
+	bool isWinning = false;
+	DWORD winningTimer = 0;
+
 	static Game * __instance;
 	static HINSTANCE hInstance;
 	HWND hWnd;									//Xử lí cửa sổ
@@ -63,6 +66,7 @@ public:
 	void ChangeMap(int id);
 	void GameOver();
 	void NinjaDies();
+	void GameWon();
 	//Xử lí
 	void GainPoint(DWORD score) { gameInfo.Score += score; }
 	void CountDownTimer(DWORD dt) { gameInfo.Timer > dt ? gameInfo.Timer -= dt : gameInfo.Timer = 0; }

@@ -130,6 +130,10 @@ void GameSound::LoadResources() {
 	sound = LoadSound(SOUND_PATH_BOSS_DESTROYED);
 	sounds[IDSound::BOSS_DESTROYED] = sound;
 
+	//Tiếng đếm tính điểm lúc thắng
+	sound = LoadSound(SOUND_PATH_WINNING_TIMER);
+	sounds[IDSound::WINNING_TIMER] = sound;
+
 	//Nhạc hay Stage 31
 	sound = LoadSound(SOUND_PATH_STAGE_31);
 	sounds[IDSound::STAGE_31] = sound;

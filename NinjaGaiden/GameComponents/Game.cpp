@@ -80,7 +80,7 @@ void Game::LoadResources()
 	if (ninja == NULL) 
 		ninja = Ninja::GetInstance();
 
-	TiledMap::GetInstance(TILED_MAP_ID_3_1);
+	TiledMap::GetInstance(TILED_MAP_ID_3_3);
 	isMapLoaded = true;
 
 	isMapLoaded = true;
@@ -109,7 +109,7 @@ void Game::LoadResources()
 	gameSound->InitGameSound(hWnd);
 	gameSound->LoadResources();
 
-	gameSound->PlayLoop(IDSound::STAGE_31);
+	gameSound->PlayLoop(IDSound::STAGE_33);
 }
 void Game::ChangeMap(int id)
 {
@@ -122,6 +122,18 @@ void Game::GameOver()
 {
 	isGameOver = true;
 	dyingTimer = 0;
+}
+void Game::GameWon()
+{
+	isWinning = true;
+	winningTimer = 0; 
+	
+	if (gameSound->isPlaying(IDSound::STAGE_31))
+		gameSound->Stop(IDSound::STAGE_31);
+	else if (gameSound->isPlaying(IDSound::STAGE_32))
+		gameSound->Stop(IDSound::STAGE_32);
+	else if (gameSound->isPlaying(IDSound::STAGE_33))
+		gameSound->Stop(IDSound::STAGE_33);
 }
 void Game::NinjaDies()
 {
@@ -184,20 +196,36 @@ void Game::Update(DWORD dt)
 	}
 	else
 	{
-
-		keyboard->Update();
+		if (!isWinning)
+			keyboard->Update();
 		grid->Update(dt);
 		viewport->Update(dt);
 
 		//
 		//UI
 		//
-		CountDownTimer(dt);
-		if (floor((gameInfo.previousTimer - gameInfo.Timer) / 1000) >= 1 && (gameInfo.Timer <= 10000||gameInfo.frozenTimer)) {
-			if (gameInfo.frozenTimer)
-				gameInfo.frozenTimer--;
-			gameSound->Play(IDSound::TIMER);
-			gameInfo.previousTimer = gameInfo.Timer;
+		if (!isWinning)
+		{
+			CountDownTimer(dt);
+			if (floor((gameInfo.previousTimer - gameInfo.Timer) / 1000) >= 1 && (gameInfo.Timer <= 10000 || gameInfo.frozenTimer)) {
+				if (gameInfo.frozenTimer)
+					gameInfo.frozenTimer--;
+				gameSound->Play(IDSound::TIMER);
+				gameInfo.previousTimer = gameInfo.Timer;
+			}
+		}
+		else
+		{
+			winningTimer += dt;
+			if (winningTimer >= 100)
+			{
+				gameInfo.Timer = gameInfo.Timer >= 2000 ? gameInfo.Timer - 2000 : 0;
+				GainPoint(200);
+				winningTimer = 0;
+				gameSound->Play(IDSound::WINNING_TIMER);
+			}
+			if (gameInfo.Timer == 0)
+				isWinning = false;
 		}
 
 		//Âm thanh đếm ngược

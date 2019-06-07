@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "StateGameObject.h"
 #include "BossBullet.h"
+#include "Explosion.h"
 class Boss : public StateGameObject
 {
 private:

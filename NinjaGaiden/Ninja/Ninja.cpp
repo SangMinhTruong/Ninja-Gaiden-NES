@@ -9,7 +9,7 @@ Ninja::Ninja()
 	this->whip = new Whip();
 
 	this->id = GAME_OBJ_ID_NINJA;
-	this->x = 1980;
+	this->x = 32;
 	this->y = 100;
 	this->initX = 32;
 	this->initY = 100;
@@ -178,8 +178,11 @@ void Ninja::LoadResources()
 	anim = new Animation(150);
 	for (int i = 4; i < 6; i++)
 	{
+		int offset = 0;
+		if (i == 5)
+			offset = -3;
 		RECT rect;
-		rect.left = (i % NINJA_TEXTURE_COLUMNS) * NINJA_SPRITE_WIDTH;
+		rect.left = (i % NINJA_TEXTURE_COLUMNS) * NINJA_SPRITE_WIDTH + offset;
 		rect.right = rect.left + NINJA_SPRITE_WIDTH;
 		rect.top = (i / NINJA_TEXTURE_COLUMNS) * NINJA_SPRITE_HEIGHT;
 		rect.bottom = rect.top + NINJA_SPRITE_HEIGHT;

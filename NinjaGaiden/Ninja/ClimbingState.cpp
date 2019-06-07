@@ -85,7 +85,7 @@ void ClimbingState::Render()
 		SpriteData spriteData;
 		spriteData.width = gameObject->GetWidth();
 		spriteData.height = gameObject->GetHeight();
-		spriteData.x = gameObject->GetPositionX();
+		spriteData.x = gameObject->GetPositionX() + (gameObject->IsLeft() ? -7 : 7);
 		spriteData.y = gameObject->GetPositionY();
 		spriteData.scale = 1;
 		spriteData.angle = 0;

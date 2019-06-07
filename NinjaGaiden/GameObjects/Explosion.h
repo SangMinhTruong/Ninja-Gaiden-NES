@@ -3,29 +3,27 @@
 #include "GameObject.h"
 #include "Sprite.h"
 #include "Animation.h"
+#include "Debug.h"
 
 class Explosion : public GameObject
 {
 private:
-	Explosion();
-	static Explosion * __instance;
-	static unordered_map<GameObject *, int> explosionsList;
-
+	Explosion(int x, int y);
+	static vector<Explosion*> explosions;
+	static bool tickExplosion;
 	//Vector chứa các animations
-	vector<Animation *> animations;
-	DWORD lastFrameTime;
-
+	Animation * animation;
 	void LoadResources();
 public:
-	static Explosion * GetInstance();
+	static void  CreateExplosions(int x, int y);
 
-	vector<Animation *> GetAnimationsList() { return animations; }
-	DWORD GetLastFrameTime() { return this->lastFrameTime; }
-	
-	void AddExplosion(GameObject * gameObject);
 	//Hàm cập nhật
 	void Update(DWORD dt) override;
+
+	static void Reset() { explosions.clear(); }
+
 	//Hàm render
-	void Render(SpriteData spriteData);
+	void UnitRender();
+	static void Render();
 };
 

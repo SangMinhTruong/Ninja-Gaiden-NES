@@ -1,5 +1,4 @@
 ﻿#include "Boss.h"
-
 //Boss * Boss::__instance = NULL;
 Boss::Boss(int x, int y)
 {
@@ -155,4 +154,5 @@ void Boss::Render()
 	{
 		bullets[i]->Render();
 	}
+	Explosion::Render();
 }

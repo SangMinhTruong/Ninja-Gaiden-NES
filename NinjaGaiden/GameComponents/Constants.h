@@ -401,7 +401,12 @@
 #define EXPLOSION_SPRITE_WIDTH 48
 #define EXPLOSION_SPRITE_HEIGHT 48
 
-
+#define EXPLOSION_BOSS_TEXTURE_LOCATION L"Resources\\Misc\\BossExplosion.png"
+#define EXPLOSION_BOSS_TEXTURE_TRANS_COLOR D3DCOLOR_XRGB(255, 0, 255)
+#define EXPLOSION_BOSS_TEXTURE_COLUMNS 2
+#define EXPLOSION_BOSS_TEXTURE_ROWS 1
+#define EXPLOSION_BOSS_SPRITE_WIDTH 35
+#define EXPLOSION_BOSS_SPRITE_HEIGHT 37
 //
 //Item
 //
@@ -607,6 +612,7 @@ enum IDSound{
 		CANNONSHOOTER,
 		BOSS_JUMP,
 		BOSS_DESTROYED,
+		WINNING_TIMER,
 		STAGE_31,
 		STAGE_32,
 		STAGE_33,
@@ -628,6 +634,7 @@ enum IDSound{
 #define SOUND_PATH_CANNONSHOOTER "Resources\\Sound\\Effect\\CannonShooter.wav"
 #define SOUND_PATH_BOSS_JUMP "Resources\\Sound\\Effect\\BossJumping.wav"
 #define SOUND_PATH_BOSS_DESTROYED "Resources\\Sound\\Effect\\BossDestroyed.wav"
+#define SOUND_PATH_WINNING_TIMER "Resources\\Sound\\Effect\\WinningTimer.wav"
 #define SOUND_PATH_STAGE_31 "Resources\\Sound\\Stage\\3-1 - Pursuit.wav"
 #define SOUND_PATH_STAGE_32 "Resources\\Sound\\Stage\\3-2 - High Ground.wav"
 #define SOUND_PATH_STAGE_33 "Resources\\Sound\\Stage\\3-3 Boss Battle.wav"

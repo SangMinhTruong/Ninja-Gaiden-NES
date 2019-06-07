@@ -66,51 +66,63 @@ void State::Update(DWORD dt)
 		}
 		else if (gameObject->GetID() == GAME_OBJ_ID_BOSS)
 		{
-			if (Boss * boss = dynamic_cast<Boss *>(gameObject))
+			if (Game::GetInstance()->GetInformation().EnemyHP > 0)
 			{
-				if (boss->GetJumpTimer() >= 1000)
+
+				if (Boss * boss = dynamic_cast<Boss *>(gameObject))
 				{
-					moveX = boss->GetPositionX() + trunc(0.25f * dt * (boss->IsJumpingLeft() ? -1 : 1));
-					moveY = (int)(-0.015f * moveX * moveX + 3.36f * moveX - 12.16f);
-
-					gameObject->SetPositionX(moveX);
-					gameObject->SetPositionY(moveY);
-
-					if (boss->GetAttackTimer() >= 3)
+					if (boss->GetJumpTimer() >= 1000)
 					{
-						boss->CreateThrownWeapon(boss->GetPositionX() + 10, boss->GetPositionY() - 15);
-						boss->CreateThrownWeapon(boss->GetPositionX() + 10, boss->GetPositionY() - 30);
-						boss->CreateThrownWeapon(boss->GetPositionX() + 10, boss->GetPositionY() - 45);
+						moveX = boss->GetPositionX() + trunc(0.25f * dt * (boss->IsJumpingLeft() ? -1 : 1));
+						moveY = (int)(-0.015f * moveX * moveX + 3.36f * moveX - 12.16f);
 
-						boss->ResetAttackTimer();
+						gameObject->SetPositionX(moveX);
+						gameObject->SetPositionY(moveY);
+
+						if (boss->GetAttackTimer() >= 3)
+						{
+							boss->CreateThrownWeapon(boss->GetPositionX() + 10, boss->GetPositionY() - 15);
+							boss->CreateThrownWeapon(boss->GetPositionX() + 10, boss->GetPositionY() - 30);
+							boss->CreateThrownWeapon(boss->GetPositionX() + 10, boss->GetPositionY() - 45);
+
+							boss->ResetAttackTimer();
+						}
+						boss->SetIsGrounded(false);
+						boss->SetState(boss->GetJumpingState());
 					}
-					boss->SetIsGrounded(false);
-					boss->SetState(boss->GetJumpingState());
-				}
-				else
-				{
-					boss->AddJumpTimer(dt);
-					if (!boss->IsGrounded()) {
-						GameSound::GetInstance()->Play(IDSound::BOSS_JUMP);
-						boss->SetIsGrounded(true);
+					else
+					{
+						boss->AddJumpTimer(dt);
+						if (!boss->IsGrounded()) {
+							GameSound::GetInstance()->Play(IDSound::BOSS_JUMP);
+							boss->SetIsGrounded(true);
+						}
+						boss->SetState(boss->GetIdleState());
+						return;
 					}
-					boss->SetState(boss->GetIdleState());
-					return;
+					if ((boss->GetPositionX() <= 32 || boss->GetPositionX() >= 192))
+					{
+						boss->AddAttackTimer(1);
+
+						moveX = gameObject->IsJumpingLeft() ? 32 : 192;
+						moveY = (int)(-0.015f * moveX * moveX + 3.36f * moveX - 12.16f);
+
+						gameObject->SetPositionX(moveX);
+						gameObject->SetPositionY(moveY);
+
+						boss->ResetJumpTimer();
+						boss->SetIsLeft(!boss->IsLeft());
+						boss->SetIsJumpingLeft(!boss->IsJumpingLeft());
+					}
 				}
-				if ((boss->GetPositionX() <= 32 || boss->GetPositionX() >= 192))
-				{
-					boss->AddAttackTimer(1);
-
-					moveX = gameObject->IsJumpingLeft() ? 32 : 192;
-					moveY = (int)(-0.015f * moveX * moveX + 3.36f * moveX - 12.16f);
-
-					gameObject->SetPositionX(moveX);
-					gameObject->SetPositionY(moveY);
-
-					boss->ResetJumpTimer();
-					boss->SetIsLeft(!boss->IsLeft());
-					boss->SetIsJumpingLeft(!boss->IsJumpingLeft());
-				}
+			}
+			else
+			{
+				//Tránh boss bị rơi ?!
+				moveX = gameObject->GetPositionX();
+				moveY = gameObject->GetPositionY();
+				gameObject->SetSpeedX(0);
+				gameObject->SetSpeedY(NINJA_GRAVITY);
 			}
 
 		}
@@ -140,9 +152,12 @@ void State::Update(DWORD dt)
 		{
 			if (gameObject->GetID() == GAME_OBJ_ID_BOSS)
 			{
-				if (Game::GetInstance()->GetInformation().EnemyHP == 0) {
-					gameObject->SetState(gameObject->GetDyingState());
+				if (Game::GetInstance()->GetInformation().EnemyHP <= 0) {
+					Explosion::CreateExplosions(gameObject->GetPositionX(), gameObject->GetPositionY());
+
+					//gameObject->SetState(gameObject->GetIdleState());
 					GameSound::GetInstance()->Play(IDSound::BOSS_DESTROYED);
+					Game::GetInstance()->GameWon();
 				}
 				else if (!gameObject->IsInvincible())
 				{
