@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="GameComponents\dsutil.cpp" />
     <ClCompile Include="GameComponents\dxutil.cpp" />
+    <ClCompile Include="GameComponents\ExtraScene.cpp" />
     <ClCompile Include="GameComponents\GlobalEvent.cpp" />
     <ClCompile Include="GameComponents\Sound.cpp" />
     <ClCompile Include="GameComponents\UI.cpp" />
@@ -73,6 +74,7 @@
   <ItemGroup>
     <ClInclude Include="GameComponents\dsutil.h" />
     <ClInclude Include="GameComponents\dxutil.h" />
+    <ClInclude Include="GameComponents\ExtraScene.h" />
     <ClInclude Include="GameComponents\GlobalEvent.h" />
     <ClInclude Include="GameComponents\Sound.h" />
     <ClInclude Include="GameComponents\UI.h" />

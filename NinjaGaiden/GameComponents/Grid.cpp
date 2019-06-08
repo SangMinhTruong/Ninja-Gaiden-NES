@@ -299,16 +299,20 @@ void Grid::ChangeMap(int id)
 
 	GameSound * gameSound = GameSound::GetInstance();
 
-	if (id == TILED_MAP_ID_3_2)	{
-		if (gameSound->isPlaying(IDSound::STAGE_31))
-			gameSound->Stop(IDSound::STAGE_31);
-		gameSound->Play(IDSound::STAGE_32);
-	}
-	else if (id == TILED_MAP_ID_3_3) {
-		if (gameSound->isPlaying(IDSound::STAGE_32))
-			gameSound->Stop(IDSound::STAGE_32);
-		gameSound->Play(IDSound::STAGE_33);
-	}
+	if (gameSound->isPlaying(IDSound::STAGE_31))
+		gameSound->Stop(IDSound::STAGE_31);
+	else if (gameSound->isPlaying(IDSound::STAGE_32))
+		gameSound->Stop(IDSound::STAGE_32);
+	else if (gameSound->isPlaying(IDSound::STAGE_33))
+		gameSound->Stop(IDSound::STAGE_33);
+
+
+	if (id == TILED_MAP_ID_3_1)
+		gameSound->PlayLoop(IDSound::STAGE_31);
+	else if (id == TILED_MAP_ID_3_2)
+		gameSound->PlayLoop(IDSound::STAGE_32);
+	else if (id == TILED_MAP_ID_3_3)
+		gameSound->PlayLoop(IDSound::STAGE_33);
 
 	delete this->__instance;
 	this->__instance = NULL;

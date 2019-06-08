@@ -370,6 +370,10 @@ void Ninja::Update(DWORD dt)
 		}
 	}
 
+	if (this->x <= 0)
+		x = 0;
+	if (this->y >= SCREEN_HEIGHT)
+		y = SCREEN_HEIGHT;
 }
 //Hàm render
 void Ninja::Render()

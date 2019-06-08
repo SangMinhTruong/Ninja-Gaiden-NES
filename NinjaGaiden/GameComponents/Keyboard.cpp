@@ -235,6 +235,9 @@ void Keyboard::OnKeyDown(int KeyCode)
 	case DIK_Q:
 		ninja->SetPositionY(100);
 		break;
+	case DIK_RETURN:
+		ExtraScene::GetInstance()->ChangeScene();
+		break;
 	}
 }
 void Keyboard::OnKeyUp(int KeyCode)

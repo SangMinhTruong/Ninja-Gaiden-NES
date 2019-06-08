@@ -186,6 +186,9 @@
     <ClCompile Include="GameComponents\GlobalEvent.cpp">
       <Filter>Source Files\GameComponents</Filter>
     </ClCompile>
+    <ClCompile Include="GameComponents\ExtraScene.cpp">
+      <Filter>Source Files\GameComponents</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameComponents\Animation.h">
@@ -339,6 +342,9 @@
       <Filter>Source Files\GameComponents</Filter>
     </ClInclude>
     <ClInclude Include="GameComponents\GlobalEvent.h">
+      <Filter>Source Files\GameComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="GameComponents\ExtraScene.h">
       <Filter>Source Files\GameComponents</Filter>
     </ClInclude>
   </ItemGroup>

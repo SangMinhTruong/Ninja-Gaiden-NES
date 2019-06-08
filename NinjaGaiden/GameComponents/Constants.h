@@ -618,7 +618,8 @@ enum IDSound{
 		STAGE_33,
 		GAME_OVER,
 		PRESS_START,
-		START
+		START,
+		ACTIII
 };
 
 #define SOUND_PATH_SWORD "Resources\\Sound\\Effect\\Sword.wav"
@@ -641,3 +642,23 @@ enum IDSound{
 #define SOUND_PATH_GAME_OVER "Resources\\Sound\\Stage\\Over - All Gone (Game Over).wav"
 #define SOUND_PATH_PRESS_START "Resources\\Sound\\Stage\\PressStart- Master Ninja Theme.wav"
 #define SOUND_PATH_START "Resources\\Sound\\Stage\\Start - Title.wav"
+#define SOUND_PATH_ACTIII "Resources\\Sound\\Stage\\08 - Twist of Fate.wav"
+
+
+//
+//Extra Scene
+//
+#define EXTRA_SCENE_PATH_ACTIII L"Resources\\ExtraScene\\ACTIII.png"
+#define EXTRA_SCENE_PATH_BIGNINJA L"Resources\\ExtraScene\\BIGNINJA.png"
+#define EXTRA_SCENE_PATH_GAIDEN L"Resources\\ExtraScene\\GAIDEN.png"
+#define EXTRA_SCENE_PATH_NINJA L"Resources\\ExtraScene\\NINJA.png"
+#define EXTRA_SCENE_PATH_PRESENT L"Resources\\ExtraScene\\PRESENT.png"
+#define EXTRA_SCENE_PATH_PUSHSTART L"Resources\\ExtraScene\\PUSHSTART.png"
+#define EXTRA_SCENE_PATH_TECMOLOGO L"Resources\\ExtraScene\\TECMOLOGO.png"
+#define EXTRA_SCENE_PATH_GAMEOVER L"Resources\\ExtraScene\\GAMEOVER.png"
+#define EXTRA_SCENE_COMPONENT_TRANSCOLOR D3DCOLOR_XRGB(255,0,255) 
+
+#define EXTRA_SCENE_ID_TECHMOLOGO 0
+#define EXTRA_SCENE_ID_PUSHSTART 1
+#define EXTRA_SCENE_ID_ACTIII 2
+#define EXTRA_SCENE_ID_GAMEOVER 3

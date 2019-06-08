@@ -6,7 +6,8 @@
 #include "Ninja.h"
 #include "TiledMap.h"
 #include "Grid.h" 
-#include"Sound.h"
+#include "Sound.h"
+#include "ExtraScene.h"
 
 #include <chrono>
 class Graphics;
@@ -25,6 +26,19 @@ struct GameInformation {
 	DWORD SpiritPoint;
 	DWORD currentItem;
 	DWORD frozenTimer;
+
+	void ResetInfo()
+	{
+		Score = 0;
+		Timer = 145000;
+		NinjaHP = 16;
+		EnemyHP = 16;
+		Stage = "3-1";
+		currentItem = -1;
+		LiveCount = 2;
+		SpiritPoint = 0;
+		previousTimer = Timer;
+	}
 };
 
 class Game
@@ -33,6 +47,7 @@ class Game
 
 	bool isMapLoaded = false;
 	bool isChangingMap = false;
+	int curMapID = 0;
 	DWORD changingMapTimer = 0;
 
 	bool isDying = false;
@@ -57,6 +72,8 @@ class Game
 	Ninja * ninja;
 	Viewport * viewport;
 	Grid * grid;
+
+	ExtraScene *extraScene;
 public:
 	//Khởi tạo game chính
 	void Init();

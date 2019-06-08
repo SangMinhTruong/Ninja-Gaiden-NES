@@ -77,11 +77,16 @@ HWND Game::CreateGameWindow(HINSTANCE hInstance, int ScreenWidth, int ScreenHeig
 }
 void Game::LoadResources()
 {
+	//Khởi tạo Extra Scene
+	if (extraScene == NULL)
+		extraScene = ExtraScene::GetInstance();
+
 	if (ninja == NULL) 
 		ninja = Ninja::GetInstance();
 
-	TiledMap::GetInstance(TILED_MAP_ID_3_3);
+	TiledMap::GetInstance(TILED_MAP_ID_3_1);
 	isMapLoaded = true;
+	curMapID = TILED_MAP_ID_3_1;
 
 	isMapLoaded = true;
 	isChangingMap = true;
@@ -109,13 +114,13 @@ void Game::LoadResources()
 	gameSound->InitGameSound(hWnd);
 	gameSound->LoadResources();
 
-	gameSound->PlayLoop(IDSound::STAGE_33);
 }
 void Game::ChangeMap(int id)
 {
 	isChangingMap = true;
 	isMapLoaded = false;
 	changingMapTimer = 0;
+	curMapID = id;
 }
 
 void Game::GameOver()
@@ -160,12 +165,22 @@ void Game::ResetGrid()
 }
 void Game::Update(DWORD dt)
 {
+	//Nếu đang ở extrascene thì không update nữa
+	extraScene->Update(dt);
+	if (isGameOver) {
+		extraScene->ChangeScene(EXTRA_SCENE_ID_GAMEOVER);
+	}
+	if (extraScene->IsActive()) {
+		keyboard->Update();
+		return;
+	}
+
 	if (isChangingMap)
 	{
 		changingMapTimer += dt;
 		if (changingMapTimer >= 1500 && changingMapTimer < 2000 && !isMapLoaded)
 		{
-			Grid::GetInstance()->ChangeMap(TiledMap::GetInstance()->GetMapID() + 1);
+			Grid::GetInstance()->ChangeMap(curMapID);
 			isMapLoaded = true;
 		}
 		if (changingMapTimer >= 3500)
@@ -179,19 +194,32 @@ void Game::Update(DWORD dt)
 		dyingTimer += dt;
 		if (dyingTimer >= 4000)
 		{
-			gameOverColor = 0;
-			dyingTimer = 0;
-			isDying = false;
-			isGameOver = false;
+			if (isGameOver)
+			{
+				ChangeMap(TILED_MAP_ID_3_1); 
+				changingMapTimer = 1950;
+				gameInfo.ResetInfo();
+			}
+
 			ninja->Reset();
+			gameInfo.NinjaHP = 16;
+			gameInfo.Timer = 145000;
 			viewport->ResetPosition();
+
+
 			int id = TiledMap::GetInstance()->GetMapID();
+
 			if (id == TILED_MAP_ID_3_1)
 				gameSound->PlayLoop(IDSound::STAGE_31);
 			else if (id == TILED_MAP_ID_3_2)
 				gameSound->PlayLoop(IDSound::STAGE_32);
 			else if (id == TILED_MAP_ID_3_3)
 				gameSound->PlayLoop(IDSound::STAGE_33);
+
+			gameOverColor = 0;
+			dyingTimer = 0;
+			isDying = false;
+			isGameOver = false;
 		}
 	}
 	else
@@ -219,13 +247,27 @@ void Game::Update(DWORD dt)
 			winningTimer += dt;
 			if (winningTimer >= 100)
 			{
-				gameInfo.Timer = gameInfo.Timer >= 2000 ? gameInfo.Timer - 2000 : 0;
-				GainPoint(200);
-				winningTimer = 0;
-				gameSound->Play(IDSound::WINNING_TIMER);
+				if (gameInfo.Timer == 0)
+				{
+					if (winningTimer >= 3000)
+					{
+						isWinning = false;
+						extraScene->Active();
+						extraScene->ChangeScene(EXTRA_SCENE_ID_TECHMOLOGO);
+
+						ChangeMap(TILED_MAP_ID_3_1);
+						changingMapTimer = 1950;
+						gameInfo.ResetInfo();
+					}
+				}
+				else
+				{
+					gameInfo.Timer = gameInfo.Timer >= 2000 ? gameInfo.Timer - 2000 : 0;
+					GainPoint(200);
+					winningTimer = 0;
+					gameSound->Play(IDSound::WINNING_TIMER);
+				}
 			}
-			if (gameInfo.Timer == 0)
-				isWinning = false;
 		}
 
 		//Âm thanh đếm ngược
@@ -234,10 +276,10 @@ void Game::Update(DWORD dt)
 		UpdateItem();
 
 		ui->Update(dt);
-		if (this->gameInfo.NinjaHP <= 0 ||
-			(ninja->GetPositionY() < 0 ||
-			ninja->GetPositionX() < 0 ||
-			ninja->GetPositionY() > 256))
+
+		if ((this->gameInfo.NinjaHP <= 0 ||
+			ninja->GetPositionY() < 0 ||
+			gameInfo.Timer == 0) && !isWinning)
 		{
 			NinjaDies();
 		}
@@ -258,7 +300,15 @@ void Game::Render()
 	{
 		//Tô màu backbuffer
 		d3ddv->ColorFill(bb, NULL, BACKGROUND_COLOR);
-		if (isChangingMap)
+
+		if (extraScene->IsActive()) 
+		{
+			spriteHandler->Begin(D3DXSPRITE_ALPHABLEND | D3DXSPRITE_DONOTSAVESTATE);
+			extraScene->Render();
+			spriteHandler->End();
+		}
+
+		else if (isChangingMap)
 		{
 			unsigned passes = 0;
 			shader->Begin(&passes, 0);
